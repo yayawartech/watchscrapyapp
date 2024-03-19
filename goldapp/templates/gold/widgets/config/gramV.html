@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-auto">
+	  	<table class="table table-responsive-lg table-striped" >
+	      <thead>
+	        <tr>
+	          <th scope="col">Label</th>
+	          <th scope="col">Gold</th>
+	          <th scope="col">Platinum</th>
+	          <th scope="col">Silver</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr>
+	          <th scope="row">Kilo=*32.15</th>
+	          <td>{{grams_data.0.0}}</td>
+	          <td>{{grams_data.0.1}}</td>
+	          <td>{{grams_data.0.2}}</td>
+	        </tr>
+	        <tr>
+	          <th scope="row">With Purity</th>
+	          <td>{{grams_data.1.0}}</td>
+	          <td>{{grams_data.1.1}}</td>
+	          <td>{{grams_data.1.2}}</td>
+	        </tr>
+	        <tr>
+	          <th scope="row">With Comission</th>
+	          <td>{{grams_data.2.0}}</td>
+	          <td>{{grams_data.2.1}}</td>
+	          <td>{{grams_data.2.2}}</td>
+	        </tr>
+	        <tr>
+	          <th scope="row">Gram</th>
+	          <td id="gold_gram">{{grams_data.3.0}}</td>
+	          <td id="platinum_gram">{{grams_data.3.1}}</td>
+	          <td id="silver_gram">{{grams_data.3.2}}</td>
+	        </tr>
+	        
+	      </tbody>
+	    </table>
+ 	</div>
+</div>
+{% block body_js %}
+<script type="text/javascript">
+	data = JSON.parse('{{coins|escapejs}}');
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<hr/>
+
+<nav class="navbar navbar-light bg-light">
+  <h3>Job Progress Details | {{job.name}}</h3>
+</nav>
+
+<hr/>
+ 
+</div>
+<br/>
+<h4><b>{{job.status}}</b></h4>
+--
+<br>
+<h4>{{processed_n}} of {{total_n}} Auctions</h4>
+<h4>{{processed_lots}} of {{total_lots}} Lots ({{lots_percentage}}%)</h4>
+<br>
+<h4>Started: {{job.start_time}}</h4>
+<br>
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Auction</th>
+                <th># Total Lots</th>
+                <th># Processed Lots</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for auction in auctions %}
+		
+	            <tr>
+	                <td><a href="{{auction.url}}">{{auction.url}}</a></td>
+                    <td>{{auction.name}}</td>
+                    <td>{{auction.actual_lots}}</td>
+                    <td>{{auction.processed_lots}}</td>
+                    <td>{{auction.percentage}}%</td>
+	            </tr>
+{% endfor %}
+		</tbody>
+	</table>
+    <script>
+        $('title').html("{{job.name}}".replace(/\d+/,"")+ $('title').html());
+    </script>
+{% endblock %}

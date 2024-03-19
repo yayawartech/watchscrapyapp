@@ -1,0 +1,30 @@
+<div class="row">
+
+	<div class="col-xl-12 col-lg-7">
+
+       <!-- Area Chart -->
+       <div class="card shadow mb-4">
+         <div class="card-header py-3">
+           <h6 class="m-0 font-weight-bold text-primary">
+           	<ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+			  <li class="nav-item">
+			    <a class="nav-link active" id="pills-goldsub-tab" data-toggle="pill" href="#pills-goldsub" role="tab" aria-controls="pills-goldsub" aria-selected="true">Oro</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" id="pills-platinumsub-tab" data-toggle="pill" href="#pills-platinumsub" role="tab" aria-controls="pills-platinumsub" aria-selected="false">Platino</a>
+			  </li>
+			  <li class="nav-item">
+                  <a class="nav-link" id="pills-silversub-tab" data-toggle="pill" href="#pills-silversub" role="tab" aria-controls="pills-silversub" aria-selected="false">Plata</a>
+			  </li>
+			</ul>
+         </div>
+         <div class="card-body">
+         	<div class="tab-content" id="pills-tabContent">
+  				<div class="tab-pane fade show active" id="pills-goldsub" role="tabpanel" aria-labelledby="pills-goldsub-tab">{% include "gold/widgets/goldtab/gold.html" %}</div>
+  				<div class="tab-pane fade" id="pills-platinumsub" role="tabpanel" aria-labelledby="pills-platinumsub-tab">{% include "gold/widgets/goldtab/platinum.html" %}</div>
+  				<div class="tab-pane fade" id="pills-silversub" role="tabpanel" aria-labelledby="pills-silversub-tab">{% include "gold/widgets/goldtab/silver.html" %}</div>
+			</div>
+         </div>
+        </div>
+    </div>
+</div>

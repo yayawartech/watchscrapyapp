@@ -1,0 +1,48 @@
+<h5 class="text-center">Oval</h5>
+<div class="row">
+   <div class="col-lg-8 my-auto">
+    <form>
+      <div class="form-group row">
+        <label for="oval-vLength" class="col-sm-3 col-form-label-sm">Length (L) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control oval-input" id="oval-vLength" name="oval-vLength" placeholder="Length(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="oval-hWidth" class="col-sm-3 col-form-label-sm">Width (W) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control oval-input" id="oval-hWidth" name="oval-hWidth" placeholder="Width(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="oval-depth" class="col-sm-3 col-form-label-sm">Depth (D) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control oval-input" id="oval-depth" name = "oval-depth" placeholder="Depth (in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="oval-thickness" class="col-sm-3 col-form-label-sm">Girdle Thickness </label>
+        <div class="col-sm-8">
+          <select id="oval-thickness" name="oval-thickness" class="form-control oval-input">
+            <option value="thm" selected="">Thin-Medium</option>
+            <option value="sth">Slightly Thick</option>
+            <option value="th">Thick</option>
+            <option value="vth">Very Thick</option>
+            <option value="eth">Extremely Thick</option>
+          </select>
+        </div>
+      </div>
+      
+    </form>
+    </div>
+ <div class="col-lg-4 my-auto">
+  <div class="card" style="width: auto;">
+  <div class="card-body">
+    <h4 class="card-">Weight: <span id="oval-result"></span> ct</h4>
+  </div>
+</div>
+ </div>
+</div>

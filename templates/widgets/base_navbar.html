@@ -1,0 +1,78 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <div class="container">
+      <a class="navbar-brand" href="/home"><img src="{% static 'logo.png'%}" height="30"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <!--<li class="nav-item">
+          <a class="nav-link" href="/home">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+        </li>
+        -->
+        <li class="nav-item dropdown {# or `dropup` #}">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-clock"></i>
+            Relojes 
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/watch">
+              <i class="fas fa-clock"></i>
+             Busqueda
+            </a>
+            <a class="dropdown-item" href="/houses">
+              <i class="fas fa-home"></i>
+              Casas de Remate
+            </a>
+            <a class="dropdown-item" href="/jobs">Running Jobs</a>
+            <a class="dropdown-item" href="/jobs/complete">Completed Jobs</a>
+            <!--a class="dropdown-item" href="/jobs/failed">Failed Jobs</a-->
+            <a class="dropdown-item" href="/jobs/add">Start Job</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gold">
+            <i class="fas fa-coins"></i>
+            Oro
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/diamond">
+            <i class="fas fa-gem"></i>
+            Diamantes
+          </a>
+        </li>
+        <!--<li class="nav-item">
+          <a class="nav-link" href="/setup">
+            <i class="fas fa-tools"></i>
+            Setup
+          </a>
+        </li>
+        -->
+        <li class="nav-item dropdown ">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-clock"></i>
+            Configurar
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/setup">
+            <i class="fas fa-tools"></i>
+            Setup Spiders
+          </a>
+            <a class="dropdown-item" href="/logout">
+             <i class="fas fa-sign-out-alt"></i>
+             Logout
+           </a>
+           </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+

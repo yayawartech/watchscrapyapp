@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+	<div class="col-xs-6">
+  		<div class="table-responsive">
+    		<table class="table table-responsive-lg table-striped">
+		      <thead>
+		        <tr>
+		          <th scope="col" colspan="2" class="table-warning">GOLD LIST</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		      	{% for goldc in carat_gold %}
+		        <tr>
+		          <th scope="row">{{goldc.key}}</th>
+		          <td>{{goldc.value}}</td>
+		        </tr>
+		        {% endfor %}
+		      </tbody>
+		    </table>
+ 		</div>
+	</div>
+	<div class="col-xs-6">
+  		<div class="table-responsive">
+    		<table class="table table-responsive-lg table-striped">
+		      <thead>
+		        <tr>
+		          <th scope="col" colspan="2" class="table-dark">SILVER LIST</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		      	{% for silverc in carat_silver %}
+		        <tr>
+		          <th scope="row">{{silverc.key}}</th>
+		          <td>{{silverc.value}}</td>
+		        </tr>
+		        {% endfor %}
+		      </tbody>
+		    </table>
+ 		</div>
+	</div>
+</div>

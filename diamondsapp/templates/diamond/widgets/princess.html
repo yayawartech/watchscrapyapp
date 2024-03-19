@@ -1,0 +1,48 @@
+<h5 class="text-center">Princess</h5>
+<div class="row">
+   <div class="col-lg-8 my-auto">
+    <form>
+      <div class="form-group row">
+        <label for="princess-vLength" class="col-sm-3 col-form-label-sm">Vertical Length (L) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control princess-input" id="princess-vLength" name="princess-vLength" placeholder="Vertical Length(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="princess-hWidth" class="col-sm-3 col-form-label-sm">Horizontal Width (W) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control princess-input" id="princess-hWidth" name="princess-hWidth" placeholder="Horizontal Width(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="princess-depth" class="col-sm-3 col-form-label-sm">Depth (D) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control princess-input" id="princess-depth" name = "princess-depth" placeholder="Depth (in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="princess-thickness" class="col-sm-3 col-form-label-sm">Girdle Thickness </label>
+        <div class="col-sm-8">
+          <select id="princess-thickness" name="princess-thickness" class="form-control princess-input">
+            <option value="thm" selected="">Thin-Medium</option>
+            <option value="sth">Slightly Thick</option>
+            <option value="th">Thick</option>
+            <option value="vth">Very Thick</option>
+            <option value="eth">Extremely Thick</option>
+          </select>
+        </div>
+      </div>
+      
+    </form>
+    </div>
+ <div class="col-lg-4 my-auto">
+  <div class="card" style="width: auto;">
+  <div class="card-body">
+    <h4 class="card-">Weight: <span id="princess-result"></span> ct</h4>
+  </div>
+</div>
+ </div>
+</div>

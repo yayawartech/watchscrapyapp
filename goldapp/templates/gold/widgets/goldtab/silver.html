@@ -1,0 +1,63 @@
+<div class="col-xl-8 col-lg-7">
+	<form class="form-inline">
+						  <select onchange="get_gold(this.value)"class="custom-select my-1 mr-sm-2" id="select_silver">
+						    <option value="700">700</option>
+						    <option value="800">800</option>
+						    <option value="900">900</option>
+						    <option value="925" selected>925</option>
+						  </select>
+         		<table class="table table-bordered">
+				  <thead>
+				    <tr>
+				      <th scope="col">Plata $/gr</th>
+				      <th scope="col">$</th>
+				      <th scope="col">US$</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>0%</td>
+				      <td id="s_dollar_0"></td>
+				      <td id="s_usdollar_0"></td>
+				    </tr>
+				    <tr>
+				      <td>5%</td>
+				      <td id="s_dollar_5"></td>
+				      <td id="s_usdollar_5"></td>
+				    </tr>
+				    <tr>
+				      <td>10%</td>
+				      <td id="s_dollar_10"></td>
+				      <td id="s_usdollar_10"></td>
+				    </tr>
+				    <tr>
+				      <td>15%</td>
+				      <td id="s_dollar_15"></td>
+				      <td id="s_usdollar_15"></td>
+				    </tr>
+				    <tr>
+				      <td>
+			            <div class="col-sm-9 my-1">
+			               <div class="input-group">
+			                 <input type="text" id="custom_silver" class="form-control" name="custom_silver_p" value="0"> &nbsp; %
+			               </div>
+			             </div>
+			          </td>
+				      <td id="silver_dollar_custom"></td>
+				      <td id="silver_usdollar_custom"></td>
+				    </tr>
+				    <tr>
+				      <td style="text-align:center;">999</td>
+				      <td id="s_dollar_999"></td>
+				      <td id="s_usdollar_999"></td>
+				    </tr>
+				  </tbody>
+				</table>
+</div>
+{% block body_js %}
+<script type="text/javascript">
+	function get_gold(value){
+		console.log(value);
+	}
+</script>
+{% endblock %}

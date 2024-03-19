@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<hr/>
+
+<nav class="navbar navbar-light bg-light">
+  <h3>Initial Setup</h3>
+</nav>
+
+<hr/>
+
+<div id="setupForm">
+  		<form class="form" action="/setup" method="POST">
+  			{% csrf_token %}
+        <label class="form-check-label" for="chromedriver">Chrome Driver Path</label>
+    		<input class="form-control mr-sm-2" type="text" name="chromedriver" id="chromedriver" value="{{chromedriver}}" placeholder="Set Chrome Driver Path" aria-label="chrome driver">
+
+    		<br/>
+    		
+			<br/>
+    		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+ 		 </form>
+  </div>
+ 
+</div>
+<br/>
+
+{% endblock %}
+{% block body_js %}
+{% endblock %}

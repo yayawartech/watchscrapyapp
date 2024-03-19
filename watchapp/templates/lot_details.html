@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block body_content %}
+
+<hr />
+
+<nav class="navbar navbar-light bg-light">
+	<h4>{{lot.auction.auction_house.name}} | Lot {{lot.lot_number}} | {{lot.auction.date}}</h4>
+</nav>
+
+<hr />
+
+<table class="table table-hover">
+	<tbody>
+		<tr>
+			<th scope="row">Auction House</th>
+			<td>{{lot.auction.auction_house.name}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Location</th>
+			<td>{{lot.auction.place}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Date</th>
+			<td>{{lot.auction.date}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Auction Name</th>
+			<td>{{lot.auction.name}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Lot</th>
+			<td>{{lot.lot_number}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Images</th>
+			<td>
+				{% for image in lot.images %}
+				<img src="{{image}}" height="200" width="200" class="img-thumbnail" />
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">Title</th>
+			<td>{{lot.title|safe}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Description</th>
+			<td><p>{{lot.description|safe}}</p></td>
+		</tr>
+		<tr>
+			<th scope="row">Estimation</th>
+			<td>{{lot.lot_currency|safe}} {{lot.estimate_min_price}} - {{lot.lot_currency|safe}} {{lot.estimate_max_price}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Sold Price</th>
+			<td>{{lot.lot_currency|safe}} {{lot.sold_price}}</td>
+		</tr>
+		<tr>
+			<th scope="row">Sold Price (Dollar)</th>
+			<td>$ {{lot.sold_price_dollar}}</td>
+		</tr>
+		<tr>
+			<th scope="row">URL</th>
+			<td><a href="{{lot.url}}">{{lot.url}}</a></td>
+		</tr>
+	</tbody>
+</table>
+{% endblock %}

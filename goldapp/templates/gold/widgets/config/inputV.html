@@ -1,0 +1,109 @@
+<form class="form" action="updateConfig/" method="POST">
+  {% csrf_token %}
+  <div class="row justify-content-center">
+    <div class="col-auto">
+      <table class="table table-responsive-lg table-striped" >
+        <thead>
+          <tr>
+            <th scope="col">Variables</th>
+            <th scope="col">(%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Comision</th>
+            <td>
+               <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Oro</div>
+                    </div>
+
+                   <input type="text" class="form-control" name="gold_c" value="{{config.gold_c}}">
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Platino</div>
+                </div>
+                   <input type="text" class="form-control" name="platinum_c" value="{{config.platinum_c}}">
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Plata</div>
+                </div>                  
+                   <input type="text" class="form-control" name="silver_c" value="{{config.silver_c}}">
+
+                 </div>
+               </div>
+             </td>
+          </tr>
+          <tr>
+            <th scope="row">Pureza de Venta</th>
+            <td>
+               <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Oro</div>
+                </div>
+                   <input type="text" class="form-control" name="gold_sp" value="{{config.gold_sp}}">
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Platino</div>
+                </div>
+                   <input type="text" class="form-control" name="platinum_sp" value="{{config.platinum_sp}}">
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Plata</div>
+                </div>
+                   <input type="text" class="form-control" name="silver_sp" value="{{config.silver_sp}}">
+                 </div>
+               </div>
+             </td>
+          </tr>
+          <tr>
+            <th scope="row">Pureza en Compra</th>
+            <td>
+               <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                   <input type="hidden" class="form-control" name="gold_bp">
+                   <!--div class="input-group-append">
+                     <div class="input-group-text">%</div>
+                   </div-->
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Platino</div>
+                </div>                  
+                   <input type="text" class="form-control" name="platinum_bp" value="{{config.platinum_bp}}">
+                 </div>
+               </div>
+              <div class="col-sm-12 my-1">
+                 <div class="input-group input-group-sm">
+                   <input type="hidden" class="form-control" name="silver_bp">
+                   <!--div class="input-group-append">
+                     <div class="input-group-text">%</div>
+                   </div-->
+                 </div>
+               </div>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-sm-6 my-1">
+        <button type="submit" class="btn btn-warning btn-user btn-block">Guardar</button>
+      </div>
+    </div>
+  </div>
+</form>

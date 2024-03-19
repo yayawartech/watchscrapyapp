@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+{% load humanize %}
+<!--<hr/>
+-->
+<div class="jumbotron ">
+    <h2>Watch Auctions</h2>
+    <br/>
+     <form  action="/watch/advsearch/" method="POST">
+        {% csrf_token %}
+               <div class="form-group">
+                   <label  for="auction_house">Auction House</label>
+                   <select class="form-control" name="auction_house"   id="inlineFormCustomSelect">
+                         <option {% if not auction_house %} selected {%endif%}></option>
+                            {% for house in auction_houses %}
+                            <option value="{{house.id}}" {% if auction_house ==  house.id %} selected {%endif%}>{{house.name}}</option>
+                            {% endfor %}
+                    </select>
+             </div>
+             <br/>
+             <div class="form-group">
+                   <label for="title">Search</label>
+                   <input class="form-control form-control-lg" type="text" name="search" value="{{search|default:""}}"placeholder="Search" aria-label="Search">
+               </div>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <a class="btn btn-outline-success my-2 my-sm-0" href="/">Clear Search<a>
+     </form>
+</div>
+<nav class="navbar navbar-light bg-light">
+  <h3>Watch Auctions</h3>
+</nav>
+{% if 1 == 0 %}
+<!--
+    <a href="#" style="float: right" onclick="showAdvancedSearch(true)">Advanced Search</a><br/>
+-->
+<!--
+    <hr/>
+-->
+<div id="advsearchform" >
+	<nav class="navbar navbar-light bg-light">
+  		<form class="form" action="/watch/advsearch/" method="POST">
+  			{% csrf_token %}
+             <div class="form-check">
+                 <label class="form-check-label" for="auction_house">Auction House</label>
+                 <select name="auction_house" class="custom-select "  id="inlineFormCustomSelect">
+              <option {% if not auction_house %} selected {%endif%}></option>
+              {% for house in auction_houses %}
+                  <option value="{{house.id}}" {% if auction_house ==  house.id %} selected {%endif%}>{{house.name}}</option>
+              {% endfor %}
+              </select>
+            </div>
+            <br/>
+    		<!--
+            <input class="form-control mr-sm-2" type="text" name="search" value="{{search}}"placeholder="Search by" aria-label="Search">
+    		<br/>
+            -->
+            <!--
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="date">Date</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<label class="form-check-label" for="from_date">From:</label>
+
+                <input class="form-check-input" type="text" name="from_date" id="from_date" value="{{from_date|default:""}}">
+			</div>
+
+			<div class="form-check form-check-inline">
+				<label class="form-check-label" for="from_date">To:</label>
+  				<input class="form-check-input" type="text" name="to_date" id="to_date" value="{{to_date|default:""}}">
+			</div>
+            -->
+            <div class="form-check">
+                  <!--
+                  <input class="form-check-input" type="radio" name="advsearch" id="title" value="title">
+                  -->
+                  <label class="form-check-label" for="title">Search</label>
+                  <input class="form-control mr-sm-2" type="text" name="search" value="{{search|default:""}}"placeholder="Search" aria-label="Search">
+              </div>
+        <!--
+			<div class="form-check">
+                <label class="form-check-label" for="title">Title</label>
+                <input class="form-control mr-sm-2" type="text" name="title" value="{{title|default:""}}"placeholder="Search in title" aria-label="Search">
+			</div>
+			<div class="form-check">
+                <label class="form-check-label" for="description">Description</label>
+                <input class="form-control mr-sm-2" type="text" name="description" value="{{description|default:""}}"placeholder="Search in description" aria-label="Search">
+			</div>
+        -->
+            <!--
+			<div class="form-check">
+  				<input class="form-check-input" type="radio" name="advsearch" id="currency" value="currency">
+  				<label class="form-check-label" for="currency">Currency</label>
+			</div>
+			<div class="form-check">
+  				<input class="form-check-input" type="radio" name="advsearch" id="estimate_min_price" value="estimate_min_price">
+  				<label class="form-check-label" for="estimate_min_price">Min. Estimation</label>
+			</div>
+			<div class="form-check">
+  				<input class="form-check-input" type="radio" name="advsearch" id="estimate_max_price" value="estimate_max_price">
+  				<label class="form-check-label" for="estimate_max_price">Max. Estimation</label>
+			</div>
+			<div class="form-check">
+  				<input class="form-check-input" type="radio" name="advsearch" id="sold_price" value="sold_price">
+  				<label class="form-check-label" for="sold_price">Sold Price</label>
+			</div>
+            -->
+			<input type="hidden" name="selected_option"  id="selected_option" value="{{selected_option}}"/>
+			<br/>
+    		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="/">Clear Search<a>
+ 		 </form>
+	</nav>
+  </div>
+ 
+</div>
+{% endif %}
+<br/>
+<div class="float-right">Showing {{pagination_range.count}} of {{ lots.paginator.count }} </div>
+<table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
+    <caption>Pages:  {{lots.number}}/{{lots.paginator.num_pages}} </caption>
+        <thead>
+            <tr>
+		<!-- <th>Num</th>-->
+                <th >Thumbnail</th>
+                <th class="d-none d-sm-table-cell">Auction</th>
+                <!--<th>Lot</th>-->
+		        <th >Title</th>
+                <th class="">Date</th>
+                <th class="">Price(USD)</th>
+                <!--
+                    <th class="">Action</th>
+                -->
+            </tr>
+        </thead>
+        <tbody>
+            {%if lots.paginator.count == 0 %}
+            <tr class="d-sm-none"><td colspan="6">Empty with query {{title|default:""}} {{description|default:""}}</td></tr>
+            {%endif%}
+            {% for lot in lots %}
+		
+                <tr class="mylot" data-href="/watch/lot/{{lot.id}}" >
+			        <!-- <td>{{lot.id}}</td>-->
+	            	<td><img src="{{lot}}" style="max-width:80px;max-height:80px;"></td>
+	                <td class="d-none d-sm-table-cell">{{lot.auction.auction_house.name}}</td>
+	                <!--<td>{{lot.lot_number}}</td>-->
+	                <td>{{lot.title}}</td>
+	                <td class="">{{lot.auction.date|date:'d/m/y'}}</td>
+	                {% if lot.sold_price_dollar != 0 and  lot.sold_price_dollar != "0" %}
+				        <td class="text-right">$ {{lot.sold_price_dollar|intcomma}}</td>
+			        {% else %}
+				         <td class="text-center"> - </td>
+		        	{% endif %}
+                    <!--
+	                <td clas="d-none d-sm-table-cell">
+	                	<a target="_blank" class="btn btn-primary" href="/watch/lot/{{lot.id}}" role="button">View</a>
+	                </td>
+                    -->
+	            </tr>
+            {% endfor %}
+		</tbody>
+	</table>
+<div>
+<nav aria-label="...">
+    <ul class="pagination">
+        {% if lots.has_previous %}
+            <li class="page-item ">
+                <a class="page-link" href="?page={{ lots.previous_page_number }}{{url_parameters}}" tabindex="-1"  >Previous</a>
+            </li>
+        {% else %}
+             <li class="page-item disabled">    
+                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+             </li>
+        {% endif %}
+        {% if lots.number > 10 %}
+            <li class="page-item ">
+                  <a class="page-link" href="?page={{ pagination_range.before_range }}{{url_parameters}}">. . .</a>
+             </li>
+        {% endif %}
+        {% for i in  pagination_range.range%}  
+           {% if lots.number == i %}
+               <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{i}} <span class="sr-only">(current)</span></a>
+               </li>
+           {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}{{url_parameters}}">
+                        {{ i }}
+                   </a>
+                </li>
+
+           {% endif %}
+        {% endfor %}
+        {% if pagination_range.after_range > 0 %}
+             <li class="page-item ">
+                   <a class="page-link" href="?page={{ pagination_range.after_range }}{{url_parameters}}">. . .</a>
+              </li>
+         {% endif %}
+        {% if lots.has_next%}
+         <li class="page-item">
+           <a class="page-link" href="?page={{ lots.next_page_number }}{{url_parameters}}">Next</a>
+         </li>
+       {% else %}
+         <li class="page-item disabled">
+           <a class="page-link" href="#">Next</a>
+         </li>
+       {% endif %}
+      </ul>
+</nav>
+
+</div>
+{% endblock %}
+{% block body_js %}
+<script type="text/javascript">
+	function showAdvancedSearch(){
+		var x = document.getElementById("advsearchform");
+  		if (x.style.display === "none") {
+    		x.style.display = "block";
+  		} else {
+    		x.style.display = "none";
+  		}
+	}
+
+	function enableSearchOption(){
+
+		var value = document.getElementById("selected_option").value;
+		if(value===""){
+			$("input[type=radio][value=" +value+ "]").prop("checked",true);	
+		}
+		
+
+	}
+    $(".mylot").on("click",function(e){
+            e.stopPropagation();
+            var href = $(this).attr('data-href');
+            var link = $('<a href="'+ href + '" />');
+            link.attr('target', '_blank');
+            window.open(link.attr('href'));
+    });
+</script>
+{% endblock %}

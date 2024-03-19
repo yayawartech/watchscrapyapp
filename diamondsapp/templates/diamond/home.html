@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick-theme.css' %}"/>
+{% endblock %}
+
+{% block body_content %}
+<br/>
+<br/>
+<hr/>
+<div class="text-center">
+            <h1 class="h3 mb-0 text-gray-800">Estimacion Pesos</h1>
+</div>
+<hr/>
+<div class="sub-header ">
+  <div class="swipe-tabs">
+    <div class="swipe-tab tab-d" >
+      <img class="zoom" src="{% static 'images/diamond/brillant.png'%}"/>
+      <span class="btn-block badge badge-secondary">Brilliant</span>
+    </div>
+     <div class="swipe-tab tab-d">
+        <img class="zoom" src="{% static 'images/diamond/european.png'%}"/>
+        <span class="btn-block badge">European</span>
+      </div>
+    <div class="swipe-tab tab-d">
+    	<img class="zoom" src="{% static 'images/diamond/baguette.png'%}"/>
+    	<span class="btn-block badge">Baguette</span>
+    </div>
+    <div class="swipe-tab tab-d">
+      	<img class="zoom" id="2" src="{% static 'images/diamond/emerald.png'%}"/>
+      	<span class="btn-block badge">Emerald</span>
+     </div>
+      
+      
+      <div class="swipe-tab tab-d">
+      	<img class="zoom" src="{% static 'images/diamond/marquise.png'%}"/>
+      	<span class="btn-block badge">Marquise</span>
+      </div>
+      
+      <div class="swipe-tab tab-d">
+      	<img class="zoom"  src="{% static 'images/diamond/oval.png'%}"/>
+      	<span class="btn-block badge">Oval</span>
+      </div>
+
+      <div class="swipe-tab tab-d">
+      	<img class="zoom" src="{% static 'images/diamond/pear.png'%}"/>
+      	<span class="btn-block badge">Pear</span>
+      </div>
+      
+      <div class="swipe-tab tab-d">
+      	<img class="zoom" src="{% static 'images/diamond/princess.png'%}"/>
+      	<span class="btn-block badge">Princess</span>
+      </div>
+      
+      <div class="swipe-tab tab-d">
+      	<img class="zoom" src="{% static 'images/diamond/tapped.png'%}"/>
+      	<span class="btn-block badge">Tapered</span>
+      </div>
+      
+      <div class="swipe-tab tab-d">
+      	<img class="zoom" src="{% static 'images/diamond/triangle.png'%}"/>
+      	<span class="btn-block badge">Triangle</span>
+      </div>
+  </div>
+</div>
+<div class="main-container">
+  <div class="swipe-tabs-container ">
+    <div class="swipe-tab-content">{% include "diamond/widgets/brilliant.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/european.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/baguette.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/emerald.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/marquise.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/oval.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/pear.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/princess.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/tapered.html" %}</div>
+    <div class="swipe-tab-content">{% include "diamond/widgets/triangle.html" %}</div>
+  </div>
+</div>
+{% endblock %}
+{% block body_js %}
+<script type="text/javascript" src="{% static 'vendor/slick/slick.min.js' %}"></script>
+ <script src="{% static 'js/diamonds.js' %}?v=0.1.0"></script>
+
+{% endblock %}
+

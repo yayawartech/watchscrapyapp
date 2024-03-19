@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% load static %} {% block body_content %}
+<br />
+<br />
+<!--
+<hr/>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Gold Dashboard</h1>
+</div>
+
+<hr/>
+-->
+<h4>Au:{{gold_price_weight.gold_weight}}, Ag: {{gold_price_weight.silver_weight}}, Pt:{{gold_price_weight.platinum_weight}}</h4>
+<ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link" id="pills-gold-tab" data-toggle="pill" href="#pills-gold" role="tab" aria-controls="pills-gold" aria-selected="true">$ Compras</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link active" id="pills-chart-tab" data-toggle="pill" href="#pills-chart" role="tab" aria-controls="pills-chart" aria-selected="false"><img src="{% static 'graph_icon.png'%}" height="30" /></a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" onclick="load_coins_data()" id="pills-coins-tab" data-toggle="pill" href="#pills-coins" role="tab" aria-controls="pills-coins" aria-selected="false">Monedas</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="pills-config-tab" data-toggle="pill" href="#pills-config" role="tab" aria-controls="pills-config" aria-selected="false"><img src="{% static 'settings_icon.png'%}" height="30" /></a>
+	</li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+	<div class="tab-pane fade" id="pills-gold" role="tabpanel" aria-labelledby="pills-gold-tab">{% include "gold/widgets/gold_data.html" %}</div>
+
+	<div class="tab-pane fade show active" id="pills-chart" role="tabpanel" aria-labelledby="pills-chart-tab">{% include "gold/widgets/gold_chart.html" %}</div>
+	<div
+		class="tab-pane fade"
+		id="pills-coins"
+		role="tabpanel"
+		aria-labelledby="
+  pills-coins-tab">
+		{% include "gold/widgets/coins.html" %}
+	</div>
+	<div class="tab-pane fade" id="pills-config" role="tabpanel" aria-labelledby="pills-config-tab">{% include "gold/widgets/configuration.html" %}</div>
+</div>
+{% endblock %} {% block body_js %}
+<script type="text/javascript">
+	function load_coins_data(value) {
+		if (value === undefined || value === "") {
+			value = 0;
+		}
+		gold_gram = $("#gold_gram").text();
+		$("#coinsData").DataTable({
+			bDestroy: true,
+			bPaginate: false,
+			bLengthChange: false,
+			bFilter: true,
+			bInfo: false,
+			bAutoWidth: false,
+
+			ajax: {
+				url: "/gold/getdata_json/" + value + "/" + gold_gram,
+				dataSrc: "",
+			},
+			columns: [{ data: "name" }, { data: "pure_gold" }, { data: "weight" }, { data: "price" }],
+		});
+	}
+	$(function () {
+		$("#pills-gold-tab").trigger("click");
+	});
+</script>
+{% endblock %}

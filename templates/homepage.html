@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head_title %}Home{% endblock %}
+
+{% block body_content %}
+ <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Lot Number</th>
+      <th>Title</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for lot in lots %}
+      <tr>
+        <td>{{ lot.lot_number }}</td>
+        <td>{{ lot.title }}</td>
+        <td>{{ user.status }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if lots.has_other_pages %}
+  <ul class="pagination">
+    {% if lots.has_previous %}
+      <li><a href="?page={{ lots.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in lots.paginator.page_range %}
+      {% if lots.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if lots.has_next %}
+      <li><a href="?page={{ lots.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+{% endblock %}
+
+{% block body_js %}
+{% endblock %}

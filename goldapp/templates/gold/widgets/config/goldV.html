@@ -1,0 +1,39 @@
+<div id="fetched-now" class="row justify-content-center">
+    <div class="col-auto">
+	    <table class="table table-responsive-lg table-striped" >
+	      <tbody>
+	        <tr>
+	          <th scope="row">$/USD</th>
+	          <td id="gold_price">{{gold_price_weight.gold_price}}</td>
+	        </tr>
+	      </tbody>
+	  	</table>
+	  	<br/>
+	  	<table class="table table-responsive-lg table-striped" >
+	      <tbody>
+	        <tr>
+	          <th ></th>
+	          <th scope="col">Onza Troy</th>
+	        </tr>
+	        <tr class="table-warning">
+	          <th scope="row">Oro</th>
+	          <td id="gold_weight">{{gold_price_weight.gold_weight}}</td>
+	        </tr>
+	        <tr class="table-primary">
+	          <th scope="row">Platino</th>
+	          <td id="platinum_weight">{{gold_price_weight.platinum_weight}}</td>
+	        </tr>
+	        <tr class="table-dark">
+	          <th scope="row">Plata</th>
+	          <td id="silver_weight">{{gold_price_weight.silver_weight}}</td>
+	        </tr>
+	      </tbody>
+	    </table>
+	    <p><span class="badge badge-secondary"> Actualizado:
+	    <span id="last_updated"> {{gold_price_weight.last_updated}}</span></p>
+ 	</div>
+
+
+</div>
+ <a href="#" id="fetch-now" class="btn btn-primary">Actualizar</a>
+<div class="modal"><!-- Place at bottom of page --></div>

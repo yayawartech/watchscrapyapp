@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<hr/>
+
+<nav class="navbar navbar-light bg-light">
+  <h3>Job Details | {{job}}</h3>
+</nav>
+
+<hr/>
+ 
+</div>
+<br/>
+
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Auction</th>
+                <th>Actual Lots</th>
+                <th>Fetched Lots</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for lot in lots %}
+		
+	            <tr>
+	                <td><a href="{{lot.url}}">{{lot.url}}</a></td>
+	                <td>{{lot.auction}}</td>
+	                <td>{{lot.actual_lots}}</td>
+	                <td>{{lot.fetched_lots}}</td>
+	            </tr>
+{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

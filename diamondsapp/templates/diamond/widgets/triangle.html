@@ -1,0 +1,48 @@
+<h5 class="text-center">Triangle</h5>
+<div class="row">
+   <div class="col-lg-8 my-auto">
+    <form>
+      <div class="form-group row">
+        <label for="triangle-vLength" class="col-sm-3 col-form-label-sm">Length (L) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control triangle-input" id="triangle-vLength" name="triangle-vLength" placeholder="Length(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="triangle-hWidth" class="col-sm-3 col-form-label-sm">Width (W) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control triangle-input" id="triangle-hWidth" name="triangle-hWidth" placeholder="Width(in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="triangle-depth" class="col-sm-3 col-form-label-sm">Depth (D) </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control triangle-input" id="triangle-depth" name = "triangle-depth" placeholder="Depth (in mm)">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="triangle-thickness" class="col-sm-3 col-form-label-sm">Girdle Thickness </label>
+        <div class="col-sm-8">
+          <select id="triangle-thickness" name="triangle-thickness" class="form-control triangle-input">
+            <option value="thm" selected="">Thin-Medium</option>
+            <option value="sth">Slightly Thick</option>
+            <option value="th">Thick</option>
+            <option value="vth">Very Thick</option>
+            <option value="eth">Extremely Thick</option>
+          </select>
+        </div>
+      </div>
+      
+    </form>
+    </div>
+ <div class="col-lg-4 my-auto">
+  <div class="card" style="width: auto;">
+  <div class="card-body">
+    <h4 class="card-">Weight: <span id="triangle-result"></span> ct</h4>
+  </div>
+</div>
+ </div>
+</div>

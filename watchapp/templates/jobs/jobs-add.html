@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block body_content %}
+<hr />
+<div>
+	<nav class="navbar navbar-light bg-light">
+		<h3>Spider Jobs | Create</h3>
+	</nav>
+</div>
+<hr />
+<form action="/jobs/create" method="POST">
+	{% csrf_token %}
+
+	<div class="form-group row">
+		<label for="urls" class="col-sm-2 col-form-label">Select Auction House</label>
+		<div class="col-sm-10">
+			<select id="auction_selector" class="form-control" name="auction_house">
+				<option value="Antiquorum-1">Antiquorum</option>
+				<option value="Artcurial-2">Artcurial</option>
+				<option value="Bonhams-3">Bonhams</option>
+				<option value="Bukowskis-4">Bukowskis</option>
+				<option value="Christies-5">Christies</option>
+				<option value="Dorotheum-6">Dorotheum</option>
+				<option value="Heritage-7">Heritage</option>
+				<option value="Phillips-8">Phillips</option>
+				<option value="Sothebys-9">Sothebys</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="urls" class="col-sm-2 col-form-label">Input URLs</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" id="urls" name="urls" rows="10"></textarea>
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Start Job</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<script>
+	function changeAuctionHouse() {
+		var currentVal = $("#urls").val();
+		currentVal = currentVal.toLowerCase();
+		if (currentVal.includes("antiquorum")) {
+			$("#auction_selector").val("Antiquorum-1");
+		} else if (currentVal.includes("artcurial")) {
+			$("#auction_selector").val("Artcurial-2");
+		} else if (currentVal.includes("bonhams")) {
+			$("#auction_selector").val("Bonhams-3");
+		} else if (currentVal.includes("bukowskis")) {
+			$("#auction_selector").val("Bukowskis-4");
+		} else if (currentVal.includes("christies")) {
+			$("#auction_selector").val("Christies-5");
+		} else if (currentVal.includes("dorotheum")) {
+			$("#auction_selector").val("Dorotheum-6");
+		} else if (currentVal.includes("ha.com")) {
+			$("#auction_selector").val("Heritage-7");
+		} else if (currentVal.includes("hillips")) {
+			$("#auction_selector").val("Phillips-8");
+		} else if (currentVal.includes("sothebys")) {
+			$("#auction_selector").val("Sothebys-9");
+		}
+	}
+	$("#urls").on("keyup", changeAuctionHouse);
+	$("#urls").on("paste", changeAuctionHouse);
+</script>
+{% endblock %}
