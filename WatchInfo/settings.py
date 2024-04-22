@@ -95,31 +95,32 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'awsrds' : {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
-    }
-    # 'secondary': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'watch',
-    #     'USER': 'admin',
-    #     'PASSWORD': 'Sarandi#.635.',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432'
-
+    # 'awsrds': {
+    #     'ENGINE': 'mysql.connector.django',
+    #     'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
     # },
-}
-DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter']
-# DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',
-#                     'WatchInfo.routers.DefaultRouter',]
+    'awsrds': {
+        'ENGINE': 'mysql.connector.django',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
 
-# Default file storage using Amazon S3
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    },
+}
+# DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter']
+DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',
+                    'WatchInfo.routers.DefaultRouter',]
+
 
 # Configure Amazon S3 settings
-# AWS_ACCESS_KEY_ID = 'your-access-key-id'
-# AWS_SECRET_ACCESS_KEY = 'your-secret-access-key'
-# AWS_STORAGE_BUCKET_NAME = 'your-s3-bucket-name'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
+AWS_STORAGE_BUCKET_NAME = ''
 # AWS_S3_REGION_NAME = 'your-s3-region'
 
 
@@ -162,12 +163,6 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-# Static files (CSS, JavaScript, images)
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATIC_URL = 'https://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
-
-# Media files (user-uploaded files)
-# MEDIA_URL = 'https://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 LOGGING = {
     'version': 1,
@@ -179,3 +174,7 @@ LOGGING = {
         },
     },
 }
+
+# # Configure image pipeline
+# Temporary local directory to store images
+IMAGES_STORE = STATIC_URL + 'tempImages/'

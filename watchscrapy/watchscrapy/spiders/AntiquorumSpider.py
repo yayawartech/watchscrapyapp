@@ -18,12 +18,12 @@ class AntiquorumSpider(scrapy.Spider):
         self.start_urls = url.split(",")
         self.job = job
 
-    # def start_requests(self):
-    #     # Provide a complete URL with the scheme (e.g., "http://" or "https://")
-    #     start_urls = [
-    #         'https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots']
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def start_requests(self):
+        # Provide a complete URL with the scheme (e.g., "http://" or "https://")
+        start_urls = [
+            'https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots']
+        for url in start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         total_lots = response.xpath(
@@ -60,7 +60,7 @@ class AntiquorumSpider(scrapy.Spider):
         logging.debug("AntiquorumSpider; msg=URLs to be Scraped %s;url= %s", len(
             final_url), response.url)
         for url in final_url:
-            # print(f'\n\n---------------url:: {url}-------------------\n\n')
+            print(f'\n\n---------------url:: {url}-------------------\n\n')
             yield scrapy.Request(url, callback=self.parse_item, meta={"auction_url": response.meta.get("auction_url"), "lots": response.meta.get("lots")})
 
     def parse_item(self, response):
@@ -74,8 +74,15 @@ class AntiquorumSpider(scrapy.Spider):
 
             item['house_name'] = 1
 
-            name = all_desc.xpath("//p[1]/text()").extract_first() or None
-            item['name'] = name
+            # name = all_desc.xpath("//p[1]/text()").extract_first() or None
+            # name = response.xpath(
+                # "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract()
+            name = response.xpath(
+                "/html/body/div[10]/div[2]/div[1]/div[2]/p[1]/text()").extract()
+            name_title = " ".join(name)
+            item['name'] = name_title
+
+            print(f'\n\n name:: {name_title} \n\n')
 
             date_location = all_desc.xpath(
                 "//p[3]/text()").extract_first() or None
@@ -101,25 +108,30 @@ class AntiquorumSpider(scrapy.Spider):
 
             item['images'] = images_url
 
-            title = all_desc.xpath('//strong/p/text()').extract_first()
-            if not title:
-                title = all_desc.xpath(
-                    '//strong/div/font/strong/text()').extract_first()
-            if not title:
-                title = all_desc.xpath(
-                    '//strong/div/strong/text() | //strong/div/text()').getall() or []
-                title = ' '.join(title)
+            # title = all_desc.xpath('//strong/p/text()').extract_first()
+            title = response.xpath(
+                "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract() or None
+            if title is None:
+                title=response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()').extract()
+            title = " ".join(title)
+            
             item['title'] = title.strip()
 
-            desc = all_desc.xpath('//p').extract() or None
-            description = ""
-            for i in range(4, len(desc)):
-                if "color" not in desc[i]:
-                    description = description + desc[i]
-                    continue
-                else:
-                    break
+            # desc = all_desc.xpath('//p').extract() or None
+            
+            description = response.xpath(
+            '/html/body/div[10]/div[2]/div[1]/div[2]/div[5]/text()').extract() or None
+            if description is None:
+                description = response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[4]/text()').extract()
+            
+            description = "".join(description)
+            des = response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[7]/text').extract()
+            des = "".join(des)
+            description += des
 
+
+            des = self.clean_description(description)
+            print(f'\n\n description:: {des} \n\n')
             raw_table_data = all_desc.xpath(
                 'div[@class="row"]/div/div/div/table').extract()
             table_data = ""
@@ -127,12 +139,12 @@ class AntiquorumSpider(scrapy.Spider):
                 table_data = "Table:: " + \
                     re.sub("\t", "", re.sub("\n", "", raw_table_data[0]))
 
-            desciption = description + table_data
+            description = des + table_data
 
             notes = response.xpath(
                 '//div[@class="container"]/div[@class="container"]/div/div[2]/div/text()').extract()
             if notes:
-                descrption = desciption + notes[0]
+                description = description + notes[0]
 
             item['description'] = description
 
@@ -173,3 +185,15 @@ class AntiquorumSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         return item
+
+    def clean_description(self, description):
+        # Remove leading and trailing whitespace
+        description = description.strip()
+
+        # Replace multiple spaces with a single space
+        description = re.sub(r'\s+', ' ', description)
+
+        # Remove extra whitespace around slashes and hyphens
+        description = re.sub(r'\s*([-\/])\s*', r'\1', description)
+
+        return description

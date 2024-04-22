@@ -23,6 +23,7 @@ class WatchItem(scrapy.Item):
 	lot = scrapy.Field()
 	#6
 	images = scrapy.Field()
+	s3_image = scrapy.Field()
 	#7
 	title = scrapy.Field()
 	#8

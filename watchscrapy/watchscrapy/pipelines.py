@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.exporters import CsvItemExporter
 from scrapy import signals
 from watchapp.models import AuctionHouse, Auction, Lot, Job
@@ -13,6 +7,9 @@ from datetime import datetime
 from django.utils import timezone
 import requests
 import json
+from .s3_operations import S3Operations
+from django.conf import settings
+import os
 
 
 class WatchscrapyPipeline(object):
@@ -73,6 +70,17 @@ class WatchscrapyPipeline(object):
             lot.sold = item["sold"]
             lot.sold_price = item["sold_price"]
             lot.images = item["images"]
+
+            # download this image and save locally
+            s3_ops = S3Operations(lot.images)
+
+            save_path = os.path.join(
+                settings.BASE_DIR, 'static', 'tempImages', lot.job, str(lot.lot_number))
+
+            s3_image_url = s3_ops.download_image(save_path)
+            print(f'\n\n s3_image_url:: {s3_image_url}\n\n')
+            
+            lot.s3_image = s3_image_url
             if item["lot_currency"] == "N/A":
                 sold_price_usd = 0
             else:

@@ -45,6 +45,7 @@ class Lot(models.Model):
     
     sold_price_dollar = models.IntegerField()
     images = models.TextField()
+    s3_image = models.TextField()
 
     auction = models.ForeignKey(Auction,on_delete=models.CASCADE)
 

@@ -1,0 +1,1790 @@
+2024-03-28 08:42:36 [py.warnings] WARNING: /Users/sujan/.virtualenvs/watches/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-03-28 08:42:40 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/29972/weekly-watches/
+2024-03-28 08:42:40 [root] ERROR: BonhamsSpider; msg=Crawling Failed > time data 'Watches' does not match format '%d %B %Y' ;url= https://www.bonhams.com/auction/29972/weekly-watches/
+2024-03-28 08:42:40 [root] ERROR: BonhamsSpider; msg=Crawling Failed;url= https://www.bonhams.com/auction/29972/weekly-watches/;Error=Traceback (most recent call last):
+  File "/Users/sujan/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/spiders/BonhamsSpider.py", line 56, in parse
+    item["date"] = datetime.strptime(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data 'Watches' does not match format '%d %B %Y'
+
+2024-03-28 08:42:40 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-03-29 07:55:37 [py.warnings] WARNING: /Users/sujan/.virtualenvs/watches/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-03-29 07:55:40 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-03-29 08:00:19 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-03-29 10:14:19 [py.warnings] WARNING: /Users/sujan/.virtualenvs/watches/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-03-29 10:14:22 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-03-29 10:19:02 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-03-29 10:23:32 [py.warnings] WARNING: /Users/sujan/.virtualenvs/watches/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-03-29 10:23:34 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28335/watches-online/
+2024-03-29 10:23:34 [root] ERROR: BonhamsSpider; msg=Crawling Failed > time data '25 November – 5 December 2023' does not match format '%d %B %Y' ;url= https://www.bonhams.com/auction/28335/watches-online/
+2024-03-29 10:23:34 [root] ERROR: BonhamsSpider; msg=Crawling Failed;url= https://www.bonhams.com/auction/28335/watches-online/;Error=Traceback (most recent call last):
+  File "/Users/sujan/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/spiders/BonhamsSpider.py", line 56, in parse
+    item["date"] = datetime.strptime(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '25 November – 5 December 2023' does not match format '%d %B %Y'
+
+2024-03-29 10:23:34 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-03-29 10:29:00 [py.warnings] WARNING: /Users/sujan/.virtualenvs/watches/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-03-29 10:29:04 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28335/watches-online/
+2024-03-29 10:29:04 [root] ERROR: BonhamsSpider; msg=Crawling Failed > time data '25 November – 5 December 2023' does not match format '%d %B %Y' ;url= https://www.bonhams.com/auction/28335/watches-online/
+2024-03-29 10:29:04 [root] ERROR: BonhamsSpider; msg=Crawling Failed;url= https://www.bonhams.com/auction/28335/watches-online/;Error=Traceback (most recent call last):
+  File "/Users/sujan/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/spiders/BonhamsSpider.py", line 56, in parse
+    item["date"] = datetime.strptime(
+                   ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '25 November – 5 December 2023' does not match format '%d %B %Y'
+
+2024-03-29 10:29:04 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 10:45:11 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 10:45:14 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 10:50:05 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 11:01:43 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 11:01:47 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 11:06:18 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 11:21:05 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 11:21:08 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 11:26:01 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 11:27:55 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 11:27:58 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 11:33:04 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 11:46:19 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 11:46:22 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 11:51:06 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 11:55:30 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 11:55:33 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 12:00:20 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 12:02:03 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 12:02:07 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 12:07:00 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 12:10:35 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 12:10:38 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 12:15:16 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 12:18:05 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 12:18:07 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 12:22:59 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-19 12:25:06 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-19 12:25:09 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-19 12:30:08 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-22 04:46:04 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-22 04:46:08 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-22 04:51:14 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-22 06:58:39 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-22 06:58:39 [twisted] CRITICAL: Unhandled error in Deferred:
+2024-04-22 06:58:39 [twisted] CRITICAL: 
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/twisted/internet/defer.py", line 2003, in _inlineCallbacks
+    result = context.run(gen.send, result)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 158, in crawl
+    self.engine = self._create_engine()
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 172, in _create_engine
+    return ExecutionEngine(self, lambda _: self.stop())
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/engine.py", line 100, in __init__
+    self.scraper = Scraper(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/scraper.py", line 109, in __init__
+    self.itemproc: ItemPipelineManager = itemproc_cls.from_crawler(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 90, in from_crawler
+    return cls.from_settings(crawler.settings, crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 66, in from_settings
+    mwcls = load_object(clspath)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/misc.py", line 79, in load_object
+    mod = import_module(module)
+  File "/usr/local/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 6, in <module>
+    from s3_operations import S3Operations
+ModuleNotFoundError: No module named 's3_operations'
+2024-04-22 07:03:09 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-22 07:03:10 [twisted] CRITICAL: Unhandled error in Deferred:
+2024-04-22 07:03:10 [twisted] CRITICAL: 
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/twisted/internet/defer.py", line 2003, in _inlineCallbacks
+    result = context.run(gen.send, result)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 158, in crawl
+    self.engine = self._create_engine()
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 172, in _create_engine
+    return ExecutionEngine(self, lambda _: self.stop())
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/engine.py", line 100, in __init__
+    self.scraper = Scraper(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/scraper.py", line 109, in __init__
+    self.itemproc: ItemPipelineManager = itemproc_cls.from_crawler(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 90, in from_crawler
+    return cls.from_settings(crawler.settings, crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 66, in from_settings
+    mwcls = load_object(clspath)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/misc.py", line 79, in load_object
+    mod = import_module(module)
+  File "/usr/local/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 6, in <module>
+    from s3_operations import S3Operations
+ModuleNotFoundError: No module named 's3_operations'
+2024-04-22 07:04:30 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-22 07:04:30 [twisted] CRITICAL: Unhandled error in Deferred:
+2024-04-22 07:04:30 [twisted] CRITICAL: 
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/twisted/internet/defer.py", line 2003, in _inlineCallbacks
+    result = context.run(gen.send, result)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 158, in crawl
+    self.engine = self._create_engine()
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/crawler.py", line 172, in _create_engine
+    return ExecutionEngine(self, lambda _: self.stop())
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/engine.py", line 100, in __init__
+    self.scraper = Scraper(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/core/scraper.py", line 109, in __init__
+    self.itemproc: ItemPipelineManager = itemproc_cls.from_crawler(crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 90, in from_crawler
+    return cls.from_settings(crawler.settings, crawler)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/middleware.py", line 66, in from_settings
+    mwcls = load_object(clspath)
+  File "/Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/misc.py", line 79, in load_object
+    mod = import_module(module)
+  File "/usr/local/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 6, in <module>
+    from watchscrapy.watchscrapy.s3_operations import S3Operations
+ModuleNotFoundError: No module named 'watchscrapy.watchscrapy'
+2024-04-22 07:04:45 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-22 07:04:51 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-22 07:04:54 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/801/?category=list&length=10&page=1
+2024-04-22 07:04:54 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/801/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:04:56 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/802/?category=list&length=10&page=1
+2024-04-22 07:04:56 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/802/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:04:59 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/803/?category=list&length=10&page=1
+2024-04-22 07:04:59 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/803/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:01 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/804/?category=list&length=10&page=1
+2024-04-22 07:05:01 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/804/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:03 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/805/?category=list&length=10&page=1
+2024-04-22 07:05:03 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/805/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:05 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/806/?category=list&length=10&page=1
+2024-04-22 07:05:05 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/806/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:06 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/807/?category=list&length=10&page=1
+2024-04-22 07:05:06 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/807/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:08 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/808/?category=list&length=10&page=1
+2024-04-22 07:05:08 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/808/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:10 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/809/?category=list&length=10&page=1
+2024-04-22 07:05:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/809/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:12 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/810/?category=list&length=10&page=1
+2024-04-22 07:05:12 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/810/?category=list&length=10&page=1; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:15 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/811/?category=list&length=10&page=2
+2024-04-22 07:05:15 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/811/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:17 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/812/?category=list&length=10&page=2
+2024-04-22 07:05:17 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/812/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:19 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/813/?category=list&length=10&page=2
+2024-04-22 07:05:19 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/813/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:20 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/814/?category=list&length=10&page=2
+2024-04-22 07:05:20 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/814/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:23 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/815/?category=list&length=10&page=2
+2024-04-22 07:05:23 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/815/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:25 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/816/?category=list&length=10&page=2
+2024-04-22 07:05:25 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/816/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:27 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/817/?category=list&length=10&page=2
+2024-04-22 07:05:27 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/817/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:29 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/818/?category=list&length=10&page=2
+2024-04-22 07:05:29 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/818/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:30 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/819/?category=list&length=10&page=2
+2024-04-22 07:05:30 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/819/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:32 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/820/?category=list&length=10&page=2
+2024-04-22 07:05:32 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/820/?category=list&length=10&page=2; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:35 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/821/?category=list&length=10&page=3
+2024-04-22 07:05:35 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/821/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:36 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/822/?category=list&length=10&page=3
+2024-04-22 07:05:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/822/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:38 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/823/?category=list&length=10&page=3
+2024-04-22 07:05:38 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/823/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:40 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/824/?category=list&length=10&page=3
+2024-04-22 07:05:40 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/824/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:42 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/825/?category=list&length=10&page=3
+2024-04-22 07:05:42 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/825/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:43 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/826/?category=list&length=10&page=3
+2024-04-22 07:05:43 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/826/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:45 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/827/?category=list&length=10&page=3
+2024-04-22 07:05:45 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/827/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:47 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/828/?category=list&length=10&page=3
+2024-04-22 07:05:47 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/828/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:49 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/829/?category=list&length=10&page=3
+2024-04-22 07:05:49 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/829/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:51 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/830/?category=list&length=10&page=3
+2024-04-22 07:05:51 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/830/?category=list&length=10&page=3; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:53 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/831/?category=list&length=10&page=4
+2024-04-22 07:05:53 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/831/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:55 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/832/?category=list&length=10&page=4
+2024-04-22 07:05:55 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/832/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:57 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/833/?category=list&length=10&page=4
+2024-04-22 07:05:57 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/833/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:05:58 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/834/?category=list&length=10&page=4
+2024-04-22 07:05:58 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/834/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:00 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/835/?category=list&length=10&page=4
+2024-04-22 07:06:00 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/835/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:02 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/836/?category=list&length=10&page=4
+2024-04-22 07:06:02 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/836/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:04 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/837/?category=list&length=10&page=4
+2024-04-22 07:06:04 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/837/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:05 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/838/?category=list&length=10&page=4
+2024-04-22 07:06:05 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/838/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:07 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/839/?category=list&length=10&page=4
+2024-04-22 07:06:07 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/839/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:10 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/840/?category=list&length=10&page=4
+2024-04-22 07:06:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/840/?category=list&length=10&page=4; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:13 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/841/?category=list&length=10&page=5
+2024-04-22 07:06:13 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/841/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:14 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/842/?category=list&length=10&page=5
+2024-04-22 07:06:14 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/842/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:16 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/843/?category=list&length=10&page=5
+2024-04-22 07:06:16 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/843/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:18 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/844/?category=list&length=10&page=5
+2024-04-22 07:06:18 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/844/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:20 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/845/?category=list&length=10&page=5
+2024-04-22 07:06:20 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/845/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:22 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/846/?category=list&length=10&page=5
+2024-04-22 07:06:22 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/846/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:23 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/847/?category=list&length=10&page=5
+2024-04-22 07:06:23 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/847/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:25 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/848/?category=list&length=10&page=5
+2024-04-22 07:06:25 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/848/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:27 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/849/?category=list&length=10&page=5
+2024-04-22 07:06:27 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/849/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:29 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/850/?category=list&length=10&page=5
+2024-04-22 07:06:29 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/850/?category=list&length=10&page=5; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:31 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/851/?category=list&length=10&page=6
+2024-04-22 07:06:31 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/851/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:33 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/852/?category=list&length=10&page=6
+2024-04-22 07:06:33 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/852/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:35 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/853/?category=list&length=10&page=6
+2024-04-22 07:06:35 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/853/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:36 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/854/?category=list&length=10&page=6
+2024-04-22 07:06:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/854/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:38 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/855/?category=list&length=10&page=6
+2024-04-22 07:06:38 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/855/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:40 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/856/?category=list&length=10&page=6
+2024-04-22 07:06:40 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/856/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:42 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/857/?category=list&length=10&page=6
+2024-04-22 07:06:42 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/857/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:44 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/858/?category=list&length=10&page=6
+2024-04-22 07:06:44 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/858/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:46 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/859/?category=list&length=10&page=6
+2024-04-22 07:06:46 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/859/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:48 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/860/?category=list&length=10&page=6
+2024-04-22 07:06:48 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/860/?category=list&length=10&page=6; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:50 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/861/?category=list&length=10&page=7
+2024-04-22 07:06:50 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/861/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:52 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/862/?category=list&length=10&page=7
+2024-04-22 07:06:52 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/862/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:54 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/863/?category=list&length=10&page=7
+2024-04-22 07:06:54 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/863/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:56 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/864/?category=list&length=10&page=7
+2024-04-22 07:06:56 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/864/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:58 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/865/?category=list&length=10&page=7
+2024-04-22 07:06:58 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/865/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:06:59 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/866/?category=list&length=10&page=7
+2024-04-22 07:06:59 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/866/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:01 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/867/?category=list&length=10&page=7
+2024-04-22 07:07:01 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/867/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:03 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/868/?category=list&length=10&page=7
+2024-04-22 07:07:03 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/868/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:05 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/870/?category=list&length=10&page=7
+2024-04-22 07:07:05 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/870/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:07 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/871/?category=list&length=10&page=7
+2024-04-22 07:07:07 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/871/?category=list&length=10&page=7; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:10 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/872/?category=list&length=10&page=8
+2024-04-22 07:07:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/872/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:12 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/873/?category=list&length=10&page=8
+2024-04-22 07:07:12 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/873/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:13 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/874/?category=list&length=10&page=8
+2024-04-22 07:07:13 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/874/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:15 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/875/?category=list&length=10&page=8
+2024-04-22 07:07:15 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/875/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:17 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/876/?category=list&length=10&page=8
+2024-04-22 07:07:17 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/876/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:19 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/877/?category=list&length=10&page=8
+2024-04-22 07:07:19 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/877/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:21 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/878/?category=list&length=10&page=8
+2024-04-22 07:07:21 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/878/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:22 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/879/?category=list&length=10&page=8
+2024-04-22 07:07:22 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/879/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:24 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/880/?category=list&length=10&page=8
+2024-04-22 07:07:24 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/880/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:26 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/881/?category=list&length=10&page=8
+2024-04-22 07:07:26 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/881/?category=list&length=10&page=8; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:29 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/882/?category=list&length=10&page=9
+2024-04-22 07:07:29 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/882/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:30 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/883/?category=list&length=10&page=9
+2024-04-22 07:07:30 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/883/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:32 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/884/?category=list&length=10&page=9
+2024-04-22 07:07:32 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/884/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:34 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/885/?category=list&length=10&page=9
+2024-04-22 07:07:34 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/885/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:36 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/886/?category=list&length=10&page=9
+2024-04-22 07:07:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/886/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:38 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/886A/?category=list&length=10&page=9
+2024-04-22 07:07:38 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/886A/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:40 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/887/?category=list&length=10&page=9
+2024-04-22 07:07:40 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/887/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:41 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/888/?category=list&length=10&page=9
+2024-04-22 07:07:41 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/888/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:43 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/889/?category=list&length=10&page=9
+2024-04-22 07:07:43 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/889/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:45 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/890/?category=list&length=10&page=9
+2024-04-22 07:07:45 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/890/?category=list&length=10&page=9; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:48 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/891/?category=list&length=10&page=10
+2024-04-22 07:07:48 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/891/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:49 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/892/?category=list&length=10&page=10
+2024-04-22 07:07:49 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/892/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:51 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/893/?category=list&length=10&page=10
+2024-04-22 07:07:51 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/893/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:53 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/894/?category=list&length=10&page=10
+2024-04-22 07:07:53 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/894/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:55 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/895/?category=list&length=10&page=10
+2024-04-22 07:07:55 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/895/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:56 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/896/?category=list&length=10&page=10
+2024-04-22 07:07:56 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/896/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:07:58 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/897/?category=list&length=10&page=10
+2024-04-22 07:07:58 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/897/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:00 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/898/?category=list&length=10&page=10
+2024-04-22 07:08:00 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/898/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:02 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/899/?category=list&length=10&page=10
+2024-04-22 07:08:02 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/899/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:03 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/900/?category=list&length=10&page=10
+2024-04-22 07:08:03 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/900/?category=list&length=10&page=10; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:06 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/901/?category=list&length=10&page=11
+2024-04-22 07:08:06 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/901/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:08 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/902/?category=list&length=10&page=11
+2024-04-22 07:08:08 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/902/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:10 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/903/?category=list&length=10&page=11
+2024-04-22 07:08:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/903/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:12 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/904/?category=list&length=10&page=11
+2024-04-22 07:08:12 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/904/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:13 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/905/?category=list&length=10&page=11
+2024-04-22 07:08:13 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/905/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:15 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/906/?category=list&length=10&page=11
+2024-04-22 07:08:15 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/906/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:17 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/907/?category=list&length=10&page=11
+2024-04-22 07:08:17 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/907/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:18 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/908/?category=list&length=10&page=11
+2024-04-22 07:08:18 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/908/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:20 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/909/?category=list&length=10&page=11
+2024-04-22 07:08:20 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/909/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:22 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/910/?category=list&length=10&page=11
+2024-04-22 07:08:22 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/910/?category=list&length=10&page=11; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:24 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/911/?category=list&length=10&page=12
+2024-04-22 07:08:24 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/911/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:26 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/912/?category=list&length=10&page=12
+2024-04-22 07:08:26 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/912/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:27 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/913/?category=list&length=10&page=12
+2024-04-22 07:08:27 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/913/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:29 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/914/?category=list&length=10&page=12
+2024-04-22 07:08:29 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/914/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:31 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/915/?category=list&length=10&page=12
+2024-04-22 07:08:31 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/915/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:33 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/916/?category=list&length=10&page=12
+2024-04-22 07:08:33 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/916/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:35 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/917/?category=list&length=10&page=12
+2024-04-22 07:08:35 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/917/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:36 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/918/?category=list&length=10&page=12
+2024-04-22 07:08:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/918/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:38 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/919/?category=list&length=10&page=12
+2024-04-22 07:08:38 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/919/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:40 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/920/?category=list&length=10&page=12
+2024-04-22 07:08:40 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/920/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:43 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/921/?category=list&length=10&page=13
+2024-04-22 07:08:43 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/921/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:44 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/922/?category=list&length=10&page=13
+2024-04-22 07:08:44 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/922/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:46 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/923/?category=list&length=10&page=13
+2024-04-22 07:08:46 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/923/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:48 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/924/?category=list&length=10&page=13
+2024-04-22 07:08:48 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/924/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:50 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/925/?category=list&length=10&page=13
+2024-04-22 07:08:50 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/925/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:51 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/926/?category=list&length=10&page=13
+2024-04-22 07:08:51 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/926/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:53 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/927/?category=list&length=10&page=13
+2024-04-22 07:08:53 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/927/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:55 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/928/?category=list&length=10&page=13
+2024-04-22 07:08:55 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/928/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:56 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/929/?category=list&length=10&page=13
+2024-04-22 07:08:56 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/929/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:08:58 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/930/?category=list&length=10&page=13
+2024-04-22 07:08:58 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/930/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:01 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/931/?category=list&length=10&page=14
+2024-04-22 07:09:01 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/931/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:02 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/932/?category=list&length=10&page=14
+2024-04-22 07:09:02 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/932/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:04 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/933/?category=list&length=10&page=14
+2024-04-22 07:09:04 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/933/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:06 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/934/?category=list&length=10&page=14
+2024-04-22 07:09:06 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/934/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:08 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/935/?category=list&length=10&page=14
+2024-04-22 07:09:08 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/935/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:10 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/936/?category=list&length=10&page=14
+2024-04-22 07:09:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/936/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:12 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/937/?category=list&length=10&page=14
+2024-04-22 07:09:12 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/937/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:14 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/938/?category=list&length=10&page=14
+2024-04-22 07:09:14 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/938/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:16 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/939/?category=list&length=10&page=14
+2024-04-22 07:09:16 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/939/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:18 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/940/?category=list&length=10&page=14
+2024-04-22 07:09:18 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/940/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:20 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/941/?category=list&length=10&page=15
+2024-04-22 07:09:20 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/941/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:22 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/942/?category=list&length=10&page=15
+2024-04-22 07:09:22 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/942/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:24 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/943/?category=list&length=10&page=15
+2024-04-22 07:09:24 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/943/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:26 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/944/?category=list&length=10&page=15
+2024-04-22 07:09:26 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/944/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:28 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/945/?category=list&length=10&page=15
+2024-04-22 07:09:28 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/945/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:29 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/946/?category=list&length=10&page=15
+2024-04-22 07:09:29 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/946/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:31 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/947/?category=list&length=10&page=15
+2024-04-22 07:09:31 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/947/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:33 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/948/?category=list&length=10&page=15
+2024-04-22 07:09:33 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/948/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:35 [root] ERROR: WatchExtraction; msg=Processing Failed > 'WatchscrapyPipeline' object has no attribute 'base_rate'; url= https://www.bonhams.com/auctions/28690/lot/949/?category=list&length=10&page=15
+2024-04-22 07:09:35 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/949/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 77, in process_item
+    sold_price_usd = self.get_usd_amount(item["lot_currency"], item["sold_price"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 98, in get_usd_amount
+    if base_currency and base_currency in self.base_rate.keys():
+                                          ^^^^^^^^^^^^^^
+AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
+
+2024-04-22 07:09:35 [root] WARNING: WatchExtraction; msg=All Data Extraction has been Completed;

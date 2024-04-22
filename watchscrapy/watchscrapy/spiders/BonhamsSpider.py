@@ -11,7 +11,7 @@ import logging
 import traceback
 from scrapy.http import HtmlResponse
 from datetime import datetime
-
+from bs4 import BeautifulSoup
 
 from watchscrapy.items import WatchItem
 
@@ -41,10 +41,12 @@ class BonhamsSpider(scrapy.Spider):
             item["house_name"] = house_name
 
             # 2 Name
-            # name = response.xpath('//div[@class="auction-slider"]/div/h1/div/text()').extract()[0]
-            name = response.xpath(
-                '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[2]/div/text()').extract()
-            item["name"] = name
+            # name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[4]/div[3]/a/text()').extract()
+            # name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[1]/nav/a/span').get()
+            # name = response.css('#skip-to-content section > div > div > div:nth-child(4) > div:nth-child(3) > a::text').extract()
+
+            name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[1]/nav/a/span/text()').extract()
+            item["name"] = " ".join(name)
 
             # 3 Date
             # date_info = response.xpath('//div[@class="auction-slider__date"]/span/text()').extract()
@@ -138,7 +140,6 @@ class BonhamsSpider(scrapy.Spider):
 
                     # 15 url
                     url = "https://"+self.allowed_domains[0] + lot['url']
-                    print(f'\n---------------url:: {url}----------\n')
                     logging.debug(
                         "BonhamsSpider; msg=New URL is ;url= %s;", url)
                     item["url"] = url
@@ -146,16 +147,37 @@ class BonhamsSpider(scrapy.Spider):
                     resp = requests.get(url)
                     htmlr = HtmlResponse(
                         url="test", body=resp.text, encoding='utf-8')
-                    # print(f'\n---------------htmlr:: {htmlr.extract()}----------\n')
                     # 8 Description
                     description = ""
 
-                    # TODO: desc_name
-                    # desc_name = htmlr.xpath(
-                    #     '//div[@class="lot-details__description__name"]/text()').extract()[0].strip()
-                    desc_name = ""
+                    # # TODO: desc_name
+                    # # desc_name = htmlr.xpath(
+                    # #     '//div[@class="lot-details__description__name"]/text()').extract()[0].strip()
+                    # desc_name = ""
+                    # desc_content_info = htmlr.xpath(
+                    #     '//div[@class="lot-details__description__content"]/text()').extract()
+                    
+                    
+                    desc_name=""
+                    # desc_content_info = htmlr.xpath(
+                    #     '//div[@class="lot-details__description__content"]/text()').extract()
                     desc_content_info = htmlr.xpath(
-                        '//div[@class="lot-details__description__content"]/text()').extract()
+                        '//*[@id="skip-to-content"]/section/div/div/div[5]/div[1]/div/div/div[1]/div[1]/div').extract()
+
+                    # Iterate over each HTML snippet
+                    clean_data_string = ''
+
+                    # Iterate over each HTML snippet
+                    for html_snippet in desc_content_info:
+                        # Parse HTML using BeautifulSoup
+                        soup = BeautifulSoup(html_snippet, 'html.parser')
+                        
+                        # Extract clean text
+                        clean_data = soup.div.get_text(separator='\n', strip=True)
+                        
+                        # Concatenate clean data to the string
+                        clean_data_string += clean_data + '\n'
+
                     desc_content = ""
                     for desc in desc_content_info:
                         desc_content = desc_content + desc

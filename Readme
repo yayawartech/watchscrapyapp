@@ -1,0 +1,4 @@
+#While migrating, first of all migrate default database and then migrate awsrds database 
+`
+python manage.py migrate --database=default && python manage.py migrate --database=awsrds 
+`
