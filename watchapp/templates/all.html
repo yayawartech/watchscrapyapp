@@ -15,7 +15,7 @@
                          <option {% if not auction_house %} selected {%endif%}></option>
                             {% for house in auction_houses %}
                             <option value="{{house.id}}" {% if auction_house ==  house.id %} selected {%endif%}>{{house.name}}</option>
-                            {% endfor %}
+                            {% endfor %} 
                     </select>
              </div>
              <br/>

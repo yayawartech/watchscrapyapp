@@ -41,11 +41,8 @@ class BonhamsSpider(scrapy.Spider):
             item["house_name"] = house_name
 
             # 2 Name
-            # name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[4]/div[3]/a/text()').extract()
-            # name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[1]/nav/a/span').get()
-            # name = response.css('#skip-to-content section > div > div > div:nth-child(4) > div:nth-child(3) > a::text').extract()
-
-            name = response.xpath('//*[@id="skip-to-content"]/section/div/div/div[1]/nav/a/span/text()').extract()
+            name = response.xpath(
+                '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/h1/div/text()').extract()
             item["name"] = " ".join(name)
 
             # 3 Date
@@ -156,9 +153,8 @@ class BonhamsSpider(scrapy.Spider):
                     # desc_name = ""
                     # desc_content_info = htmlr.xpath(
                     #     '//div[@class="lot-details__description__content"]/text()').extract()
-                    
-                    
-                    desc_name=""
+
+                    desc_name = ""
                     # desc_content_info = htmlr.xpath(
                     #     '//div[@class="lot-details__description__content"]/text()').extract()
                     desc_content_info = htmlr.xpath(
@@ -171,10 +167,11 @@ class BonhamsSpider(scrapy.Spider):
                     for html_snippet in desc_content_info:
                         # Parse HTML using BeautifulSoup
                         soup = BeautifulSoup(html_snippet, 'html.parser')
-                        
+
                         # Extract clean text
-                        clean_data = soup.div.get_text(separator='\n', strip=True)
-                        
+                        clean_data = soup.div.get_text(
+                            separator='\n', strip=True)
+
                         # Concatenate clean data to the string
                         clean_data_string += clean_data + '\n'
 

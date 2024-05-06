@@ -5,56 +5,88 @@ import logging
 import traceback
 import requests
 import json
+import time
 from watchscrapy.items import WatchItem
 from scrapy.http import HtmlResponse
 from datetime import datetime
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 class ArtcurialSpider(scrapy.Spider):
     name = "artcurialSpider"
     allowed_domains = ["www.artcurial.com"]
-    # start_urls = ['https://www.artcurial.com/en/sale-m1093-fine-watches']
-    
+    start_urls = [
+        'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
+
     def __init__(self, url='', job='', *args, **kwargs):
         super(ArtcurialSpider, self).__init__(*args, **kwargs)
         self.start_urls = url.split(",")
         self.job = job
 
-    # def start_requests(self):
-    #     # Provide a complete URL with the scheme (e.g., "http://" or "https://")
-    #     start_urls = ['https://www.artcurial.com/en/sale-m1106-le-temps-est-feminin']
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def sel_configuration(self):
+        # Selenium Configuration
+        # setup = Setup.objects.first()
+        # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
+        options = webdriver.ChromeOptions()
+        options.add_argument("start-maximized")
+        options.add_argument('headless')
+        browser = webdriver.Chrome(options=options)
+        browser.set_window_size(1440, 900)
+        return browser
+
+    def start_requests(self):
+        # Provide a complete URL with the scheme (e.g., "http://" or "https://")
+        start_urls = [
+            'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
+        browser = self.sel_configuration()
+        logged_in = self.login(browser)
+        for url in start_urls:
+            yield scrapy.Request(url=url, callback=self.parse, meta={'browser': browser})
+
 
     def parse(self, response):
-        print(f'\n--------------new_url:: INSIDE PARSE ------------------\n')
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
-            general_info = response.xpath(
-                '//div[@id="sticky-infos"]/p/span/text()').extract()[0].strip().split("-")
-            # 2
-            name = general_info[0].strip()
+            name = response.xpath(
+                '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[1]/h3/text()').extract()
             # 3
-            date = general_info[1].strip()
+            date = response.xpath(
+                '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/div[2]/div/a/span/text()').extract()
             # 4
             location = "Online"
 
-            nid = response.xpath(
-                '//head/link[@rel="shortlink"]/@href').extract()[0].split("/")[-1]
-            new_url = "https://" + \
-                self.allowed_domains[0] + \
-                "/en/ajax/load-more?_format=json&nid=" + nid + "&context=sale"
-            print(f'\n--------------new_url:: {new_url}------------------\n')
-            resp = requests.get(new_url)
-            respj = json.loads(resp.text)
-            htmlr = HtmlResponse(
-                url="test", body=respj["html"], encoding='utf-8')
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Content-Type': 'application/json',
+                "X-Algolia-Api-Key": "3349c930e83dcf3e4de1de65bc7af214",
+                "X-Algolia-Application-Id": "R0QMYZZKST"
+
+            }
+            body = {
+                "query": "", "filters": "saleObjectId:vente-fr-3484-modern-vintage-watches-online", "hitsPerPage": 200, "numericFilters": ""
+            }
+            url = "https://r0qmyzzkst-dsn.algolia.net/1/indexes/items/query?x-algolia-agent=Algolia%20for%20JavaScript%20(4.15.0)%3B%20Browser"
+            resp = requests.post(url, headers=headers, json=body)
+            
+            # resp = requests.get(new_url)
+            respj = json.loads(resp.text)            
 
             auction_url = response.url
+            print(f"\nrespnose_url:: {response.url}\n\n")
 
-            all_lots = htmlr.xpath(
-                '//div[contains(@class,"mosaic__item col-xs-10 col-sm-6 col-lg-4")]')
+            # Scrape another page using Selenium
+            browser = response.meta.get('browser')
+            z = browser.get(response.url)
+            print(f'\n\n ----------- z:: {z} \n\n\n\n\n--------')
+            time.sleep(10)
+            all_lots = browser.find_elements(By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[2]/td[1]/h5/text()')
+            print(f"\n\n-- all_lots:: {all_lots}\n\n")
+
             total_lots = len(all_lots)
             logging.warn("ArtcurialSpider; msg=Total Lots: %s;url= %s", len(
                 all_lots), response.url)
@@ -181,3 +213,29 @@ class ArtcurialSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         yield item
+
+    def login(self, browser):
+        login_url = 'https://www.artcurial.com/en/log-in'
+        time.sleep(2)
+        try:
+            browser.get(login_url)
+            time.sleep(3)
+
+            username = browser.find_element(By.XPATH, '//*[@id="input-139"]')
+            username.send_keys('manjul@gmail.com')
+            password = browser.find_element(By.XPATH, '//*[@id="input-143"]')
+            password.send_keys('Artcurial@123')
+
+            time.sleep(5)
+            # login button
+            browser.find_element(
+                By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div/div[2]/span/form/div[3]/div/button').click()
+            time.sleep(5)
+            print(f"\n\n----- login successful -----\n\n\n")
+        except Exception as e:
+            logging.error(
+                "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
+            logging.error(
+                "HeritageSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
+
+        return True

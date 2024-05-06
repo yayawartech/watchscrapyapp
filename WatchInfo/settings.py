@@ -95,22 +95,22 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
+    'awsrds': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
+    },
     # 'awsrds': {
     #     'ENGINE': 'mysql.connector.django',
-    #     'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
-    # },
-    'awsrds': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+    #     'NAME': '',
+    #     'USER': '',
+    #     'PASSWORD': '',
+    #     'HOST': '',
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     },
 
-    },
+    # },
 }
 # DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter']
 DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',

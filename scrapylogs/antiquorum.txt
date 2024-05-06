@@ -33880,3 +33880,13 @@ See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for 
 2024-04-22 14:05:00 [root] WARNING: AntiquorumSpider; msg=Spider started;url= https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots
 2024-04-22 14:05:00 [root] WARNING: AntiquorumSpider; Total Pages = 27 ; URL: https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots;
 2024-04-22 14:15:35 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-05-01 06:33:37 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-05-01 06:33:41 [root] WARNING: AntiquorumSpider; msg=Spider started;url= https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots
+2024-05-01 06:33:41 [root] WARNING: AntiquorumSpider; Total Pages = 27 ; URL: https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots;
+2024-05-01 07:01:29 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;

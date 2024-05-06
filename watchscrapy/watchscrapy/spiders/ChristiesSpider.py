@@ -42,7 +42,7 @@ class ChristiesSpider(scrapy.Spider):
         # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
+        # options.add_argument('headless')
         # browser = webdriver.Chrome(executable_path=SELENIUM_CHROMEDRIVER_PATH, options=options)
         # driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', options=options)
         browser = webdriver.Chrome(options=options)
@@ -56,7 +56,7 @@ class ChristiesSpider(scrapy.Spider):
                     "ChristiesSpider; msg=Spider started;url= %s", source_url)
                 browser = self.sel_configuration()
                 browser.set_window_size(1440, 900)
-
+                print(f'\n\n---- source_url:: {source_url} ---\n\n')
                 response = requests.get(source_url)
                 url = response.url
                 should_continue = True
@@ -68,6 +68,7 @@ class ChristiesSpider(scrapy.Spider):
 
                         print(f'\n\n-----url:: {url}----\n\n')
                         response = requests.get(url)
+                        print(f'\n\n --- response:: {response}\n\n')
 
                         time.sleep(5)
                         resp = response.text

@@ -17,10 +17,10 @@ class DorotheumSpider(scrapy.Spider):
         self.start_urls = url.split(",")
         self.job = job
 
-    # def start_requests(self):
-    #     start_urls = ['https://www.dorotheum.com/en/a/93739/']
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def start_requests(self):
+        start_urls = ['https://www.dorotheum.com/en/a/93739/']
+        for url in start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         logging.warn("DorotheumSpider; msg=Spider started;url= %s",response.url)
@@ -105,14 +105,19 @@ class DorotheumSpider(scrapy.Spider):
                 image_url_segment = "https://"+self.allowed_domains[0] + "/"+images["bild"]
                 img_list.append(image_url_segment)
 
-            item["images"] = img_list
+            # item["images"] = img_list
+            item["images"] = img_list[0]
             
             #7 title
             title = response.xpath('//h2[@class="headline"]/text()').extract()[0].strip()
             item["title"] = title
         
             #8 Description
-            desc = response.xpath('//div[@class="mobile-hidden"]/div/p/text()').extract()[0].strip()
+            # desc = response.xpath('//div[@class="mobile-hidden"]/div/p/text()').extract()[0].strip()
+            desc = response.xpath('//div[@class="mobile-hidden"]/div/p/text()').extract()
+            desc= " ".join(desc)
+            # //*[@id="bild-box"]/div[2]/div[1]/p
+            print(f'\n\ndesc:: {desc} \n\n')
             spec_desc_info = response.xpath('//div[@class="mobile-hidden"]/p/text()').extract()
             spec_desc = ""
             if spec_desc_info:
@@ -162,3 +167,5 @@ class DorotheumSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         yield item
+
+# Images are in array. Either store in array or store just single image

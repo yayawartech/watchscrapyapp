@@ -72,14 +72,18 @@ class WatchscrapyPipeline(object):
             lot.images = item["images"]
 
             # download this image and save locally
+            
+            # self.convert_to_list(lot.images)
+            # for image in lot.images:
             s3_ops = S3Operations(lot.images)
 
             save_path = os.path.join(
-                settings.BASE_DIR, 'static', 'tempImages', lot.job, str(lot.lot_number))
+                settings.BASE_DIR, 'static', 'tempImages', lot.job)
 
+            # s3_image_url = s3_ops.download_image(lot.images, save_path)
             s3_image_url = s3_ops.download_image(save_path)
             print(f'\n\n s3_image_url:: {s3_image_url}\n\n')
-            
+
             lot.s3_image = s3_image_url
             if item["lot_currency"] == "N/A":
                 sold_price_usd = 0
@@ -120,3 +124,14 @@ class WatchscrapyPipeline(object):
             if rate > 0:
                 usd_price = int(price)/rate
         return round(usd_price)
+
+    def convert_to_list(self, value):
+        if isinstance(value, str):
+            # If the value is a string, convert it to a list
+            return [value]
+        elif isinstance(value, list):
+            # If the value is already a list, return it as is
+            return value
+        else:
+            # If it's neither a string nor a list
+            return None 

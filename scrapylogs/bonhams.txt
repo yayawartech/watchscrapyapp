@@ -1788,3 +1788,670 @@ AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
 AttributeError: 'WatchscrapyPipeline' object has no attribute 'base_rate'
 
 2024-04-22 07:09:35 [root] WARNING: WatchExtraction; msg=All Data Extraction has been Completed;
+2024-04-23 05:18:17 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-23 05:18:17 [py.warnings] WARNING: /Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py:47: SyntaxWarning: invalid escape sequence '\s'
+  print(f'\n\n\s3_image_url:: {s3_image_url}')
+
+2024-04-23 05:18:19 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-23 05:28:12 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-23 06:30:42 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-23 06:30:46 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-23 06:35:41 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-26 13:38:07 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-26 13:38:10 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-26 13:46:03 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/914/?category=list&length=10&page=12
+2024-04-26 13:46:03 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/914/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:07 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/915/?category=list&length=10&page=12
+2024-04-26 13:46:07 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/915/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:11 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/916/?category=list&length=10&page=12
+2024-04-26 13:46:11 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/916/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:15 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/917/?category=list&length=10&page=12
+2024-04-26 13:46:15 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/917/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:19 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/918/?category=list&length=10&page=12
+2024-04-26 13:46:19 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/918/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:23 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/919/?category=list&length=10&page=12
+2024-04-26 13:46:23 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/919/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:27 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/920/?category=list&length=10&page=12
+2024-04-26 13:46:27 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/920/?category=list&length=10&page=12; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:32 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/921/?category=list&length=10&page=13
+2024-04-26 13:46:32 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/921/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:36 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/922/?category=list&length=10&page=13
+2024-04-26 13:46:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/922/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:38 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-26 13:46:40 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-26 13:46:41 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/923/?category=list&length=10&page=13
+2024-04-26 13:46:41 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/923/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:44 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/924/?category=list&length=10&page=13
+2024-04-26 13:46:44 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/924/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:48 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/925/?category=list&length=10&page=13
+2024-04-26 13:46:48 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/925/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:53 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/926/?category=list&length=10&page=13
+2024-04-26 13:46:53 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/926/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:46:55 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/927/?category=list&length=10&page=13
+2024-04-26 13:46:55 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/927/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:02 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/928/?category=list&length=10&page=13
+2024-04-26 13:47:02 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/928/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:07 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/929/?category=list&length=10&page=13
+2024-04-26 13:47:07 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/929/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:10 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/930/?category=list&length=10&page=13
+2024-04-26 13:47:10 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/930/?category=list&length=10&page=13; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:14 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/931/?category=list&length=10&page=14
+2024-04-26 13:47:14 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/931/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:19 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/932/?category=list&length=10&page=14
+2024-04-26 13:47:19 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/932/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:24 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/933/?category=list&length=10&page=14
+2024-04-26 13:47:24 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/933/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:27 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/934/?category=list&length=10&page=14
+2024-04-26 13:47:27 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/934/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:31 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/935/?category=list&length=10&page=14
+2024-04-26 13:47:31 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/935/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:36 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/936/?category=list&length=10&page=14
+2024-04-26 13:47:36 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/936/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:40 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/937/?category=list&length=10&page=14
+2024-04-26 13:47:40 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/937/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:43 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/938/?category=list&length=10&page=14
+2024-04-26 13:47:43 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/938/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:47 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/939/?category=list&length=10&page=14
+2024-04-26 13:47:47 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/939/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:52 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/940/?category=list&length=10&page=14
+2024-04-26 13:47:52 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/940/?category=list&length=10&page=14; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:47:57 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/941/?category=list&length=10&page=15
+2024-04-26 13:47:57 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/941/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:01 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/942/?category=list&length=10&page=15
+2024-04-26 13:48:01 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/942/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:05 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/943/?category=list&length=10&page=15
+2024-04-26 13:48:05 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/943/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:09 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/944/?category=list&length=10&page=15
+2024-04-26 13:48:09 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/944/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:12 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/945/?category=list&length=10&page=15
+2024-04-26 13:48:12 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/945/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:16 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/946/?category=list&length=10&page=15
+2024-04-26 13:48:16 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/946/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:24 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/947/?category=list&length=10&page=15
+2024-04-26 13:48:24 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/947/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:28 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/948/?category=list&length=10&page=15
+2024-04-26 13:48:28 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/948/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:34 [root] ERROR: WatchExtraction; msg=Processing Failed > [Errno 5] Input/output error; url= https://www.bonhams.com/auctions/28690/lot/949/?category=list&length=10&page=15
+2024-04-26 13:48:34 [root] ERROR: WatchExtraction; msg=Processing Failed; url= https://www.bonhams.com/auctions/28690/lot/949/?category=list&length=10&page=15; Error: Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 30, in download_image
+    file_path = os.path.join(file_path, filename)
+OSError: [Errno 5] Input/output error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/pipelines.py", line 80, in process_item
+    # s3_image_url = s3_ops.download_image(lot.images, save_path)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sujanbasnet/Home/Yayawar/watches_wwww/watchscrapy/watchscrapy/s3_operations.py", line 41, in download_image
+    except Exception as e:
+        ^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+
+2024-04-26 13:48:34 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
+2024-04-26 13:53:51 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-26 13:53:54 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-26 14:22:36 [py.warnings] WARNING: /Users/sujanbasnet/.virtualenvs/watches/lib/python3.12/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-04-26 14:22:40 [root] WARNING: BonhamsSpider; msg=Spider started;url= https://www.bonhams.com/auction/28690/hong-kong-watches/
+2024-04-26 14:38:20 [root] WARNING: WatchExtraction; msg=All Data Extraction  has been Completed;
