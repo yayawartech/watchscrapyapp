@@ -1,2 +1,3 @@
 *.sqlite3
 WatchInfo/settings.py
+scrapylogs/*.txt
