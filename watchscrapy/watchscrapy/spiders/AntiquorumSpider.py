@@ -18,12 +18,16 @@ class AntiquorumSpider(scrapy.Spider):
         self.start_urls = url.split(",")
         self.job = job
 
-    def start_requests(self):
-        # Provide a complete URL with the scheme (e.g., "http://" or "https://")
-        start_urls = [
-            'https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots']
-        for url in start_urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+    # ---------------------------------------------------------------------------
+    # start_requests() is not need as the start_urls will be coming from the UI dynamically
+    # ---------------------------------------------------------------------------
+
+    # def start_requests(self):
+    #     # Provide a complete URL with the scheme (e.g., "http://" or "https://")
+    #     start_urls = [
+    #         'https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots']
+    #     for url in start_urls:
+    #         yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         total_lots = response.xpath(

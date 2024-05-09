@@ -33,21 +33,26 @@ class ArtcurialSpider(scrapy.Spider):
         # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        # options.add_argument('headless')
+        options.add_argument('headless')
         browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
+    
+    # ---------------------------------------------------------------------------
+    # start_requests() is not need as the start_urls will be coming from the UI dynamically
+    # ---------------------------------------------------------------------------
 
-    def start_requests(self):
-        start_urls = [
-            'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
-        self.browser = self.sel_configuration()
-        self.login(self.browser)
-        for url in start_urls:
-            yield scrapy.Request(url=url, callback=self.parse, meta={"browser": self.browser})
+    # def start_requests(self):
+    #     start_urls = [
+    #         'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
+    #     self.browser = self.sel_configuration()
+    #     self.login(self.browser)
+    #     for url in start_urls:
+    #         yield scrapy.Request(url=url, callback=self.parse, meta={"browser": self.browser})
 
     def parse(self, response):
-        print("inside parse")
+        self.browser = self.sel_configuration()
+        self.login(self.browser)
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
@@ -69,7 +74,7 @@ class ArtcurialSpider(scrapy.Spider):
             location = "Online"
             auction_url = response.url
             # Scrape another page using Selenium
-            browser = response.meta.get('browser')
+            browser = self.browser
             try:
                 browser.get(response.url)
                 print("\nPage loaded succesfully\n")
