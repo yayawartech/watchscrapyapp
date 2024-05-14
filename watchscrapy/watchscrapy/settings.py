@@ -29,10 +29,18 @@ BOT_NAME = 'watchscrapy'
 SPIDER_MODULES = ['watchscrapy.spiders']
 NEWSPIDER_MODULE = 'watchscrapy.spiders'
 
+HTTPERROR_ALLOWED_CODES  =[404]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'watchscrapy (+http://www.manjulb.com)'
+UER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 
+USER_AGENT_CHOICES = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.1234.567 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.1234.567 Safari/537.36',
+    # Add more user-agents as needed
+]
+    
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
@@ -67,9 +75,15 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'watchscrapy.middlewares.WatchscrapyDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'watchscrapy.useragents.RandomUserAgentMiddleware': 400,
+
+}
+
+PROXY_POOL_ENABLED = True
+PROXY_POOL_BACKOFF_BASE = 300  # Set a base backoff time for retries (in seconds)
+PROXY_POOL_MAX_RETRY_TIMES = 10  # Set the maximum number of retry times
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

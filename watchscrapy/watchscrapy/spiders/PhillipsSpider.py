@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
 import scrapy
 import re
 import logging
 import traceback
 from datetime import datetime
 import re
-
 from watchscrapy.items import WatchItem
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 
 
 class PhillipsSpider(scrapy.Spider):
@@ -16,16 +18,61 @@ class PhillipsSpider(scrapy.Spider):
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(PhillipsSpider, self).__init__(*args, **kwargs)
-        self.start_urls = url.split(",")
+        # self.start_urls = url.split(",")
+        print(f'\n\n\n--------- 1. start_urls:: {self.start_urls} -------\n\n')
         self.job = job
 
+    def sel_configuration(self):
+        # Selenium Configuration
+        # setup = Setup.objects.first()
+        # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
+        options = webdriver.ChromeOptions()
+        options.add_argument("start-maximized")
+        # options.add_argument('headless')
+        browser = webdriver.Chrome(options=options)
+        browser.set_window_size(1440, 900)
+        return browser
+
+    def start_requests(self):
+        print(f'\n\n\n---------2. start_urls:: {self.start_urls} -------\n\n')
+
+        self.browser = self.sel_configuration()
+        print(f'\n\n\n---------3. self.sel_configuration() -------\n\n')
+
+        self.browser.get(self.start_urls[0])
+        print(f'\n-- 4. self.browser.get({self.start_urls[0]})---')
+
+        time.sleep(10)
+        self.browser.find_element(
+            By.XPATH, '/html/body/div[1]/header/nav/ul[2]/li/button').click()
+
+        time.sleep(5)
+        redirected_url = self.browser.current_url
+
+        self.login(redirected_url)
+        print("Redirected URL:", redirected_url)
+
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
+# ====================================
     def parse(self, response):
+        print(f'\n\n------- Inside parse::: --------- \n\n')
+        print(f'\n\n\n---------5. start_urls:: {response.url} -------\n\n')
 
         logging.warn(
             "PhillipsSpider; msg=Spider started;url= %s", response.url)
-        all_lots = response.xpath(
-            '//div[@class="auction-page__grid"]/ul/li[@class="lot single-cell"]/div[@class="phillips-lot"]')
+        self.browser.get(response.url)
+        time.sleep(10)
+        number_of_lots = self.browser.find_element(By.XPATH,
+                                                   '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
+
+        all_lots = re.search(r'\d+', number_of_lots).group()
+
+        print(f'\n\n\n---------6. all_lots:: {all_lots} -------\n\n')
+
         auction_details = response.xpath('//div[@class="auction-details"]')
+        print(f'\nauction_details:: {auction_details}\n')
         total_lots = response.xpath(
             '//div[@class="auction-page__grid__nav__info"]/text()').extract_first().split(" ")[1].strip()
         logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
@@ -63,12 +110,20 @@ class PhillipsSpider(scrapy.Spider):
         location = date_location[0].strip()
 
         for lot in all_lots:
-            url_info = lot.xpath(
-                'div[@class="phillips-lot__image"]/a[@class="detail-link"]/@href').extract()
-            if url_info:
-                yield scrapy.Request(url_info[0], callback=self.parse_details, meta={'lot': lot, 'name': name, 'date': date, 'location': location, 'base_url': url_info[0], 'auction_url': response.url, 'lots': total_lots})
+            select_element = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[2]/select')
+
+            options = select_element.find_elements(By.TAG_NAME, "option")
+            url_info = [option.get_attribute(
+                "value") for option in options if option.get_attribute("value")]
+
+            print(f'\n\n-- url_info:: {url_info} --\n')
+            if select_element:
+                for url in url_info:
+                    yield scrapy.Request(url, callback=self.parse_details, meta={'lot': lot, 'name': name, 'date': date, 'location': location, 'base_url': url_info[0], 'auction_url': response.url, 'lots': total_lots})
 
     def parse_details(self, response):
+        print(f'\n\n------- Inside parse_details::: --------- \n\n')
         item = WatchItem()
         try:
             lot = response.meta.get('lot')
@@ -92,6 +147,7 @@ class PhillipsSpider(scrapy.Spider):
             # 5 Lot
             lot_number_info = response.xpath(
                 "//h3[@class='lot-page__lot__number']/text()").extract_first()
+            print(f'\n\n ---- lot_number_info:: {lot_number_info} --\n\n')
             lot_number = re.findall(r'\d+', lot_number_info)[0]
             item["lot"] = lot_number
             title = response.xpath(
@@ -103,7 +159,7 @@ class PhillipsSpider(scrapy.Spider):
             auction_code = base_url.rsplit('/', 1)
             image_url = response.xpath(
                 "//meta[@property='og:image']/@content").extract()
-            item["images"] = image_url
+            item["images"] = image_url[0]
 
             """
             if artist:
@@ -116,7 +172,7 @@ class PhillipsSpider(scrapy.Spider):
                 if len(desc) > 2 and desc[len(desc)-1]!=" ":
                     title = title + "-" + desc[3]
             """
-            item["title"] = title
+            item["title"] = title[0]
 
             # 8 Description
             description = ""
@@ -125,40 +181,57 @@ class PhillipsSpider(scrapy.Spider):
                 "//meta[@name='description']/@content").extract_first()
             description = description + "\n"
             desc = response.xpath(
-                '//ul[@class="lot-page__details__list"]/li[1]/p').extract()[0]
-            description = description + desc
+                '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
+            if desc is None:
+
+                desc = response.xpath(
+                    '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
+            print(f'\n------ desc:: {desc[0]} ---\n')
+
+            description = description + desc[0]
             essay_info = response.xpath(
                 '//div[@class="lot-essay"]/p/text()').extract()
+            print(f'\n------ essay_info:: {essay_info} ---\n')
             essay = ""
             for para in essay_info:
                 essay = essay + para
             description = description + "\n" + essay
+            # soup = BeautifulSoup(html_content, 'html.parser')
+
             item["description"] = description
 
             # 10 Estimate Min Price
             # 11 Estimate Max Price
-            estimation = lot.xpath(
-                'a/p[@class="phillips-lot__description__estimate"]/text()').extract()
             est_min_price = est_max_price = 0
-            if estimation:
-                est_min_price = estimation[2].replace(",", "")
-                est_max_price = estimation[4].replace(",", "")
+            estimation = response.xpath(
+                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]/text()').extract() or None
+            if estimation is None and estimation[0] != '$':
+                estimation = response.xpath(
+                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]/text()').extract()
+                est_min_price = estimation[1]
+                est_max_price = estimation[3]
             item["est_min_price"] = est_min_price
             item["est_max_price"] = est_max_price
 
             # 9 Lot Currency
             # 12 Sold Price
 
-            sold_price_info = lot.xpath(
-                'a/p[@class="phillips-lot__sold"]/text()').extract()
             sold_price = sold = 0
-            lot_currency = ""
-            if len(sold_price_info) > 1:
-                sold = 1
-                sold_price = sold_price_info[-1].replace(",", "")
-                lot_currency = sold_price_info[-2]
-            item["sold_price"] = sold_price
-            item["lot_currency"] = lot_currency
+            sold_price_info = response.xpath(
+                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract() or None
+            if sold_price_info is None:
+                sold_price_info = response.xpath(
+                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract()
+            if sold_price:
+                lot_currency = sold_price_info[1]
+                print(f'\n-- lot_currency:: {lot_currency} --\n')
+                item["sold_price"] = sold_price_info[2]
+
+                item["lot_currency"] = lot_currency
+            else:
+                item['sold_price'] = 0
+                item['lot_currency'] = ""
+            print("\n----2. Sold Price:", sold)
             item["sold"] = sold
             # 13 Sold Price Dollar
             sold_price_dollar = 0
@@ -178,3 +251,33 @@ class PhillipsSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         yield item
+
+    def login(self, redirected_url):
+        print(f'\n--- inside login ---\n')
+        print(f'\nredirected_url:: {redirected_url}\n')
+        login_url = redirected_url
+        time.sleep(2)
+        try:
+            self.browser.get(login_url)
+            time.sleep(3)
+
+            username = self.browser.find_element(By.XPATH, '//*[@id=":r1:"]')
+            username.send_keys('itsmeyoursujan@gmail.com')
+            password = self.browser.find_element(By.XPATH, '//*[@id=":r2:"]')
+            password.send_keys('Phillips@123')
+
+            time.sleep(5)
+            # login button
+            self.browser.find_element(
+                By.XPATH, '//*[@id=":r3:"]').click()
+            time.sleep(5)
+            print(f"\n\n----- login successful -----\n\n\n")
+        except Exception as e:
+            logging.error(
+                "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
+            logging.error(
+                "HeritageSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
+
+        return True
+# itsmeyoursujan@gmail.com
+# Phillips@123
