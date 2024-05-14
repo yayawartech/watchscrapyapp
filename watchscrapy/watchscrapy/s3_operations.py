@@ -54,7 +54,7 @@ class S3Operations:
             s3_key = s3_key_name.replace('static/tempImages/', '')
 
             print(f'\n\n s3_key:: {s3_key}')
-            # s3.upload_file(local_path, bucket_name, s3_key)
+            s3.upload_file(local_path, bucket_name, s3_key)
 
             print("\n***Image uploaded to S3 successfully!\n")
 
