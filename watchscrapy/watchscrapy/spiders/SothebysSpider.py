@@ -22,10 +22,9 @@ class SothebysSpider(scrapy.Spider):
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(SothebysSpider, self).__init__(*args, **kwargs)
-        self.start_urls = [
-            'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
-
-        # print(f'\n\nStart_urls:: {self.start_urls} \n\n')
+        # self.start_urls = [
+            # 'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
+        self.start_urls = url.split(",")
         self.job = job
 
     def sel_configuration(self):
@@ -38,13 +37,7 @@ class SothebysSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
-        # print(f'\n\n\n---------2. start_urls:: {self.start_urls} -------\n\n')
-
         self.browser = self.sel_configuration()
-        # print(f'\n\n\n---------3. self.sel_configuration() -------\n\n')
-
-        # print(f'\n-- 4. self.browser.get({self.start_urls[0]})---')
-
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -62,10 +55,7 @@ class SothebysSpider(scrapy.Spider):
 
             logging.warning(
                 "SothebysSpider; msg=Trying to load lots in next pages; url= %s", source_url)
-            counter = 0
-            while (counter < 3):
-                counter += 1
-            # while True:
+            while True:
                 try:
                     lot_number = self.browser.find_element(
                         By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/span/div[4]/p[1]').text
@@ -89,11 +79,10 @@ class SothebysSpider(scrapy.Spider):
                         By.XPATH, './/div')
 
                     # Iterate over each div element to find the 'a' tag and extract href attribute
-                    for i, div in enumerate(div_elements):
+                    for div in div_elements:
                         try:
-
-                            a_tag = div.find_element(By.XPATH, './/a')
                             # Find 'a' tag inside the div
+                            a_tag = div.find_element(By.XPATH, './/a')
 
                             # Get the href attribute value
                             href_value = a_tag.get_attribute('href')
@@ -128,6 +117,7 @@ class SothebysSpider(scrapy.Spider):
                 except Exception as e:
                     logging.exception(
                         "Exception occured while trying to collect lot urls.")
+                    break
 
             total_lots = len(lots_urls)
             logging.warning(
@@ -168,15 +158,14 @@ class SothebysSpider(scrapy.Spider):
         item = WatchItem()
         try:
             browser.get(url)
+            time.sleep(5)
             page_source = browser.page_source
             soup = BeautifulSoup(page_source, 'html.parser')
-            logging.warn(page_source)
 
             # 1 House Name
             item['house_name'] = 9
 
             # 2 Auction Name
-
             item['name'] = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
             logging.warn("====>name : " + item['name'])
@@ -192,7 +181,9 @@ class SothebysSpider(scrapy.Spider):
             lot_number_info = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div[1]/nav/p[2]').text
 
-            lot_number_list = re.findall(r'\d{4}', lot_number_info)
+            # lot_number_list = re.findall(r'\d{4}', lot_number_info)
+            lot_number_list = re.findall(r'Lot\s*(\d+)', lot_number_info)
+
             lot_number = lot_number_list[0] if lot_number_list else None
 
             print(f'\n\n--- lot_number_info:: {lot_number} --\n')
@@ -263,9 +254,6 @@ class SothebysSpider(scrapy.Spider):
             sold = sold_price = 0
             if sold_price_info:
                 sold_price = sold_price_info.text.replace(",", "")
-                # BREAKPOINT: CSS CLASS
-                sold_currency = parent_sold_price.findChildren()[2].text
-                # sold_currency = soup.find('span', {'class': "css-65xq9y"}).text
                 sold = 1
             item['sold_price'] = sold_price
             logging.warn("====>sold_price : " + str(item['sold_price']))

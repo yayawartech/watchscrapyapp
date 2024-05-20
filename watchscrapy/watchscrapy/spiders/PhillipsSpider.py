@@ -214,17 +214,16 @@ class PhillipsSpider(scrapy.Spider):
             item["est_max_price"] = est_max_price
 
             # 9 Lot Currency
-            # 12 Sold Price
-
             sold_price = sold = 0
             sold_price_info = response.xpath(
                 '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract() or None
             if sold_price_info is None:
                 sold_price_info = response.xpath(
                     '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract()
+            
+            # 12 Sold Price
             if sold_price:
                 lot_currency = sold_price_info[1]
-                print(f'\n-- lot_currency:: {lot_currency} --\n')
                 item["sold_price"] = sold_price_info[2]
 
                 item["lot_currency"] = lot_currency
@@ -274,9 +273,9 @@ class PhillipsSpider(scrapy.Spider):
             print(f"\n\n----- login successful -----\n\n\n")
         except Exception as e:
             logging.error(
-                "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
+                "PhillipsSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
             logging.error(
-                "HeritageSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
+                "PhillipsSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
 
         return True
 # itsmeyoursujan@gmail.com

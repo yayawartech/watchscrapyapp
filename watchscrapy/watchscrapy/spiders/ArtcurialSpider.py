@@ -259,8 +259,8 @@ class ArtcurialSpider(scrapy.Spider):
             print(f"\n\n----- login successful -----\n\n\n")
         except Exception as e:
             logging.error(
-                "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
+                "ArtcurialSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
             logging.error(
-                "HeritageSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
+                "ArtcurialSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
 
         return True
