@@ -18,8 +18,7 @@ class DorotheumSpider(scrapy.Spider):
         self.job = job
 
     def start_requests(self):
-        start_urls = ['https://www.dorotheum.com/en/a/93739/']
-        for url in start_urls:
+        for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):

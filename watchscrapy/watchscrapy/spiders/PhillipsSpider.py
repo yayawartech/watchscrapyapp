@@ -28,7 +28,7 @@ class PhillipsSpider(scrapy.Spider):
         # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        # options.add_argument('headless')
+        options.add_argument('headless')
         browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
