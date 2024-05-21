@@ -1,354 +1,223 @@
-# -*- coding: utf-8 -*-
-import scrapy
-import re
-from scrapy.http import FormRequest
 import re
 import json
-import pprint
+import time
+import scrapy
 import logging
+import requests
 import traceback
 from datetime import datetime
-from json import JSONDecodeError
-
-
-# additions
-import requests
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-import time
 from watchscrapy.items import WatchItem
-# from watchapp.models import Setup
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 
 class ChristiesSpider(scrapy.Spider):
     name = "christiesSpider"
     allowed_domains = ["onlineonly.christies.com"]
-    start_urls = [
-        'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(ChristiesSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
-            # 'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
+        # 'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
         self.start_urls = url.split(",")
         self.job = job
 
     def sel_configuration(self):
-        # Selenium Configuration
-        # setup = Setup.objects.first()
-        # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         # options.add_argument('headless')
-        # browser = webdriver.Chrome(executable_path=SELENIUM_CHROMEDRIVER_PATH, options=options)
-        # driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', options=options)
         browser = webdriver.Chrome(options=options)
         return browser
-        
+
     def start_requests(self):
-
-        for source_url in self.start_urls:
-            try:
-                logging.warn(
-                    "ChristiesSpider; msg=Spider started;url= %s", source_url)
-                browser = self.sel_configuration()
-                browser.set_window_size(1440, 900)
-                print(f'\n\n---- source_url:: {source_url} ---\n\n')
-                response = requests.get(source_url)
-                url = response.url
-                should_continue = True
-                if 'onlineonly.christies.com/s/' in url:
-                    try:
-                        christies_version = 2
-                        # url += '?' if '?' not in url else ''
-                        url += "&showAll=True&SortBy=LotNumber" if '?' in url else "?showAll=True&SortBy=LotNumber"
-
-                        print(f'\n\n-----url:: {url}----\n\n')
-                        response = requests.get(url)
-                        print(f'\n\n --- response:: {response}\n\n')
-
-                        time.sleep(5)
-                        resp = response.text
-                        print(f'\n\n------------resp::: {resp} ------\n\n')
-
-                        a = "new LotListModule.LotList(lotListDataUrl, saleId, showPopup, "
-                        b = "});"
-                        # c = self.between(resp,a,b)
-
-                        # print(f'\n******* C:{c}******\n\n')
-
-                        # value = self.before(c,"ko.applyBindings(lotListViewModel);")
-                        # jsonv = value.rstrip()[:-2]
-                        # self.final_json = json.loads(jsonv)
-
-                        # print(f'\n\n++++++++++++final_json:: {self.final_json}+++++++\n\n')
-                    except JSONDecodeError as e:
-                        logging.warn(
-                            "ChristiesSpider; msg=Spider Halted!!  No data found in URL;url= %s", source_url)
-                        should_continue = False
-                else:
-                    logging.debug(
-                        "ChristiesSpider; msg=Version 1 detected;url= %s", source_url)
-                    christies_version = 1
-                    url = url + "&pg=all"
-
-                if should_continue:
-                    browser.get(url)
-                    delay = 20  # seconds
-                    time.sleep(5)
-                    # myElem = WebDriverWait(browser, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'load-all')))
-                    # total_lots = myElem.text
-                    # logging.warn("ChristiesSpider; msg=Total Lots: %s;url= %s",total_lots,source_url)
-                    # myElem.click()
-                    # time.sleep(5)
-                    if christies_version == 1:
-                        links = browser.find_elements_by_css_selector(
-                            "div.image-preview-container a")
-                    else:
-                        links = browser.find_elements_by_css_selector(
-                            "a.box-link")
-                    print(f'\n\n-----link:: {link} ------\n\n')
-                    lots_urls = []
-                    for link in links:
-                        link_url = link.get_attribute('href')
-                        if link_url is not None:
-                            lots_urls.append(link_url)
-                    total_lots = len(lots_urls)
-                    logging.warn(
-                        "ChristiesSpider; msg=Total Lots: %s;url= %s", total_lots, source_url)
-                    browser.close()
-                    logging.debug(
-                        "ChristiesSpider; msg=Moving ahead;url= %s", source_url)
-                    for i in range(total_lots):
-                        url = lots_urls[i]
-                        if christies_version == 1:
-                            yield scrapy.Request(url, callback=self.parse, meta={"auction_url": source_url, 'lots': total_lots})
-                        else:
-                            sold_price = self.final_json["items"][i]["priceRealised"]
-                            yield scrapy.Request(url, callback=self.parsev2, meta={"sold_price": sold_price, "auction_url": source_url, 'lots': total_lots})
-            except Exception as e:
-                item = WatchItem()
-                item['status'] = "Failed"
-                logging.error(
-                    "ChristiesSpider; msg=Crawling Failed > %s;url=%s", str(e), source_url)
-                logging.error("ChristiesSpider; msg=Crawling Failed;url=%sError=%s",
-                              traceback.format_exc(), source_url)
-                yield item
+        self.browser = self.sel_configuration()
+        time.sleep(5)
+        for url in self.start_urls:
+            url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        if "searchresults.aspx" not in response.url:
-            item = WatchItem()
-            try:
-                # 1 House Name
-                item['house_name'] = 5
+        url = response.url
+        time.sleep(5)
+        self.browser.get(response.url)
+        time.sleep(5)
 
-                # 2 Auction Name
-                name = response.xpath(
-                    '//*[@id="main_center_0_lblSaleTitle"]/text()').extract()
-                item['name'] = name[0]
+        # Accept Cookie popup
+        self.browser.find_element(
+            By.XPATH, '/html/body/div[3]/div[2]/div/div/div[2]/div/div/button[2]').click()
+        time.sleep(10)
 
-                # 3 Date
-                date = response.xpath(
-                    '//*[@id="main_center_0_lblSaleDate"]/descendant-or-self::*/text()').extract_first() or None
-                date = date.split("-")[-1].strip()
-                item['date'] = datetime.strptime(
-                    date.strip(), '%d %B %Y').strftime('%b %d,%Y')
-                # 4 Location
-                location = response.xpath(
-                    '//*[@id="main_center_0_lblSaleLocation"]/descendant-or-self::*/text()').extract_first() or None
-                item['location'] = location
-
-                # 5 Lot
-                lot = response.xpath(
-                    '//*[@id="main_center_0_lblLotNumber"]/descendant-or-self::*/text()').extract_first() or None
-                item['lot'] = lot.split(" ")[0].strip()
-                # 6 Images
-                main_image = response.xpath(
-                    '//*[@id="main_center_0_imgCarouselMain"]/li[1]/a/@href').extract_first() or None
-                other_images = response.xpath(
-                    '//*[@id="imgCarouselThumb"]/li/a/@href').extract() or None
-                item['images'] = main_image
-                if other_images is not None:
-                    for i, img in enumerate(other_images, 0):
-                        if i > 0:
-                            item['images'] = item['images'] + ',' + img
-                # 7 Title
-                title_info = response.xpath(
-                    '//*[@id="main_center_0_lblLotPrimaryTitle"]/b/text()').extract()
-                if not title_info:
-                    title_info = response.xpath(
-                        '//*[@id="main_center_0_lblLotPrimaryTitle"]/text()').extract()
-                title = ""
-                for title_c in title_info:
-                    title = title + " " + title_c
-                item['title'] = title.strip()
-
-                # 8 Description
-                description = response.xpath(
-                    '//*[@id="main_center_0_lblLotDescription"]/descendant-or-self::*/text()').extract() or None
-                item['description'] = description
-                price_text = response.xpath(
-                    '//*[@id="main_center_0_lblPriceEstimatedPrimary"]/descendant-or-self::*/text()').extract_first() or None
-                if price_text is not None:
-                    lot_currency = price_text.split('-')[0].strip()[0:4]
-                    est_min_price = price_text.split(
-                        '-')[0].strip()[4:].replace(",", "")
-                    est_max_price = price_text.split(
-                        '-')[1].strip()[4:].replace(",", "")
-                else:
-                    lot_currency = None
-                    est_min_price = None
-                    est_max_price = None
-                # 9 Lot Currency
-                item['lot_currency'] = lot_currency.strip()
-                # 10 Est Min Price
-                item['est_min_price'] = est_min_price
-                # 11 Est Max Price
-                item['est_max_price'] = est_max_price
-                # 12 Sold Price
-                sold_text = response.xpath(
-                    '//*[@id="main_center_0_lblPriceRealizedPrimary"]/descendant-or-self::*/text()').extract_first() or None
-                if sold_text is not None:
-                    sold_currency = sold_text[0:4]
-                    sold_price = sold_text[4:].replace(",", "")
-                item['sold_price'] = sold_price
-
-                # 13 Sold Price Dollar
-                item['sold_price_dollar'] = 0
-                item["sold"] = 1
-                # 14  URL
-                item['url'] = response.url
-                item["status"] = "Success"
-            except Exception as e:
-                item['status'] = "Failed"
-                logging.error(
-                    "ChristiesSpider; msg=Crawling Failed > %s;url= %s", str(e), response.url)
-                logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
-                              response.url, traceback.format_exc())
-            item['total_lots'] = response.meta.get("lots")
-            item["auction_url"] = response.meta.get("auction_url")
-            item["job"] = self.job
-            yield item
-
-    def parsev2(self, response):
         item = WatchItem()
-
+        lots_urls = set()
         try:
             # 1 House Name
-            item['house_name'] = 5
+            # item['house_name'] = 5
 
-            # 2 Auction Name
-            name = response.xpath(
-                '//div[contains(@class, "generic-sale-header-container")]//div[contains(@class, "title")]/descendant-or-self::*/text()').extract_first().strip() or None
-            item['name'] = name
-
-            date_location_text = response.xpath(
-                '//div[contains(@class, "date-location-container")]/span/text()').extract()
-            location = date_location_text[0] or None
-            date_pre = date_location_text[2]
-
-            date = date_pre.split("-")[-1].strip()
             # 3 Date
-            item['date'] = datetime.strptime(
-                date.strip(), '%d %B %Y').strftime('%b %d,%Y')
+            date_str = self.browser.find_element(By.XPATH,
+                                                 '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
+            date = re.search(r'\d{2} [A-Z]{3} \d{4}', date_str).group()
+
+            # Parse the date
+            date = datetime.strptime(
+                date.strip(), '%d %b %Y').strftime('%b %d,%Y')
 
             # 4 Location
-            item['location'] = location
+            location = self.browser.find_element(
+                By.XPATH, '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span').text
+            # item['location'] = location
 
+            # Find the parent element by XPath
+            parent_element = self.browser.find_element(
+                By.XPATH, '/html/body/div[1]/chr-auction-results-view/main/section/div/ul')
+
+            # Find all div elements inside the parent
+            li_elements = parent_element.find_elements(
+                By.XPATH, './/li')
+
+            # Iterate over each li element to find the 'a' tag and extract href attribute
+            for li in li_elements:
+                try:
+                    # Find 'a' tag inside the div
+                    a_tag = li.find_element(
+                        By.XPATH, './/chr-lot-tile/div[2]/div[2]/h2/a')
+
+                    # Get the href attribute value
+                    href_value = a_tag.get_attribute('href')
+                    lots_urls.add(href_value)
+
+                except NoSuchElementException:
+                    # If 'a' tag is not found in the li, skip it
+                    continue
+
+            lot_string = self.browser.find_element(
+                By.XPATH, '/html/body/div[1]/chr-page-nav/nav/div/ul/li[2]/a').text
+            # Using regular expression to extract the number
+            lot_number = re.search(r'\((\d+)\)', lot_string).group(1)
+            print(f'\n\n--total_lots:: {lot_number} ---\n\n')
             # 5 Lot
-            lot = response.xpath(
-                '//div[@class="lot-number"]/span/text()').extract()[0].strip().split(" ")[-1]
-            item['lot'] = lot.split(" ")[0].strip()
-
-            # 6 Images
-            images = response.xpath(
-                '//div[contains(@class, "lotdetail-imgholder")]/div/@href').extract() or None
-            item['images'] = images
-
-            # 7 Title
-            title_info = response.xpath(
-                '//div[@class="bid-panel"]/div/div[@class="title"]/b').extract()
-            if title_info:
-                title = title_info[0]
-            else:
-                title = response.xpath(
-                    '//div[@class="bid-panel"]/div/div[@class="title"]/text()').extract()[0].strip()
-
-            item['title'] = title
-
-            # 8 Description
-            description_info = response.xpath(
-                '//div[contains(@class, "lot-notes-row")]/descendant-or-self::*/text()').extract() or None
-            description = ""
-            for desc in description_info:
-                description = description + desc
-            item['description'] = description.strip()
-
-            price_text = response.xpath(
-                '//div[contains(@class, "estimated")]/descendant-or-self::*/text()').extract_first() or None
-            if price_text is not None:
-                lot_currency = price_text.split('-')[0].strip()[10:14]
-                est_min_price = price_text.split(
-                    '-')[0].strip()[14:].replace(",", "")
-                est_max_price = price_text.split(
-                    '-')[1].strip()[4:].replace(",", "")
-            else:
-                lot_currency = None
-                est_min_price = None
-                est_max_price = None
-            # 9 Lot Currency
-            item['lot_currency'] = lot_currency.strip()
-
-            # 10 Est Min Price
-            item['est_min_price'] = est_min_price
-
-            # 11 Est Max Price
-            item['est_max_price'] = est_max_price
-
-            # 12 Sold Price
-            sold_price = response.meta.get("sold_price")
-            item["sold_price"] = sold_price
-            item["sold"] = 1
-
-            # 13 Sold Price Dollar
-            item['sold_price_dollar'] = 0
-
-            # 14  URL
-            item['url'] = response.url
-            item["status"] = "Success"
+            time.sleep(5)
+            print(f'\n\n--source_url:: {url}')
+            for url in lots_urls:
+                yield scrapy.Request("https://www.google.com", dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'date': date, 'location': location, 'lots': lot_number, 'source_url': response.url, })
         except Exception as e:
             item['status'] = "Failed"
             logging.error(
                 "ChristiesSpider; msg=Crawling Failed > %s;url= %s", str(e), response.url)
             logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
+
+    def parseBS(self, response):
+        url = response.meta.get('url')
+        browser = response.meta.get('browser')
+        source_url = response.meta.get('url')
+        print(f'\n\n--source_url in parseBS:: {source_url}')
+        logging.warn(
+            "ChristiesSpider; msg=Crawling going to start;url= %s", url)
+        item = WatchItem()
+
+        try:
+            browser.get(url)
+            time.sleep(10)
+
+            item['house_name'] = 5
+            lot_text = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[1]/div[1]/div/chr-item-pagination/span').text
+            lot_number = re.search(r'\d+', lot_text).group()
+            item['lot'] = lot_number
+            print(f'\n\n--lot_number:: {lot_number} ---\n\n')
+
+            # 2 Auction Name
+            name = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[1]/div[1]/chr-breadcrumb/nav/ol/li/a/div/span[2]').text
+            item['name'] = name
+
+            # 3 Date
+            item['date'] = response.meta.get('date')
+            item['location'] = response.meta.get('location')
+
+            # 6 Images
+            images_links = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img')
+
+            image = images_links.get_attribute('src')
+
+            # Split the string by "?"
+            image_parts = image.split("?")
+
+            # Take the first part which contains the URL without parameters
+            clean_image_url = image_parts[0]
+            print(f'\n-- clean_image:: {clean_image_url} --\n')
+            item['images'] = clean_image_url
+
+            # 7 Title
+            title = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span').text
+            item['title'] = title.strip()
+
+            # 8 Description
+            description = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item/div/fieldset/div').text
+            item['description'] = description
+
+            time.sleep(5)
+            try:
+                estimation = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span').text
+            except:
+                estimation = None
+            if estimation is not None:
+                # Split the estimation string by spaces
+                parts = estimation.split()
+
+                # Extract the lot currency
+                lot_currency = parts[0]
+
+                # Extract the minimum and maximum prices
+                est_min_price = parts[1]
+                est_max_price = parts[3]
+
+            else:
+                lot_currency = None
+                est_min_price = None
+                est_max_price = None
+
+            # 9 Lot Currency
+            item['lot_currency'] = lot_currency.strip()
+            # 10 Est Min Price
+            item['est_min_price'] = est_min_price
+            # 11 Est Max Price
+            item['est_max_price'] = est_max_price
+
+            # 12 Sold Price
+            sold_price = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
+
+            # Split the sold_price string by spaces
+            parts = sold_price.split()
+
+            # Extract the sold price
+            sold_price_value = parts[1]
+
+            item['sold_price'] = sold_price_value
+
+            # 13 Sold Price Dollar
+            item['sold_price_dollar'] = 0
+            item["sold"] = 1
+
+            # 14  URL
+            item['url'] = source_url
+            item["status"] = "Success"
+
+        except Exception as e:
+            item['status'] = "Failed"
+            logging.error(
+                "ChristiesSpider; msg=Crawling Failed > %s;url= %s", str(e), response.url)
+            logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
+                          response.url, traceback.format_exc())
+
         item['total_lots'] = response.meta.get("lots")
-        item["auction_url"] = response.meta.get("auction_url")
+        item["auction_url"] = source_url
         item["job"] = self.job
         yield item
-
-    def between(self, value, a, b):
-        # Find and validate before-part.
-        pos_a = value.find(a)
-        print(f'\n\npos_a:::{pos_a}\n\n')
-        if pos_a == -1:
-            return ""
-        # Find and validate after part.
-        pos_b = value.rfind(b)
-        if pos_b == -1:
-            return ""
-        # Return middle part.
-        adjusted_pos_a = pos_a + len(a)
-        if adjusted_pos_a >= pos_b:
-            return ""
-        return value[adjusted_pos_a:pos_b]
-
-    def before(self, value, a):
-        # Find first part and return slice before it.
-        pos_a = value.find(a)
-        if pos_a == -1:
-            return ""
-        return value[0:pos_a]
