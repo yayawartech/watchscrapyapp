@@ -56,6 +56,6 @@ scrapy crawl <spiderName>
 ``scrapy crawl bukowskisSpider``
 ``scrapy crawl christiesSpider``
 ``scrapy crawl dorotheumSpider``
-``scrapy crawl heritageSpider``
+``scrapy crawl monacolegendSpider``
 ``scrapy crawl phillipsSpider``
 ``scrapy crawl sothebysSpider``
