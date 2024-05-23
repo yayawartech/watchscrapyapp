@@ -10,7 +10,7 @@ https://github.com/yayawartech/watchscrapyapp.git
 ```
 
 2. Navigate to the project directory:
-``cd watchscrapyapp``
+```cd watchscrapyapp```
 
 3. Install Python dependencies:
 ```
@@ -25,7 +25,7 @@ python manage.py migrate --database=default && python manage.py migrate --databa
 5. Create superuser
 ``python manage.py createsuperuser ``
 
-6. Update S3 credentials in WatchInfo/settings.py
+6. Update S3 credentials in .env
 ```
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
@@ -48,14 +48,13 @@ cd watchscrapy
 ```
 
 2. Syntax for running:
-scrapy crawl <spiderName>
 
-``scrapy crawl antiquorumSpider``
-``scrapy crawl artcurialSpider``
-``scrapy crawl bonhamsSpider``
-``scrapy crawl bukowskisSpider``
-``scrapy crawl christiesSpider``
-``scrapy crawl dorotheumSpider``
-``scrapy crawl monacolegendSpider``
-``scrapy crawl phillipsSpider``
-``scrapy crawl sothebysSpider``
+```scrapy crawl antiquorumSpider```
+```scrapy crawl artcurialSpider```
+```scrapy crawl bonhamsSpider```
+```scrapy crawl bukowskisSpider```
+```scrapy crawl christiesSpider```
+```scrapy crawl dorotheumSpider```
+```scrapy crawl monacolegendSpider```
+```scrapy crawl phillipsSpider```
+```scrapy crawl sothebysSpider```

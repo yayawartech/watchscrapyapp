@@ -52,7 +52,8 @@ class Lot(models.Model):
     search_all= models.TextField(default=None)
 
     def get_images(self):
-        imgs = self.images.split(",")
+        # imgs = self.images.split(",")
+        imgs = self.s3_image.split(",")
         imgsList = []
         for img in imgs:
             imgsList.append(img.strip('[').strip(']').replace("'",""))
