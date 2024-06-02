@@ -45,7 +45,6 @@ class BonhamsSpider(scrapy.Spider):
         item = WatchItem()
         logging.warn("BonhamsSpider; msg=Spider started;url= %s", response.url)
         try:
-            pre_item = {}
             # 1 HouseName
             house_name = 3
             item["house_name"] = house_name
@@ -77,17 +76,14 @@ class BonhamsSpider(scrapy.Spider):
             item["auction_url"] = response.url
 
             base_url = "https://www.bonhams.com/api/v1/lots/"+auc_id
-            print(f'\n\n---- base_url:: {base_url} ----\n\n')
             resp = requests.get(base_url).text
             jresp = json.loads(resp)
             total_lot = jresp["total_lots"]
 
-            url_list = []
             page_numbers = int(math.ceil(total_lot/10))
             for i in range(page_numbers):
                 final_url = base_url + "?page=" + str(i+1)
                 resp = requests.get(final_url).text
-                print(f'\n\n---- final_url:: {final_url} ---\n\n')
                 time.sleep(4)
                 jresp = json.loads(resp)
 
@@ -151,14 +147,6 @@ class BonhamsSpider(scrapy.Spider):
                     htmlr = HtmlResponse(
                         url="test", body=resp.text, encoding='utf-8')
                     # 8 Description
-                    description = ""
-
-                    # # TODO: desc_name
-                    # # desc_name = htmlr.xpath(
-                    # #     '//div[@class="lot-details__description__name"]/text()').extract()[0].strip()
-                    # desc_name = ""
-                    # desc_content_info = htmlr.xpath(
-                    #     '//div[@class="lot-details__description__content"]/text()').extract()
 
                     desc_name = ""
                     # desc_content_info = htmlr.xpath(
@@ -199,8 +187,6 @@ class BonhamsSpider(scrapy.Spider):
                             footnote_desc = footnote_desc + note
                         footnote = footnote_title + "<br/>" + footnote_desc
 
-                    # item["description"] = desc_name + "<br/>" + \
-                    #     desc_content + "<br/>" + footnote
                     item["description"] = desc_name + \
                         desc_content + "<br/>" + footnote
                     item["status"] = "Success"
@@ -222,7 +208,6 @@ class BonhamsSpider(scrapy.Spider):
     def parse_image(self, response):
         parent_element = response.xpath(
             '/html/body/div[1]/main/section/div/div/div[3]/div[2]/div[3]').extract_first()
-        print(f'\n\n---- parent_element:: {parent_element} ---\n')
 
         selector = scrapy.Selector(text=parent_element)
 

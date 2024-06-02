@@ -57,7 +57,6 @@ class AntiquorumSpider(scrapy.Spider):
         logging.debug("AntiquorumSpider; msg=URLs to be Scraped %s;url= %s", len(
             final_url), response.url)
         for url in final_url:
-            print(f'\n\n---------------url:: {url}-------------------\n\n')
             yield scrapy.Request(url, callback=self.parse_item, meta={"auction_url": response.meta.get("auction_url"), "lots": response.meta.get("lots")})
 
     def parse_item(self, response):
@@ -78,8 +77,6 @@ class AntiquorumSpider(scrapy.Spider):
                 "/html/body/div[10]/div[2]/div[1]/div[2]/p[1]/text()").extract()
             name_title = " ".join(name)
             item['name'] = name_title
-
-            print(f'\n\n name:: {name_title} \n\n')
 
             date_location = all_desc.xpath(
                 "//p[3]/text()").extract_first() or None
@@ -160,33 +157,7 @@ class AntiquorumSpider(scrapy.Spider):
             data += f"Accessories: {col.xpath(
                 'p/strong[contains(text(), "Accessories")]/following-sibling::text()').get()}\n"
             description = data
-            # if description is None:
-            #     description = response.xpath(
-            #         '/html/body/div[10]/div[2]/div[1]/div[2]/div[4]/text()').extract()
-
-            # print(f'\n\n---description:: {description} ---\n\n')
-            # description = "".join(description)
-            # des = response.xpath(
-            #     '/html/body/div[10]/div[2]/div[1]/div[2]/div[7]/text()').extract()
-            # des = "".join(des)
-            # description += des
-
-            # des = self.clean_description(description)
-            # print(f'\n\n description:: {des} \n\n')
-            # raw_table_data = all_desc.xpath(
-            #     'div[@class="row"]/div/div/div/table').extract()
-            # table_data = ""
-            # if raw_table_data:
-            #     table_data = "Table:: " + \
-            #         re.sub("\t", "", re.sub("\n", "", raw_table_data[0]))
-
-            # description = des + table_data
-
-            # notes = response.xpath(
-            #     '//div[@class="container"]/div[@class="container"]/div/div[2]/div/text()').extract()
-            # if notes:
-            #     description = description + notes[0]
-
+            
             item['description'] = description
 
             min_max_price = all_desc.xpath(

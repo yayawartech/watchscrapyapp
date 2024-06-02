@@ -116,8 +116,6 @@ class DorotheumSpider(scrapy.Spider):
             # desc = response.xpath('//div[@class="mobile-hidden"]/div/p/text()').extract()[0].strip()
             desc = response.xpath('//div[@class="mobile-hidden"]/div/p/text()').extract()
             desc= " ".join(desc)
-            # //*[@id="bild-box"]/div[2]/div[1]/p
-            print(f'\n\ndesc:: {desc} \n\n')
             spec_desc_info = response.xpath('//div[@class="mobile-hidden"]/p/text()').extract()
             spec_desc = ""
             if spec_desc_info:

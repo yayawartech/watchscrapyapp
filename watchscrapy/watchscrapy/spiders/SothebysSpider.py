@@ -185,8 +185,6 @@ class SothebysSpider(scrapy.Spider):
 
             lot_number = lot_number_list[0] if lot_number_list else None
 
-            print(f'\n\n--- lot_number_info:: {lot_number} --\n')
-
             item['lot'] = lot_number
 
             # logging.warn("====>lot : " + item['lot'])
@@ -195,14 +193,11 @@ class SothebysSpider(scrapy.Spider):
                 # Find the parent element by XPath
                 parent_element = browser.find_element(
                     By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[5]/div[1]/div[1]/div/div')
-                # By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[1]')
 
                 # Find all div elements inside the parent
                 div_elements = parent_element.find_elements(
                     By.XPATH, './/div')
 
-                # Iterate over each div element to find the 'a' tag and extract href attribute
-                # button > div > img > src
                 images = []
 
                 # Iterate over each div element to find the 'a' tag and extract href attribute
@@ -217,7 +212,7 @@ class SothebysSpider(scrapy.Spider):
                     except NoSuchElementException:
                         continue
             except NoSuchElementException:
-                print(f'\n--- parent_element not found ----\n')
+                logging.warn('\n--- parent_element not found ----\n')
 
             item['images'] = images
 
@@ -231,8 +226,6 @@ class SothebysSpider(scrapy.Spider):
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[7]/div[3]').text
 
             item['description'] = description
-
-            # logging.warn("====>description : " + item['description'])
 
             estimation = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[2]/div/div/div[2]/p[2]').text
@@ -252,18 +245,14 @@ class SothebysSpider(scrapy.Spider):
 
             # 9 Lot Currency
             item['lot_currency'] = lot_currency
-            # logging.warn("====>lot_currency : " + item['lot_currency'])
 
             # 10 Est Min Price
             item['est_min_price'] = est_min_price.replace(",", "")
-            # logging.warn("====>est_min_price : " + str(item['est_min_price']))
 
             # 11 Est Max Price
             item['est_max_price'] = est_max_price.replace(",", "")
-            # logging.warn("====>est_max_price : " + str(item['est_max_price']))
 
             # 12 Sold Price
-            # BREAKPOINT: CSS CLASS
             sold = 0
             try:
                 parent_sold_price = soup.find(

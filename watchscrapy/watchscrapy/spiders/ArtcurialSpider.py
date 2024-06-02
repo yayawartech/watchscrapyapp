@@ -45,12 +45,10 @@ class ArtcurialSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse, meta={"browser": self.browser})
 
     def parse(self, response):
-        print("inside parse")
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
             self.browser.get(response.url)
-            print(f"\nself.browser.get({response.url})\n")
             time.sleep(15)
             name = self.browser.find_element(By.XPATH,
                                              '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[1]/div/div/div/h3').text
@@ -70,9 +68,9 @@ class ArtcurialSpider(scrapy.Spider):
             browser = response.meta.get('browser')
             try:
                 browser.get(response.url)
-                print("\nPage loaded succesfully\n")
+                
             except Exception as e:
-                print(f'\nFailed to load page: {e}\n')
+                logging.warn(f'Failed to load page: {e}')
 
             time.sleep(20)
 
@@ -81,12 +79,9 @@ class ArtcurialSpider(scrapy.Spider):
 
             # Extracting text content from each element in the list
             all_lots = [element.text for element in all_lots_elements]
-            all_lots = int(all_lots[0].split()[0])
-
-            print(f"\n\n-- all_lots:: {all_lots}\n\n")
+            all_lots = int(all_lots[0].split()[0])            
 
             total_lots = all_lots
-            print(f"\n\n-- total_lots:: {total_lots}\n\n")
             # =====================================
             logging.warn("ArtcurialSpider; msg=Total Lots: %s;url= %s",
                          all_lots, response.url)
@@ -135,42 +130,38 @@ class ArtcurialSpider(scrapy.Spider):
 
             self.browser.get(response.url)
             time.sleep(10)
-
-            parent_element = self.browser.find_element(
+            try:
+                parent_element = self.browser.find_element(
                 By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
-            child_elements = parent_element.find_elements(By.XPATH, './/li')
-            images = []
+                child_elements = parent_element.find_elements(By.XPATH, './/li')
+                images = []
 
-            url_pattern = r'url\("([^"]+)"\)'
+                url_pattern = r'url\("([^"]+)"\)'
 
-            for li in child_elements:
-                try:
-                    div_1 = li.find_element(By.XPATH, './/div')
-                    div_list = div_1.find_elements(By.XPATH, './/div')
+                for li in child_elements:
+                    try:
+                        div_1 = li.find_element(By.XPATH, './/div')
+                        div_list = div_1.find_elements(By.XPATH, './/div')
 
-                    for i in div_list:
-                        print("\n\n----Inside inner for loop ----\n\n")
-                        print(f'\n\n----- div_list:: {i} ----\n\n')
-                        try:
-                            image_url_style = i.get_attribute('style')
+                        for i in div_list:                        
+                            try:
+                                image_url_style = i.get_attribute('style')
 
-                            match = re.search(url_pattern, image_url_style)
-                            if match:
-                                url = match.group(1)
-                                img_url = url.split("?")
-                                # img_url[0]
-                                images.append(img_url[0])
-                                print(f'\n\n---- Image URL: {url} ----\n\n')
+                                match = re.search(url_pattern, image_url_style)
+                                if match:
+                                    url = match.group(1)
+                                    img_url = url.split("?")
+                                    
+                                    images.append(img_url[0])
 
-                        except NoSuchElementException:
-                            print('\n\n----Another div-----')
-                            continue
-                except NoSuchElementException:
-                    print('\n\n----No div found inside li-----')
-                    continue
+                            except NoSuchElementException:
+                                continue
+                    except NoSuchElementException:
+                        continue
 
-            item["images"] = images
-            print(f'\nresponse.url:: {response.url}')
+                item["images"] = images
+            except NoSuchElementException:
+                logging.error("Parent element not found")
 
             title = self.browser.find_elements(
                 By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[1]/div/h4')
@@ -194,7 +185,6 @@ class ArtcurialSpider(scrapy.Spider):
             estimation_info = self.browser.find_elements(
                 By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/span')
             estimation_info = [element.text for element in estimation_info]
-            print(f'\n\n----- estimation_info:: {estimation_info} ----\n\n')
             # 9 Lot Currency
             # item["lot_currency"] = "€"
             # 10 Est min Price
@@ -225,12 +215,7 @@ class ArtcurialSpider(scrapy.Spider):
 
             item["lot_currency"] = '€'
             # 12 sold
-            sold = sold_price = 0
-            # if sold_pre_info:
-            #     sold_info = sold_pre_info[0].split(" ")
-            #     if sold_info[0] == "Sold":
-            #         sold = 1
-            #         sold_price = sold_info[1].replace(",", "")
+            sold_price = 0
             try:
                 sold_price = self.browser.find_element(
                     By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[3]/div[1]/div/div/div').text
@@ -275,7 +260,7 @@ class ArtcurialSpider(scrapy.Spider):
             browser.find_element(
                 By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div/div[2]/span/form/div[3]/div/button').click()
             time.sleep(5)
-            print(f"\n\n----- login successful -----\n\n\n")
+            logging.info("\n----- login successful -----\n")
         except Exception as e:
             logging.error(
                 "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)

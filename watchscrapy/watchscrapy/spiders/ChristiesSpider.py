@@ -23,33 +23,25 @@ class ChristiesSpider(scrapy.Spider):
         # self.start_urls = [
         # 'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
         self.start_urls = url.split(",")
-        print(f'haha:: start_urls:: {self.start_urls} --')
         self.job = job
 
     def sel_configuration(self):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
+        # options.add_argument('headless')
         browser = webdriver.Chrome(options=options)
         return browser
 
     def start_requests(self):
-        print(f'\n\n\n---------2. start_urls:: {self.start_urls} -------\n\n')
-
         self.browser = self.sel_configuration()
-        print(f'\n\n\n---------3. self.sel_configuration() -------\n\n')
-
         time.sleep(5)
 
         for url in self.start_urls:
-            # self.browser.get(url)
-            print(f'\n-- 4. self.browser.get({url}) ---')
             url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         url = response.url
-        print(f'\n\n\n---------5. url:: {url} -------\n\n')
         time.sleep(5)
         self.browser.get(response.url)
         time.sleep(5)
@@ -62,7 +54,7 @@ class ChristiesSpider(scrapy.Spider):
             accept_cookie.click()
             time.sleep(5)
         except NoSuchElementException:
-            print("\n\n---- No cookie ----\n\n")
+            logging.warn("\n---- No cookie ----\n")
         item = WatchItem()
         lots_urls = set()
         try:
@@ -71,27 +63,21 @@ class ChristiesSpider(scrapy.Spider):
             # 2 Auction Name
             name = self.browser.find_element(
                 By.XPATH, '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/h1').text
-            # logging.warn("====>name : " + item['name'])
-            # print("====>name : " + item['name'])
 
             # 3 Date
             date = self.browser.find_element(By.XPATH,
                                              '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
             date_string = re.search(r'\d{2} [A-Z]{3} \d{4}', date).group()
 
-            print(f'\n\n -- date_before_processing:: {date} \n\n--')
-
             # Convert the date string to a datetime object
             date_obj = datetime.strptime(date_string, '%d %b %Y')
 
             # Format the datetime object
             formatted_date = date_obj.strftime('%b %d,%Y')
-            print(f'\n\n -- date:: {formatted_date} \n\n--')
 
             # 4 Location
             location = self.browser.find_element(
                 By.XPATH, '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span').text
-            # item['location'] = location
 
             # 5 Lot
             # Find the parent element by XPath
@@ -117,16 +103,12 @@ class ChristiesSpider(scrapy.Spider):
                     # If 'a' tag is not found in the div, skip it
                     continue
 
-            # print(f'\n\n--lots_urls:: {lots_urls} --\n\n')
-
             lot_string = self.browser.find_element(
                 By.XPATH, '/html/body/div[1]/chr-page-nav/nav/div/ul/li[2]/a').text
             # Using regular expression to extract the number
             lot_number = re.search(r'\((\d+)\)', lot_string).group(1)
 
             lot = int(lot_number)
-
-            print(f'\n\n -- lot:: {lot} --\n')
             time.sleep(5)
 
             for url in lots_urls:
@@ -150,12 +132,10 @@ class ChristiesSpider(scrapy.Spider):
         item['location'] = response.meta.get('location')
         item['lot'] = response.meta.get('lots')
         try:
-            print(f'\n\n ---------- inside parseBS ------------\n\n')
             self.browser.get(url)
             time.sleep(5)
 
             # 6 Images
-            print(f'\n\n ---------- scraping images ------------\n\n')
             images = []
 
             active_image = self.browser.find_element(
@@ -200,7 +180,6 @@ class ChristiesSpider(scrapy.Spider):
 
             estimation = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span').text
-            print(f'\n\n---- estimation:: {estimation} ----\n\n')
             if estimation:
 
                 # Split the estimation string by spaces
@@ -217,9 +196,6 @@ class ChristiesSpider(scrapy.Spider):
                 lot_currency = None
                 est_min_price = None
                 est_max_price = None
-            print("\n -- Currency:: ", lot_currency)
-            print("\n -- Minimum Estimated Price:: ", est_min_price)
-            print("\n -- Maximum Estimated Price:: ", est_max_price)
 
             # 9 Lot Currency
             item['lot_currency'] = lot_currency

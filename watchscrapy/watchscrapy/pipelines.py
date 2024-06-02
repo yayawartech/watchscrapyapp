@@ -73,7 +73,6 @@ class WatchscrapyPipeline(object):
 
             # download this image and save locally
             s3_image_url_list = []
-            print(f'\n\n-- lot.images:: {lot.images} --\n')
             for image in lot.images:
                 s3_ops = S3Operations(image)
 
@@ -81,11 +80,10 @@ class WatchscrapyPipeline(object):
                     settings.BASE_DIR, 'static', 'tempImages', lot.job)
 
                 s3_image_url = s3_ops.download_image(save_path)
-                print(f'\n\n s3_image_url:: {s3_image_url}\n\n')
                 s3_image_url_list.append(s3_image_url)
 
             lot.s3_images = s3_image_url_list
-            print(f'\n\n-- s3_image_url_list:: {s3_image_url_list} --\n')
+            logging.info(f'-- s3_image_url_list:: {s3_image_url_list} --')
             if item["lot_currency"] == "N/A":
                 sold_price_usd = 0
             else:
@@ -135,11 +133,9 @@ class WatchscrapyPipeline(object):
             us_rate = float(self.base_rate['USD'])
 
             if base_currency != 'USD':
-                
+
                 equivalent_nrp = float(price) * base_currency_rate
                 usd_equivalent = equivalent_nrp/us_rate
             else:
                 usd_equivalent = int(price)
-        print(
-            f'\n\n-----------------usd_equivalent:: {round(usd_equivalent)} -------------------------\n\n\n')
         return round(usd_equivalent)

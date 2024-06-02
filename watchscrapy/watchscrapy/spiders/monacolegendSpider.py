@@ -148,8 +148,6 @@ class monacolegendSpider(scrapy.Spider):
             # 5 Lot
 
             item['lot'] = response.meta.get('lot_number')
-            print(f'\n\n-- lot:: {item['lot']}--\n\n')
-
             # 6 Images
             images = []
             try:
@@ -157,8 +155,6 @@ class monacolegendSpider(scrapy.Spider):
                     By.XPATH, '/html/body/main/section/div/div[2]')
                 img_figure2 = parent_element.find_elements(
                     By.XPATH, './/figure')
-
-                print(f'\n--- len(img_figure2): {img_figure2} ----\n')
 
                 for div in img_figure2:
                     try:
@@ -168,16 +164,12 @@ class monacolegendSpider(scrapy.Spider):
                     except NoSuchElementException:
                         continue
             except NoSuchElementException:
-                print(f'\n--- parent_element not found ----\n')
-
-            print(f'\n\n-- images:: {images} --\n')
+                logging.warn(f'\n--- parent_element not found ----\n') 
 
             item['images'] = images
 
-            # 7 Title
+            # 7 Title            
             title = self.browser.find_element(
-                By.XPATH, '/html/body/main/section/div/div[3]/h1/span[1]').text
-            title += self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[3]/h1/span[2]').text
 
             item['title'] = title

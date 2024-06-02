@@ -25,8 +25,6 @@ class PhillipsSpider(scrapy.Spider):
 
     def sel_configuration(self):
         # Selenium Configuration
-        # setup = Setup.objects.first()
-        # SELENIUM_CHROMEDRIVER_PATH = setup.chromedriver
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         options.add_argument('headless')
@@ -35,14 +33,8 @@ class PhillipsSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
-        print(f'\n\n\n---------2. start_urls:: {self.start_urls} -------\n\n')
-
         self.browser = self.sel_configuration()
-        print(f'\n\n\n---------3. self.sel_configuration() -------\n\n')
-
         self.browser.get(self.start_urls[0])
-        print(f'\n-- 4. self.browser.get({self.start_urls[0]})---')
-
         time.sleep(10)
         self.browser.find_element(
             By.XPATH, '/html/body/div[1]/header/nav/ul[2]/li/button').click()
@@ -51,16 +43,13 @@ class PhillipsSpider(scrapy.Spider):
         redirected_url = self.browser.current_url
 
         self.login(redirected_url)
-        print("Redirected URL:", redirected_url)
 
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
 # ====================================
     def parse(self, response):
-        print(f'\n\n------- Inside parse::: --------- \n\n')
-        print(f'\n\n\n---------5. start_urls:: {response.url} -------\n\n')
-
+        
         logging.warn(
             "PhillipsSpider; msg=Spider started;url= %s", response.url)
         self.browser.get(response.url)
@@ -70,10 +59,7 @@ class PhillipsSpider(scrapy.Spider):
 
         all_lots = re.search(r'\d+', number_of_lots).group()
 
-        print(f'\n\n\n---------6. all_lots:: {all_lots} -------\n\n')
-
         auction_details = response.xpath('//div[@class="auction-details"]')
-        print(f'\nauction_details:: {auction_details}\n')
         total_lots = response.xpath(
             '//div[@class="auction-page__grid__nav__info"]/text()').extract_first().split(" ")[1].strip()
         logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
@@ -86,19 +72,6 @@ class PhillipsSpider(scrapy.Spider):
 
         date_location = response.xpath(
             '//span[@class="auction-page__hero__date"]/text()').extract()[0].strip().split("Auction")
-
-        # 3 Date
-        """
-        if "M" in date_location[-1].upper():
-            date_info = date_location[-4].split("-")[-1] + " " + date_location[-3] + " " + date_location[-2]
-        else:
-            date_info = date_location[-3].split("-")[-1] + " " + date_location[-2] + " " + date_location[-1]
-        
-        date = datetime.strptime(date_info.strip(),'%d %B %Y').strftime('%b %d,%Y')
-        #4 Location
-        location = date_location[0].strip()
-        """
-
         # 3 Date
 
         date_info = date_location[1].split(" ")
@@ -118,13 +91,11 @@ class PhillipsSpider(scrapy.Spider):
             url_info = [option.get_attribute(
                 "value") for option in options if option.get_attribute("value")]
 
-            print(f'\n\n-- url_info:: {url_info} --\n')
             if select_element:
                 for url in url_info:
                     yield scrapy.Request(url, callback=self.parse_details, meta={'lot': lot, 'name': name, 'date': date, 'location': location, 'base_url': url_info[0], 'auction_url': response.url, 'lots': total_lots})
 
     def parse_details(self, response):
-        print(f'\n\n------- Inside parse_details::: --------- \n\n')
         self.browser.get(response.url)
         time.sleep(5)
         item = WatchItem()
@@ -157,7 +128,6 @@ class PhillipsSpider(scrapy.Spider):
                 '//h1[@class="lot-page__lot__maker__name"]/text()').extract()
 
             # 6 Images
-            # auction_code = base_url.rsplit('/', 1)
 
             try:
                 parent_element = self.browser.find_element(
@@ -178,18 +148,15 @@ class PhillipsSpider(scrapy.Spider):
                     except NoSuchElementException:
                         continue
             except NoSuchElementException:
-                print(f'\n--- parent_element not found ----\n')
+                logging.warn(f'\n--- parent_element not found ----\n')
 
-            print(f'\n\n-- images:: {images} --\n')
             item["images"] = images
 
             item["title"] = title[0]
 
             # 8 Description
             description = ""
-
-            short_desc = response.xpath(
-                "//meta[@name='description']/@content").extract_first()
+            
             description = description + "\n"
             desc = response.xpath(
                 '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
@@ -197,12 +164,12 @@ class PhillipsSpider(scrapy.Spider):
 
                 desc = response.xpath(
                     '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
-            print(f'\n------ desc:: {desc[0]} ---\n')
+            
 
             description = description + desc[0]
             essay_info = response.xpath(
                 '//div[@class="lot-essay"]/p/text()').extract()
-            print(f'\n------ essay_info:: {essay_info} ---\n')
+            
             essay = ""
             for para in essay_info:
                 essay = essay + para
@@ -222,7 +189,7 @@ class PhillipsSpider(scrapy.Spider):
                     '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]/text()').extract()
             est_min_price = estimation[1]
             est_max_price = estimation[3]
-            print(f'\n\n----estimation:: {estimation} ----\n\n')
+            
             item["est_min_price"] = est_min_price
             item["est_max_price"] = est_max_price
 
@@ -265,8 +232,6 @@ class PhillipsSpider(scrapy.Spider):
         yield item
 
     def login(self, redirected_url):
-        print(f'\n--- inside login ---\n')
-        print(f'\nredirected_url:: {redirected_url}\n')
         login_url = redirected_url
         time.sleep(2)
         try:
@@ -283,7 +248,7 @@ class PhillipsSpider(scrapy.Spider):
             self.browser.find_element(
                 By.XPATH, '//*[@id=":r3:"]').click()
             time.sleep(5)
-            print(f"\n\n----- login successful -----\n\n\n")
+            logging.info(f"\n----- login successful -----\n")
         except Exception as e:
             logging.error(
                 "PhillipsSpider; msg=Login Failed > %s;url= %s", str(e), login_url)

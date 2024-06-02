@@ -38,7 +38,6 @@ class BukowskisSpider(scrapy.Spider):
         auction_url = response.url
         for page in range(page_numbers):
             absolute_url = response.url+"/page/"+str(page+1)
-            print(f'\n\n\n----------- absolute_url:: {absolute_url} -------\n')
             yield scrapy.Request(absolute_url, callback=self.parse_urls, meta={"auction_url": auction_url, "lots": total_lots})
 
     def parse_urls(self, response):
@@ -48,34 +47,19 @@ class BukowskisSpider(scrapy.Spider):
             all_lots = response.xpath(
                 '//div[@class="c-lot-index__lots"]/div/div')
 
-            # 1
-            house_name = 4
-
             # 2
             name = response.xpath(
                 '//div[@class="c-headline-block"]/h1/text()').extract()[0]
-
-            # 3
-            # date = response.xpath('//div[@class="c-search-filters__link c-search-filters__link--headline"]/text()').extract()[0].replace("Auction","").replacex("\xa0"," ").strip()
-
-            # date = response.xpath('//div[@class="c-search-filters__link c-search-filters__link--headline"]/text()').extract()[0]
-
-            # if len(date.split()) < 3:
-            #     date  = date + ", 2020"
-            print(
-                f'\n\n\n\n&&&&&&&&&&&&& all_lots:: ${all_lots} $$$$$$$$\n\n\n\n')
+            
             for lots in all_lots:
                 url_segment = lots.xpath('a[1]/@href').extract()
                 if url_segment:
                     final_url = "https://" + \
                         self.allowed_domains[0] + url_segment[0]
-                    # lot_number = lots.xpath(
-                    #     '//a[@class="c-lot-index-lot__title u-line-clamp"]/text()').extract()[0].split(".")[0]
+                    
                     lot_number = lots.xpath(
                         '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div/text()').extract()
                     lot_number = lot_number[0].split()[0]
-                    print(
-                        f'\n\n\n-----------lot_number:: {lot_number}-------\n')
 
                     items = {'name': name, 'lot_number': lot_number, 'auction_url': response.meta.get(
                         "auction_url"), 'lots': response.meta.get("lots")}
@@ -111,11 +95,6 @@ class BukowskisSpider(scrapy.Spider):
             item["date"] = datetime.strptime(
                 date.strip(), '%b %d, %Y').strftime('%b %d,%Y')
 
-            # TODO
-            # 4 Location
-            # location = response.xpath(
-            #     '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[3]/div[2]/span/a/text()').extract()
-
             location = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/details[2]/div[1]/div/div[2]/div[1]/text()').extract()
 
@@ -137,21 +116,16 @@ class BukowskisSpider(scrapy.Spider):
                 img = div.xpath(".//img")
                 img_url = img.xpath('@src').extract()
                 images.append(img_url)
-            print(f'\n------images:: {img_url} ------\n\n')
             item['images'] = img_url
 
             # 7 title
-            # title = response.xpath(
-            # '//div[@class="c-live-lot-show-header__title"]/text()').extract()[0]
+            
             title = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[1]/div/div[1]/h1/text()').extract()[0]
-            # title = " ".join(title)
             item["title"] = title
 
             # 8 Description
-            # description = response.xpath(
-            # '//div[@class="c-live-lot-show-info__description"]').extract()[0]
-
+            
             description = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div[3]//text()').extract()
             description = " ".join(description)
@@ -184,7 +158,6 @@ class BukowskisSpider(scrapy.Spider):
                 item["sold_price"] = sold_price
                 item["sold"] = 1
 
-            # if sold_info == "Unsold":
             item["sold"] = 0
             item["sold_price"] = 0
 
@@ -204,5 +177,3 @@ class BukowskisSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         yield item
-
-# location_info
