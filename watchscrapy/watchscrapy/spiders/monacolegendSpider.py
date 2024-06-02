@@ -6,12 +6,9 @@ import logging
 import traceback
 from scrapy import signals
 from datetime import datetime
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
@@ -140,7 +137,6 @@ class monacolegendSpider(scrapy.Spider):
             # 2 Auction Name
             item['name'] = self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[1]/h2/a/span[1]').text
-            logging.warn("====>name : " + item['name'])
 
             # 3 Date
 
@@ -154,26 +150,43 @@ class monacolegendSpider(scrapy.Spider):
             item['lot'] = response.meta.get('lot_number')
             print(f'\n\n-- lot:: {item['lot']}--\n\n')
 
-            logging.warn("====>lot : " + item['lot'])
             # 6 Images
-            images_links = self.browser.find_element(
-                By.XPATH, '/html/body/main/section/div/div[2]/figure/a/img')
-            image = images_links.get_attribute('src')
-            item['images'] = image
+            images = []
+            try:
+                parent_element = self.browser.find_element(
+                    By.XPATH, '/html/body/main/section/div/div[2]')
+                img_figure2 = parent_element.find_elements(
+                    By.XPATH, './/figure')
+
+                print(f'\n--- len(img_figure2): {img_figure2} ----\n')
+
+                for div in img_figure2:
+                    try:
+                        a_tag = div.find_element(By.XPATH, './/a')
+                        a_href = a_tag.get_attribute('href')
+                        images.append(a_href)
+                    except NoSuchElementException:
+                        continue
+            except NoSuchElementException:
+                print(f'\n--- parent_element not found ----\n')
+
+            print(f'\n\n-- images:: {images} --\n')
+
+            item['images'] = images
 
             # 7 Title
+            title = self.browser.find_element(
+                By.XPATH, '/html/body/main/section/div/div[3]/h1/span[1]').text
+            title += self.browser.find_element(
+                By.XPATH, '/html/body/main/section/div/div[3]/h1/span[2]').text
 
-            item['title'] = self.browser.find_element(
-                By.XPATH, '/html/body/main/section/div/div[3]/h1/span[3]').text
-            logging.warn("====>title : " + item['title'])
+            item['title'] = title
 
             # 8 Description
             description = self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[3]/p[3]').text
 
             item['description'] = description
-
-            logging.warn("====>description : " + item['description'])
 
             estimation = self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[3]/p[1]').text
@@ -182,15 +195,10 @@ class monacolegendSpider(scrapy.Spider):
                 # Split the estimation string by the colon ':' to separate the label from the value
                 _, prices = estimation.split(':')
 
-                # Split the prices by the en dash '–' to separate the minimum and maximum prices
                 min_price, max_price = prices.split('–')
 
-                # Extracting currency symbol
-                # Getting the currency symbol from the minimum price
                 lot_currency = min_price.strip()[0]
 
-                # Extracting minimum and maximum prices
-                # Removing currency symbol and commas, then converting to integer
                 est_min_price = min_price.strip()[1:]
                 est_max_price = max_price.strip()
             else:
@@ -200,41 +208,36 @@ class monacolegendSpider(scrapy.Spider):
 
             # 9 Lot Currency
             item['lot_currency'] = lot_currency
-            logging.warn("====>lot_currency : " + item['lot_currency'])
 
             # 10 Est Min Price
             item['est_min_price'] = est_min_price.replace(",", "")
-            logging.warn("====>est_min_price : " + str(item['est_min_price']))
 
             # 11 Est Max Price
             item['est_max_price'] = est_max_price.replace(",", "")
-            logging.warn("====>est_max_price : " + str(item['est_max_price']))
 
             # 12 Sold Price
-            # BREAKPOINT: CSS CLASS
+
             try:
                 sold_price_string = self.browser.find_element(
                     By.XPATH, '/html/body/main/section/div/div[3]/p[2]').text
 
-                # Extracting only the numerical value using regular expression
                 price_match = re.search(r'€\s*([\d,]+)', sold_price_string)
                 if price_match:
-                    sold_price = int(
-                        price_match.group(1).replace(',', ''))
+                    sold_price = price_match.group(1).replace(',', '')
                 else:
-                    sold_price = None
+                    sold_price = 0
 
             except:
                 sold = 0
-            # sold = sold_price = 0
+
             if sold_price:
-                # sold_price = sold_price_info.text.replace(",", "")
+                sold_price = sold_price.replace(",", "")
                 sold = 1
             item['sold_price'] = sold_price
-            logging.warn("====>sold_price : " + str(item['sold_price']))
+
             item['sold'] = sold
-            # 13 Sold Price Dollar
-            item['sold_price_dollar'] = 0
+
+            item['sold_price_dollar'] = None
 
             # 14  URL
             item['url'] = url

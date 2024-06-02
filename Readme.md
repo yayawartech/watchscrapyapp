@@ -23,7 +23,7 @@ pip install -r requirements.txt
 python manage.py migrate --database=default && python manage.py migrate --database=awsrds 
 ```
 5. Create superuser
-``python manage.py createsuperuser ``
+```python manage.py createsuperuser ```
 
 6. Update S3 credentials in .env
 ```

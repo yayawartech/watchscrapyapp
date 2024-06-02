@@ -18,6 +18,7 @@ class DorotheumSpider(scrapy.Spider):
         self.job = job
 
     def start_requests(self):
+        # start_urls = ['https://www.dorotheum.com/en/a/93739/']
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -60,6 +61,7 @@ class DorotheumSpider(scrapy.Spider):
 
                 if lot_number == "+":
                     lot_number = lot_number_info[-2]
+                    
                 items = {'name':name,'date':date,'location':location,'lot_number':lot_number,'auction_url':response.url,'lots':total_lots}
                 yield scrapy.Request(final_url,callback=self.parse_url,meta=items)
         except Exception as e:
@@ -104,8 +106,7 @@ class DorotheumSpider(scrapy.Spider):
                 image_url_segment = "https://"+self.allowed_domains[0] + "/"+images["bild"]
                 img_list.append(image_url_segment)
 
-            # item["images"] = img_list
-            item["images"] = img_list[0]
+            item["images"] = img_list
             
             #7 title
             title = response.xpath('//h2[@class="headline"]/text()').extract()[0].strip()
@@ -153,7 +154,7 @@ class DorotheumSpider(scrapy.Spider):
             item["sold_price"] = sold_price
 
             #14 sold_price_dollar
-            item["sold_price_dollar"] = 0
+            item["sold_price_dollar"] = None
 
             #15 url
             item["url"] = response.url
@@ -166,5 +167,3 @@ class DorotheumSpider(scrapy.Spider):
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job
         yield item
-
-# Images are in array. Either store in array or store just single image

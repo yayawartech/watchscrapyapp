@@ -18,6 +18,11 @@ class BukowskisSpider(scrapy.Spider):
         self.start_urls = url.split(",")
         self.job = job
 
+    def start_requests(self):
+        # start_urls = ['https://www.bukowskis.com/en/auctions/F215/lots']
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
     def parse(self, response):
 
         # -1 because, there is a span called as next or previous
@@ -33,6 +38,7 @@ class BukowskisSpider(scrapy.Spider):
         auction_url = response.url
         for page in range(page_numbers):
             absolute_url = response.url+"/page/"+str(page+1)
+            print(f'\n\n\n----------- absolute_url:: {absolute_url} -------\n')
             yield scrapy.Request(absolute_url, callback=self.parse_urls, meta={"auction_url": auction_url, "lots": total_lots})
 
     def parse_urls(self, response):
@@ -56,18 +62,18 @@ class BukowskisSpider(scrapy.Spider):
 
             # if len(date.split()) < 3:
             #     date  = date + ", 2020"
-
+            print(
+                f'\n\n\n\n&&&&&&&&&&&&& all_lots:: ${all_lots} $$$$$$$$\n\n\n\n')
             for lots in all_lots:
                 url_segment = lots.xpath('a[1]/@href').extract()
                 if url_segment:
                     final_url = "https://" + \
                         self.allowed_domains[0] + url_segment[0]
-   
+                    # lot_number = lots.xpath(
+                    #     '//a[@class="c-lot-index-lot__title u-line-clamp"]/text()').extract()[0].split(".")[0]
                     lot_number = lots.xpath(
                         '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div/text()').extract()
-                    lot_number = int(lot_number[0].split()[0])
-                    
-
+                    lot_number = lot_number[0].split()[0]
                     print(
                         f'\n\n\n-----------lot_number:: {lot_number}-------\n')
 
@@ -107,7 +113,9 @@ class BukowskisSpider(scrapy.Spider):
 
             # TODO
             # 4 Location
-            
+            # location = response.xpath(
+            #     '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[3]/div[2]/span/a/text()').extract()
+
             location = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/details[2]/div[1]/div/div[2]/div[1]/text()').extract()
 
@@ -115,12 +123,22 @@ class BukowskisSpider(scrapy.Spider):
 
             # 5 Lot Number
             lot_number = response.meta.get("lot_number")
-            item["lot"] = lot_number
+
+            item["lot"] = int(lot_number[0].split()[0])
 
             # 6 images
-            images = response.xpath(
-                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[2]/div/div[3]/div[1]/a[1]/img/@src').extract()[0]
-            item["images"] = images
+            images = []
+            parent_element = response.xpath(
+                '/html/body/div[2]/div[2]/div[1]/div[4]/div[2]/div/div[4]/div')
+
+            for elem in parent_element:
+                a_tag = elem.xpath('.//a')
+                div = a_tag.xpath(".//div")
+                img = div.xpath(".//img")
+                img_url = img.xpath('@src').extract()
+                images.append(img_url)
+            print(f'\n------images:: {img_url} ------\n\n')
+            item['images'] = img_url
 
             # 7 title
             # title = response.xpath(
@@ -136,7 +154,7 @@ class BukowskisSpider(scrapy.Spider):
 
             description = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div[3]//text()').extract()
-            description = " ".join(description).replace("\xa0", " ")
+            description = " ".join(description)
             item["description"] = description
 
             # 9 Lot Currency
@@ -158,25 +176,20 @@ class BukowskisSpider(scrapy.Spider):
             item["est_max_price"] = est_max_price
 
             # 12 sold
-            sold = 0
-            sold_price = 0
             sold_info = response.xpath(
                 '//div[@class="c-live-lot-show-info__final-price-amount"]/text()')
             if sold_info:
-                sold = 1
                 sold_price = sold_info[0].extract().replace(
                     "SEK", "").replace("\xa0", "")
+                item["sold_price"] = sold_price
+                item["sold"] = 1
 
-            if sold_price == "Unsold":
-                sold = sold_price = 0
-
-            item["sold"] = sold
-
-            # 13 sold_price
-            item["sold_price"] = sold_price
+            # if sold_info == "Unsold":
+            item["sold"] = 0
+            item["sold_price"] = 0
 
             # 14 sold_price_dollar
-            item["sold_price_dollar"] = 0
+            item["sold_price_dollar"] = None
 
             # 15 url
             item["url"] = response.url

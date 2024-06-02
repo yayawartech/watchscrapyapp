@@ -44,8 +44,11 @@ class Lot(models.Model):
     sold_price = models.CharField(max_length=10)
     
     sold_price_dollar = models.IntegerField()
-    images = models.TextField()
-    s3_image = models.TextField()
+    # images = models.TextField()
+    images = models.JSONField(default=list)
+    # s3_image = models.TextField()
+    s3_images = models.JSONField(default=list)
+
 
     auction = models.ForeignKey(Auction,on_delete=models.CASCADE)
 
@@ -53,7 +56,7 @@ class Lot(models.Model):
 
     def get_images(self):
         # imgs = self.images.split(",")
-        imgs = self.s3_image.split(",")
+        imgs = self.s3_images
         imgsList = []
         for img in imgs:
             imgsList.append(img.strip('[').strip(']').replace("'",""))
@@ -73,8 +76,8 @@ class Lot(models.Model):
             descr_text=""+" ".join(self.description)
         else:
             descr_text = self.description
-
-        self.search_all = title_txt+descr_text
+        if title_txt is not None:
+            self.search_all = title_txt+descr_text
         super(Lot, self).save(*args, **kwargs)
 
 class Setup(models.Model):

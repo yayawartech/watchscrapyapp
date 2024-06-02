@@ -72,24 +72,27 @@ class WatchscrapyPipeline(object):
             lot.images = item["images"]
 
             # download this image and save locally
-            
-            # self.convert_to_list(lot.images)
-            # for image in lot.images:
-            s3_ops = S3Operations(lot.images)
+            s3_image_url_list = []
+            print(f'\n\n-- lot.images:: {lot.images} --\n')
+            for image in lot.images:
+                s3_ops = S3Operations(image)
 
-            save_path = os.path.join(
-                settings.BASE_DIR, 'static', 'tempImages', lot.job)
+                save_path = os.path.join(
+                    settings.BASE_DIR, 'static', 'tempImages', lot.job)
 
-            # s3_image_url = s3_ops.download_image(lot.images, save_path)
-            s3_image_url = s3_ops.download_image(save_path)
-            print(f'\n\n s3_image_url:: {s3_image_url}\n\n')
+                s3_image_url = s3_ops.download_image(save_path)
+                print(f'\n\n s3_image_url:: {s3_image_url}\n\n')
+                s3_image_url_list.append(s3_image_url)
 
-            lot.s3_image = s3_image_url
+            lot.s3_images = s3_image_url_list
+            print(f'\n\n-- s3_image_url_list:: {s3_image_url_list} --\n')
             if item["lot_currency"] == "N/A":
                 sold_price_usd = 0
             else:
+
                 sold_price_usd = self.get_usd_amount(
                     item["lot_currency"], item["sold_price"])
+
             lot.sold_price_dollar = sold_price_usd
 
             lot.auction_id = auction_id
@@ -104,13 +107,20 @@ class WatchscrapyPipeline(object):
         return item
 
     def get_base_rate(self):
-        # response = requests.get("https://api.exchangeratesapi.io/latest?base=USD")
-        # respj = json.loads(response.text)
-        # self.base_rate = respj["rates"]
-        self.base_rate = {"rates": 130, 'base_currency': 130}
+        response = requests.get('https://www.nrb.org.np/api/forex/v1/rate')
+        # rate is equivalent to Nepali currency
+        respj = json.loads(response.text)
+        base_rate = respj["data"]['payload']['rates']
+
+        currency_rates = {}
+        for item in base_rate:
+            currency = item['currency']['iso3']
+            rate = item['buy']
+            currency_rates[currency] = float(rate)
+        self.base_rate = currency_rates
 
     def get_usd_amount(self, base_currency, price):
-        usd_price = 0
+        usd_equivalent = 0
         if base_currency == "€":
             base_currency = "EUR"
         if base_currency == "&#163;":
@@ -119,19 +129,17 @@ class WatchscrapyPipeline(object):
             base_currency = "USD"
         if base_currency == "HK$":
             base_currency = "HKD"
-        if base_currency and base_currency in self.base_rate.keys():
-            rate = self.base_rate[base_currency]
-            if rate > 0:
-                usd_price = int(price)/rate
-        return round(usd_price)
+        if base_currency in self.base_rate.keys():
 
-    def convert_to_list(self, value):
-        if isinstance(value, str):
-            # If the value is a string, convert it to a list
-            return [value]
-        elif isinstance(value, list):
-            # If the value is already a list, return it as is
-            return value
-        else:
-            # If it's neither a string nor a list
-            return None 
+            base_currency_rate = float(self.base_rate[base_currency])
+            us_rate = float(self.base_rate['USD'])
+
+            if base_currency != 'USD':
+                
+                equivalent_nrp = float(price) * base_currency_rate
+                usd_equivalent = equivalent_nrp/us_rate
+            else:
+                usd_equivalent = int(price)
+        print(
+            f'\n\n-----------------usd_equivalent:: {round(usd_equivalent)} -------------------------\n\n\n')
+        return round(usd_equivalent)

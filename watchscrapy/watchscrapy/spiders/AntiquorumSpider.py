@@ -18,16 +18,9 @@ class AntiquorumSpider(scrapy.Spider):
         self.start_urls = url.split(",")
         self.job = job
 
-    # ---------------------------------------------------------------------------
-    # start_requests() is not need as the start_urls will be coming from the UI dynamically
-    # ---------------------------------------------------------------------------
-
-    # def start_requests(self):
-    #     # Provide a complete URL with the scheme (e.g., "http://" or "https://")
-    #     start_urls = [
-    #         'https://catalog.antiquorum.swiss/en/auctions/only_Online_auction_geneva_december_2022/lots']
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         total_lots = response.xpath(
@@ -80,7 +73,7 @@ class AntiquorumSpider(scrapy.Spider):
 
             # name = all_desc.xpath("//p[1]/text()").extract_first() or None
             # name = response.xpath(
-                # "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract()
+            # "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract()
             name = response.xpath(
                 "/html/body/div[10]/div[2]/div[1]/div[2]/p[1]/text()").extract()
             name_title = " ".join(name)
@@ -106,49 +99,93 @@ class AntiquorumSpider(scrapy.Spider):
 
             # images_url = response.xpath(
             #     '//div[@class="container"]/div[@class="container"]/div/div/div[1]/div[2]/a/@href').extract()
+            parent_element = response.xpath(
+                '/html/body/div[10]/div[2]/div[1]/div[3]/div[3]').extract()
+            images = []
 
-            images_url = response.xpath(
-                '/html/body/div[10]/div[2]/div[1]/div[3]/div[3]/a[1]/@href').extract()[0]
+            for html_text in parent_element:
+                # Parse the HTML text using Scrapy's Selector
+                selector = scrapy.Selector(text=html_text)
 
-            item['images'] = images_url
+                # Extract URLs using XPath
+                a_tags = selector.xpath('.//a')
+                for a_tag in a_tags:
+                    img_url = a_tag.xpath('./@href').get()
+                    images.append(img_url)
 
-            # title = all_desc.xpath('//strong/p/text()').extract_first()
+            item['images'] = images
+
             title = response.xpath(
-                "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract() or None
-            if title is None:
-                title=response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()').extract()
-            title = " ".join(title)
-            
-            item['title'] = title.strip()
+                "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract() or None
+            if title != "" or title is not None:
+                try:
+                    item['title'] = title[0]
+                except:
+                    item['title'] = title
+            else:
+                title1 = response.xpath(
+                    "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract() or None
+                title2 = response.xpath(
+                    '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract() or None
+                if title1:
+                    item['title'] = title1[0]
+                else:
+                    item['title'] = title2[0]
 
-            # desc = all_desc.xpath('//p').extract() or None
-            
-            description = response.xpath(
-            '/html/body/div[10]/div[2]/div[1]/div[2]/div[5]/text()').extract() or None
-            if description is None:
-                description = response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[4]/text()').extract()
-            
-            description = "".join(description)
-            des = response.xpath('/html/body/div[10]/div[2]/div[1]/div[2]/div[7]/text').extract()
-            des = "".join(des)
-            description += des
+                if title1 and title2:
+                    title = title1[0]+title2[0]
+                    item['title'] = title
 
+            data = ""
+            col = response.xpath('/html/body/div[10]/div[2]/div[2]/div[2]')
 
-            des = self.clean_description(description)
-            print(f'\n\n description:: {des} \n\n')
-            raw_table_data = all_desc.xpath(
-                'div[@class="row"]/div/div/div/table').extract()
-            table_data = ""
-            if raw_table_data:
-                table_data = "Table:: " + \
-                    re.sub("\t", "", re.sub("\n", "", raw_table_data[0]))
+            data += f"Brand: {col.xpath(
+                'p/strong[contains(text(), "Brand")]/following-sibling::text()').get()}\n"
+            data += f"Model: {col.xpath(
+                'p/strong[contains(text(), "Model")]/following-sibling::text()').get()}\n"
+            data += f"Reference: {col.xpath(
+                'p/strong[contains(text(), "Reference")]/following-sibling::text()').get()}\n"
+            data += f"Year: {col.xpath(
+                'p/strong[contains(text(), "Year")]/following-sibling::text()').get()}\n"
+            data += f"Calibre: {col.xpath(
+                'p/strong[contains(text(), "Calibre")]/following-sibling::text()').get()}\n"
+            data += f"Case No.: {col.xpath(
+                'p/strong[contains(text(), "Case No.")]/following-sibling::text()').get()}\n"
+            data += f"Bracelet: {col.xpath(
+                'p/strong[contains(text(), "Bracelet")]/following-sibling::text()').get()}\n"
+            data += f"Diameter: {col.xpath(
+                'p/strong[contains(text(), "Diameter")]/following-sibling::text()').get()}\n"
+            data += f"Signature: {col.xpath(
+                'p/strong[contains(text(), "Signature")]/following-sibling::text()').get()}\n"
+            data += f"Accessories: {col.xpath(
+                'p/strong[contains(text(), "Accessories")]/following-sibling::text()').get()}\n"
+            description = data
+            # if description is None:
+            #     description = response.xpath(
+            #         '/html/body/div[10]/div[2]/div[1]/div[2]/div[4]/text()').extract()
 
-            description = des + table_data
+            # print(f'\n\n---description:: {description} ---\n\n')
+            # description = "".join(description)
+            # des = response.xpath(
+            #     '/html/body/div[10]/div[2]/div[1]/div[2]/div[7]/text()').extract()
+            # des = "".join(des)
+            # description += des
 
-            notes = response.xpath(
-                '//div[@class="container"]/div[@class="container"]/div/div[2]/div/text()').extract()
-            if notes:
-                description = description + notes[0]
+            # des = self.clean_description(description)
+            # print(f'\n\n description:: {des} \n\n')
+            # raw_table_data = all_desc.xpath(
+            #     'div[@class="row"]/div/div/div/table').extract()
+            # table_data = ""
+            # if raw_table_data:
+            #     table_data = "Table:: " + \
+            #         re.sub("\t", "", re.sub("\n", "", raw_table_data[0]))
+
+            # description = des + table_data
+
+            # notes = response.xpath(
+            #     '//div[@class="container"]/div[@class="container"]/div/div[2]/div/text()').extract()
+            # if notes:
+            #     description = description + notes[0]
 
             item['description'] = description
 
@@ -166,7 +203,7 @@ class AntiquorumSpider(scrapy.Spider):
             item['lot_currency'] = lot_currency
 
             sold_info = all_desc.xpath("//h4[2]/text()").extract_first()
-            sold = sold_price = sold_price_dollar = 0
+            sold = sold_price = 0
 
             if "Sold" in sold_info:
                 sold = 1
@@ -174,7 +211,7 @@ class AntiquorumSpider(scrapy.Spider):
 
             item["sold"] = sold
             item['sold_price'] = sold_price
-            item['sold_price_dollar'] = sold_price_dollar
+            item['sold_price_dollar'] = None
             item['url'] = response.url
             item['status'] = "Success"
             item['total_lots'] = response.meta.get("lots")
@@ -182,9 +219,9 @@ class AntiquorumSpider(scrapy.Spider):
                 "AntiquorumSpider; msg=Crawling Processed;url= %s", response.url)
         except Exception as e:
             item['status'] = "Failed"
-            logging.error(
-                "AntiquorumSpider; msg=Crawling Failed;url= %s", response.url)
-            logging.debug("AntiquorumSpider; msg=Crawling Failed;url= %s;Error=%s",
+            # logging.error(
+            #     "AntiquorumSpider; msg=Crawling Failed;url= %s", response.url)
+            logging.error("AntiquorumSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
         item["auction_url"] = response.meta.get("auction_url")
         item["job"] = self.job

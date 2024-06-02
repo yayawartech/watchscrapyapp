@@ -9,16 +9,17 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 class PhillipsSpider(scrapy.Spider):
     name = "phillipsSpider"
     allowed_domains = ["www.phillips.com"]
-    start_urls = ['https://www.phillips.com/auctions/auction/NY080119']
+    # start_urls = ['https://www.phillips.com/auctions/auction/NY080119']
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(PhillipsSpider, self).__init__(*args, **kwargs)
-        # self.start_urls = url.split(",")
+        self.start_urls = url.split(",")
         print(f'\n\n\n--------- 1. start_urls:: {self.start_urls} -------\n\n')
         self.job = job
 
@@ -124,6 +125,8 @@ class PhillipsSpider(scrapy.Spider):
 
     def parse_details(self, response):
         print(f'\n\n------- Inside parse_details::: --------- \n\n')
+        self.browser.get(response.url)
+        time.sleep(5)
         item = WatchItem()
         try:
             lot = response.meta.get('lot')
@@ -153,25 +156,33 @@ class PhillipsSpider(scrapy.Spider):
             title = response.xpath(
                 '//h1[@class="lot-page__lot__maker__name"]/text()').extract()
 
-            # desc = lot.xpath('a/p/span/text()').extract()
-
             # 6 Images
-            auction_code = base_url.rsplit('/', 1)
-            image_url = response.xpath(
-                "//meta[@property='og:image']/@content").extract()
-            item["images"] = image_url[0]
+            # auction_code = base_url.rsplit('/', 1)
 
-            """
-            if artist:
-                title = artist
-            else:
-                title = lot_number   
-            #7 Title
-            if desc:
-                title = artist + "-" + desc[1]
-                if len(desc) > 2 and desc[len(desc)-1]!=" ":
-                    title = title + "-" + desc[3]
-            """
+            try:
+                parent_element = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
+
+                div_elements = parent_element.find_elements(
+                    By.XPATH, './/div')
+                images = []
+
+                # Iterate over each div element to find the 'a' tag and extract href attribute
+                for div in div_elements:
+                    try:
+                        inner_div = div.find_element(By.XPATH, './/div')
+                        img = inner_div.find_element(By.XPATH, './/img')
+                        img_src = img.get_attribute('src')
+                        images.append(img_src)
+
+                    except NoSuchElementException:
+                        continue
+            except NoSuchElementException:
+                print(f'\n--- parent_element not found ----\n')
+
+            print(f'\n\n-- images:: {images} --\n')
+            item["images"] = images
+
             item["title"] = title[0]
 
             # 8 Description
@@ -205,36 +216,38 @@ class PhillipsSpider(scrapy.Spider):
             est_min_price = est_max_price = 0
             estimation = response.xpath(
                 '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]/text()').extract() or None
+
             if estimation is None and estimation[0] != '$':
                 estimation = response.xpath(
                     '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]/text()').extract()
-                est_min_price = estimation[1]
-                est_max_price = estimation[3]
+            est_min_price = estimation[1]
+            est_max_price = estimation[3]
+            print(f'\n\n----estimation:: {estimation} ----\n\n')
             item["est_min_price"] = est_min_price
             item["est_max_price"] = est_max_price
 
             # 9 Lot Currency
-            sold_price = sold = 0
+            sold = 0
             sold_price_info = response.xpath(
-                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract() or None
+                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract() or None
             if sold_price_info is None:
                 sold_price_info = response.xpath(
-                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract()
-            
+                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract()
             # 12 Sold Price
-            if sold_price:
+            if sold_price_info:
                 lot_currency = sold_price_info[1]
-                item["sold_price"] = sold_price_info[2]
+                sold_price_without_comma = sold_price_info[2].replace(',', '')
+                item["sold_price"] = sold_price_without_comma
 
                 item["lot_currency"] = lot_currency
+                sold = 1
             else:
                 item['sold_price'] = 0
                 item['lot_currency'] = ""
-            print("\n----2. Sold Price:", sold)
             item["sold"] = sold
             # 13 Sold Price Dollar
-            sold_price_dollar = 0
-            item["sold_price_dollar"] = sold_price_dollar
+
+            item["sold_price_dollar"] = None
 
             # 14  URL
             item['url'] = response.url

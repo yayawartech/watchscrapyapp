@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import re
-from scrapy.http import FormRequest
-import re
-import json
-import pprint
-import requests
 import math
+import time
+import json
 import logging
+import requests
 import traceback
-from scrapy.http import HtmlResponse
-from datetime import datetime
 from bs4 import BeautifulSoup
-
+from datetime import datetime
+from selenium import webdriver
+from scrapy.http import HtmlResponse
 from watchscrapy.items import WatchItem
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 class BonhamsSpider(scrapy.Spider):
@@ -24,12 +26,20 @@ class BonhamsSpider(scrapy.Spider):
         super(BonhamsSpider, self).__init__(*args, **kwargs)
         self.start_urls = url.split(",")
         self.job = job
+        # self.images = []
 
-    # def start_requests(self):
-    #     start_urls = [
-    #         'https://www.bonhams.com/auction/28690/hong-kong-watches/']
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def sel_configuration(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument("start-maximized")
+        # options.add_argument('headless')
+        browser = webdriver.Chrome(options=options)
+        return browser
+
+    def start_requests(self):
+        # start_urls = [
+        #     'https://www.bonhams.com/auction/28690/hong-kong-watches/']
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         item = WatchItem()
@@ -46,9 +56,6 @@ class BonhamsSpider(scrapy.Spider):
             item["name"] = " ".join(name)
 
             # 3 Date
-            # date_info = response.xpath('//div[@class="auction-slider__date"]/span/text()').extract()
-            # date_info = response.xpath(
-            # '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[3]/div/text()').extract()
             date_info = response.xpath(
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[2]/div[1]/text()').extract()[0]
 
@@ -58,11 +65,9 @@ class BonhamsSpider(scrapy.Spider):
             # 4 Location
             location = response.xpath(
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[3]/div[2]/span/a/text()').extract()
-            # location = response.xpath(
-            #     '//div[@class="auction-slider"]/div/div[@class="auction-slider__divisions"]/div/a/text()').extract() or None
+
             item["location"] = " ".join(location)
 
-            # auc_id = response.url.rsplit("/")[-2]
             # Split the URL by '/'
             parts = response.url.split('/')
 
@@ -72,7 +77,7 @@ class BonhamsSpider(scrapy.Spider):
             item["auction_url"] = response.url
 
             base_url = "https://www.bonhams.com/api/v1/lots/"+auc_id
-
+            print(f'\n\n---- base_url:: {base_url} ----\n\n')
             resp = requests.get(base_url).text
             jresp = json.loads(resp)
             total_lot = jresp["total_lots"]
@@ -82,18 +87,20 @@ class BonhamsSpider(scrapy.Spider):
             for i in range(page_numbers):
                 final_url = base_url + "?page=" + str(i+1)
                 resp = requests.get(final_url).text
+                print(f'\n\n---- final_url:: {final_url} ---\n\n')
+                time.sleep(4)
                 jresp = json.loads(resp)
+
                 lots = jresp["lots"]
-
                 for lot in lots:
-
                     # 5 Lot
                     lot_number = lot['iSaleLotNo']
                     item["lot"] = lot_number
 
                     # 6 Images
-                    images = lot['image']['url']
-                    item["images"] = images
+
+                    url_for_image = "https://" + \
+                        self.allowed_domains[0]+lot['url']
 
                     # 7 title
                     title = lot['image']['alt']
@@ -121,19 +128,18 @@ class BonhamsSpider(scrapy.Spider):
                     # 12 sold
                     # 13 sold_price
                     # 14 sold_price_dollar
-                    sold = sold_price = sold_price_dollar = 0
+
                     try:
                         if lot['sLotStatus'] == "SOLD":
-                            sold = 1
                             sold_price = lot['hammer_prices']['prices'][0]['value'].replace(
                                 ",", "")
-                            sold_price_dollar = sold_price
+                            item["sold"] = 1
+                            item["sold_price"] = sold_price
                     except Exception as e:
-                        sold = sold_price = sold_price_dollar = 0
+                        item["sold"] = 0
+                        item["sold_price"] = 0
 
-                    item["sold"] = sold
-                    item["sold_price"] = sold_price
-                    item["sold_price_dollar"] = sold_price_dollar
+                    item["sold_price_dollar"] = None
 
                     # 15 url
                     url = "https://"+self.allowed_domains[0] + lot['url']
@@ -201,7 +207,9 @@ class BonhamsSpider(scrapy.Spider):
                     item["auction_url"] = response.url
                     item['total_lots'] = total_lot
                     item["job"] = self.job
-                    yield item
+
+                    yield scrapy.Request(url_for_image, callback=self.parse_image, meta={'item': item})
+
         except Exception as e:
             item['url'] = response.url
             item['status'] = "Failed"
@@ -210,3 +218,25 @@ class BonhamsSpider(scrapy.Spider):
             logging.error("BonhamsSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
             yield item
+
+    def parse_image(self, response):
+        parent_element = response.xpath(
+            '/html/body/div[1]/main/section/div/div/div[3]/div[2]/div[3]').extract_first()
+        print(f'\n\n---- parent_element:: {parent_element} ---\n')
+
+        selector = scrapy.Selector(text=parent_element)
+
+        # Extract image URLs using XPath
+        image_urls = selector.xpath('//img/@src').getall()
+        images = []
+        for img in image_urls:
+            khai_k = img.split("&")
+            images.append(khai_k[0])
+
+        # Retrieve the lot item from meta
+        item = response.meta['item']
+        # Add the extracted image URLs to the item
+        item['images'] = images
+
+        # Yield the item with the extracted image URLs
+        yield item

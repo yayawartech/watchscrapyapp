@@ -103,20 +103,24 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
     },
-    # 'awsrds': {
-    #     'ENGINE': 'mysql.connector.django',
-    #     'NAME': '',
-    #     'USER': '',
-    #     'PASSWORD': '',
-    #     'HOST': '',
-    #     'PORT': '3306',
-    #     'OPTIONS': {
-    #         'charset': 'utf8mb4',
-    #     },
-
-    # },
 }
-# DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter']
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     },
+#     'awsrds': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('USER'),
+#         'PASSWORD': os.getenv('PASSWORD'),
+#         'HOST': os.getenv('HOST'),
+#         'PORT': os.getenv('PORT'),
+#         'OPTIONS': {
+#             'charset': 'utf8mb4',
+#         },
+#     },
+# }
 DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',
                     'WatchInfo.routers.DefaultRouter',]
 
@@ -164,7 +168,6 @@ STATICFILES_DIRS = [
 # Media files (uploads and such)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 
 
 LOGGING = {

@@ -1,4 +1,3 @@
-
 import re
 import time
 import json
@@ -23,7 +22,7 @@ class SothebysSpider(scrapy.Spider):
     def __init__(self, url='', job='', *args, **kwargs):
         super(SothebysSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
-            # 'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
+        # 'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
         self.start_urls = url.split(",")
         self.job = job
 
@@ -168,7 +167,7 @@ class SothebysSpider(scrapy.Spider):
             # 2 Auction Name
             item['name'] = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
-            logging.warn("====>name : " + item['name'])
+            # logging.warn("====>name : " + item['name'])
 
             # 3 Date
             item['date'] = datetime.strptime(response.meta.get(
@@ -190,22 +189,42 @@ class SothebysSpider(scrapy.Spider):
 
             item['lot'] = lot_number
 
-            logging.warn("====>lot : " + item['lot'])
+            # logging.warn("====>lot : " + item['lot'])
             # 6 Images
-            images_links = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[5]/div[1]/div[2]/div[1]/div/div/div/ul/li[1]/img')
-            image = images_links.get_attribute('src')
-            item['images'] = image
+            try:
+                # Find the parent element by XPath
+                parent_element = browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[5]/div[1]/div[1]/div/div')
+                # By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[1]')
+
+                # Find all div elements inside the parent
+                div_elements = parent_element.find_elements(
+                    By.XPATH, './/div')
+
+                # Iterate over each div element to find the 'a' tag and extract href attribute
+                # button > div > img > src
+                images = []
+
+                # Iterate over each div element to find the 'a' tag and extract href attribute
+                for div in div_elements:
+                    try:
+                        button = div.find_element(By.XPATH, './/button')
+                        div_ = button.find_element(By.XPATH, './/div')
+                        img = div_.find_element(By.XPATH, './/img')
+                        img_src = img.get_attribute('src')
+                        images.append(img_src)
+
+                    except NoSuchElementException:
+                        continue
+            except NoSuchElementException:
+                print(f'\n--- parent_element not found ----\n')
+
+            item['images'] = images
 
             # 7 Title
-            try:
-                item['title'] = soup.find(
-                    attrs={'property': 'og:title'}).get('content')
-                logging.warn("====>title : " + item['title'])
-            except:
-                artist = soup.find('h1', {'aria-label': 'Lot artist'}).text
-                title = soup.find('p', {'aria-label': 'Lot title'}).text
-                item['title'] = "{} {}".format(artist, title)
+            title = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+            item['title'] = title
 
             # 8 Description
             description = self.browser.find_element(
@@ -213,7 +232,7 @@ class SothebysSpider(scrapy.Spider):
 
             item['description'] = description
 
-            logging.warn("====>description : " + item['description'])
+            # logging.warn("====>description : " + item['description'])
 
             estimation = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[2]/div/div/div[2]/p[2]').text
@@ -233,33 +252,36 @@ class SothebysSpider(scrapy.Spider):
 
             # 9 Lot Currency
             item['lot_currency'] = lot_currency
-            logging.warn("====>lot_currency : " + item['lot_currency'])
+            # logging.warn("====>lot_currency : " + item['lot_currency'])
 
             # 10 Est Min Price
             item['est_min_price'] = est_min_price.replace(",", "")
-            logging.warn("====>est_min_price : " + str(item['est_min_price']))
+            # logging.warn("====>est_min_price : " + str(item['est_min_price']))
 
             # 11 Est Max Price
             item['est_max_price'] = est_max_price.replace(",", "")
-            logging.warn("====>est_max_price : " + str(item['est_max_price']))
+            # logging.warn("====>est_max_price : " + str(item['est_max_price']))
 
             # 12 Sold Price
             # BREAKPOINT: CSS CLASS
+            sold = 0
             try:
                 parent_sold_price = soup.find(
                     text=re.compile('^Lot sold:')).parent.parent
                 sold_price_info = parent_sold_price.findChildren()[1]
+                sold_price = sold_price_info.text
+                if sold_price is not None:
+                    sold_price = sold_price.replace(',', '')
+                    sold = 1
+                else:
+                    sold_price = 0
+                item['sold_price'] = sold_price
             except:
                 sold_price_info = 0
-            sold = sold_price = 0
-            if sold_price_info:
-                sold_price = sold_price_info.text.replace(",", "")
-                sold = 1
-            item['sold_price'] = sold_price
-            logging.warn("====>sold_price : " + str(item['sold_price']))
+                item['sold_price'] = 0
+
             item['sold'] = sold
-            # 13 Sold Price Dollar
-            item['sold_price_dollar'] = 0
+            item['sold_price_dollar'] = None
 
             # 14  URL
             item['url'] = url

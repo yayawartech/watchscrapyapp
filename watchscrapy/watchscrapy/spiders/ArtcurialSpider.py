@@ -37,22 +37,15 @@ class ArtcurialSpider(scrapy.Spider):
         browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
-    
-    # ---------------------------------------------------------------------------
-    # start_requests() is not need as the start_urls will be coming from the UI dynamically
-    # ---------------------------------------------------------------------------
 
-    # def start_requests(self):
-    #     start_urls = [
-    #         'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
-    #     self.browser = self.sel_configuration()
-    #     self.login(self.browser)
-    #     for url in start_urls:
-    #         yield scrapy.Request(url=url, callback=self.parse, meta={"browser": self.browser})
-
-    def parse(self, response):
+    def start_requests(self):
         self.browser = self.sel_configuration()
         self.login(self.browser)
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse, meta={"browser": self.browser})
+
+    def parse(self, response):
+        print("inside parse")
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
@@ -66,7 +59,7 @@ class ArtcurialSpider(scrapy.Spider):
                                                     '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/div[2]/div/a/span').text
             full_date_and_time = date_string.split(" at ")
             full_date = full_date_and_time[0]
-            
+
             partial_date = datetime.strptime(full_date, '%B %d, %Y')
             date = partial_date.strftime('%b %d,%Y')
 
@@ -74,7 +67,7 @@ class ArtcurialSpider(scrapy.Spider):
             location = "Online"
             auction_url = response.url
             # Scrape another page using Selenium
-            browser = self.browser
+            browser = response.meta.get('browser')
             try:
                 browser.get(response.url)
                 print("\nPage loaded succesfully\n")
@@ -143,23 +136,47 @@ class ArtcurialSpider(scrapy.Spider):
             self.browser.get(response.url)
             time.sleep(10)
 
-            # Find all elements matching the XPath
-            image_element = self.browser.find_element(
-                By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div/div[2]/div[1]/img')
-            images = image_element.get_attribute("src")
+            parent_element = self.browser.find_element(
+                By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
+            child_elements = parent_element.find_elements(By.XPATH, './/li')
+            images = []
 
-            # Split the URL based on "?"
-            image = images.split("?")
+            url_pattern = r'url\("([^"]+)"\)'
 
-            # Take the first part which contains the URL without query parameters
-            image = image[0]
-            item["images"] = image
+            for li in child_elements:
+                try:
+                    div_1 = li.find_element(By.XPATH, './/div')
+                    div_list = div_1.find_elements(By.XPATH, './/div')
+
+                    for i in div_list:
+                        print("\n\n----Inside inner for loop ----\n\n")
+                        print(f'\n\n----- div_list:: {i} ----\n\n')
+                        try:
+                            image_url_style = i.get_attribute('style')
+
+                            match = re.search(url_pattern, image_url_style)
+                            if match:
+                                url = match.group(1)
+                                img_url = url.split("?")
+                                # img_url[0]
+                                images.append(img_url[0])
+                                print(f'\n\n---- Image URL: {url} ----\n\n')
+
+                        except NoSuchElementException:
+                            print('\n\n----Another div-----')
+                            continue
+                except NoSuchElementException:
+                    print('\n\n----No div found inside li-----')
+                    continue
+
+            item["images"] = images
             print(f'\nresponse.url:: {response.url}')
 
             title = self.browser.find_elements(
-                By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[1]/ul/li[1]/div/span')
+                By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[1]/div/h4')
+
             title = [element.text for element in title]
-            item["title"] = " ".join(title)
+            item["title"] = "".join(title)
 
             # 8 Description
             description = self.browser.find_elements(
@@ -177,39 +194,36 @@ class ArtcurialSpider(scrapy.Spider):
             estimation_info = self.browser.find_elements(
                 By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/span')
             estimation_info = [element.text for element in estimation_info]
-
+            print(f'\n\n----- estimation_info:: {estimation_info} ----\n\n')
             # 9 Lot Currency
-            item["lot_currency"] = "€"
+            # item["lot_currency"] = "€"
             # 10 Est min Price
-            # Define regular expression pattern to match numeric values
-            pattern = r'\d+'
+            # Assuming the currency symbols are €, $, or £
+            pattern = r'Estimation : (\d{1,3}(?:\s\d{3})*)\s*€\s*-\s*(\d{1,3}(?:\s\d{3})*)\s*€'
 
-            # Initialize variables for min and max prices
-            min_price = None
-            max_price = None
+            # Initialize variables to store extracted information
+            est_min_price = None
+            est_max_price = None
+            lot_currency = None
 
-            # Iterate through each string in the list
-            for currency in estimation_info:
-                # Extract numeric values using regular expression
-                matches = re.findall(pattern, currency)
+            # Extracting information from each estimation info
+            for info in estimation_info:
+                match = re.search(pattern, info)
+                if match:
+                    # Extract estimated min and max prices and the currency
+                    est_min_price = match.group(1).replace(' ', '')
+                    est_max_price = match.group(2).replace(' ', '')
+                    # lot_currency = match.group(3)
+            # Printing the extracted information
+            print("Estimated Min Price:", est_min_price)
+            print("Estimated Max Price:", est_max_price)
 
-                # Check if matches are found
-                if matches:
-                    # Convert the extracted numeric values to integers
-                    values = [int(match) for match in matches]
-
-                    # Assign the values to min_price and max_price
-                    if len(values) == 1:
-                        min_price = values[0]
-                    elif len(values) >= 2:
-                        min_price = min(values)
-                        max_price = max(values)
-
-            item["est_min_price"] = min_price
+            item["est_min_price"] = est_min_price
 
             # 11 Est max Price
-            item["est_max_price"] = max_price
+            item["est_max_price"] = est_max_price
 
+            item["lot_currency"] = '€'
             # 12 sold
             sold = sold_price = 0
             # if sold_pre_info:
@@ -217,13 +231,18 @@ class ArtcurialSpider(scrapy.Spider):
             #     if sold_info[0] == "Sold":
             #         sold = 1
             #         sold_price = sold_info[1].replace(",", "")
-
-            item["sold"] = sold
-            # 13 sold_price
-            item["sold_price"] = sold_price
+            try:
+                sold_price = self.browser.find_element(
+                    By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[3]/div[1]/div/div/div').text
+                price = int(re.sub(r'\D', '', sold_price[0]))
+                item['sold_price'] = price
+                item['sold'] = 1
+            except:
+                item["sold"] = 0
+                item["sold_price"] = 0
 
             # 14 sold_price_dollar
-            item["sold_price_dollar"] = 0
+            item["sold_price_dollar"] = None
 
             # 15 url
             item["url"] = response.url
@@ -259,8 +278,8 @@ class ArtcurialSpider(scrapy.Spider):
             print(f"\n\n----- login successful -----\n\n\n")
         except Exception as e:
             logging.error(
-                "ArtcurialSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
+                "HeritageSpider; msg=Login Failed > %s;url= %s", str(e), login_url)
             logging.error(
-                "ArtcurialSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
+                "HeritageSpider; msg=Login Failed;url= %s;Error=%s", login_url, traceback.format_exc())
 
         return True
