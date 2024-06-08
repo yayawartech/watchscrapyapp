@@ -170,7 +170,7 @@ class monacolegendSpider(scrapy.Spider):
 
             # 7 Title            
             title = self.browser.find_element(
-                By.XPATH, '/html/body/main/section/div/div[3]/h1/span[2]').text
+                By.XPATH, '/html/body/main/section/div/div[3]/h1').text
 
             item['title'] = title
 

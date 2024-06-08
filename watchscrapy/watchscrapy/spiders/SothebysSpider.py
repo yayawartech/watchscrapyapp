@@ -218,7 +218,8 @@ class SothebysSpider(scrapy.Spider):
 
             # 7 Title
             title = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text
+
             item['title'] = title
 
             # 8 Description

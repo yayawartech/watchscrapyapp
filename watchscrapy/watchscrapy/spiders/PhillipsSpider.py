@@ -49,7 +49,7 @@ class PhillipsSpider(scrapy.Spider):
 
 # ====================================
     def parse(self, response):
-        
+
         logging.warn(
             "PhillipsSpider; msg=Spider started;url= %s", response.url)
         self.browser.get(response.url)
@@ -124,9 +124,10 @@ class PhillipsSpider(scrapy.Spider):
             print(f'\n\n ---- lot_number_info:: {lot_number_info} --\n\n')
             lot_number = re.findall(r'\d+', lot_number_info)[0]
             item["lot"] = lot_number
-            title = response.xpath(
-                '//h1[@class="lot-page__lot__maker__name"]/text()').extract()
 
+            title = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
+            item["title"] = title
             # 6 Images
 
             try:
@@ -152,11 +153,9 @@ class PhillipsSpider(scrapy.Spider):
 
             item["images"] = images
 
-            item["title"] = title[0]
-
             # 8 Description
             description = ""
-            
+
             description = description + "\n"
             desc = response.xpath(
                 '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
@@ -164,12 +163,11 @@ class PhillipsSpider(scrapy.Spider):
 
                 desc = response.xpath(
                     '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
-            
 
             description = description + desc[0]
             essay_info = response.xpath(
                 '//div[@class="lot-essay"]/p/text()').extract()
-            
+
             essay = ""
             for para in essay_info:
                 essay = essay + para
@@ -189,7 +187,7 @@ class PhillipsSpider(scrapy.Spider):
                     '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]/text()').extract()
             est_min_price = estimation[1]
             est_max_price = estimation[3]
-            
+
             item["est_min_price"] = est_min_price
             item["est_max_price"] = est_max_price
 

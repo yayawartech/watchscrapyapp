@@ -1,10 +1,9 @@
 import re
-import json
 import time
 import scrapy
 import logging
-import requests
 import traceback
+from scrapy import signals
 from datetime import datetime
 from selenium import webdriver
 from watchscrapy.items import WatchItem
@@ -137,30 +136,54 @@ class ChristiesSpider(scrapy.Spider):
 
             # 6 Images
             images = []
+            try:
+                click_more_button = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div/div/chr-lot-header-gallery-button/div/div/chr-icon/div')
+                click_more_button.click()
 
-            active_image = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img')
-            img1 = active_image.get_attribute("src")
-            index = img1.find('?')
-            modified_url = img1[:index] if index != -1 else img1
-            images.append(modified_url)
+                time.sleep(5)
+                parent_element_ul = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul')
+                child_elem_li = parent_element_ul.find_elements(
+                    By.XPATH, './/li')
 
-            parent_element = self.browser.find_elements(
-                By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div')
+                for lis in child_elem_li:
+                    chr_lot = lis.find_element(
+                        By.XPATH, './/chr-gallery-image-zoom')
+                    div_elem = chr_lot.find_element(By.XPATH, './/div')
+                    img = div_elem.find_element(By.XPATH, './/img')
+                    image_url = img.get_attribute("src")
+                    index = image_url.find('?')
+                    # Remove everything after the '?' character
+                    modified_url = image_url[:index] if index != - \
+                        1 else image_url
+                    images.append(modified_url)
 
-            for div in parent_element:
-                chr_lot = div.find_element(
-                    By.XPATH, './/chr-lot-header-gallery-button')
-                div_1 = chr_lot.find_element(By.XPATH, './/div')
-                div_2 = div_1.find_element(By.XPATH, './/div')
-                chr_image = div_2.find_element(By.XPATH, './/chr-image')
-                div_3 = chr_image.find_element(By.XPATH, './/div')
-                img = div_3.find_element(By.XPATH, './/img')
-                image_url = img.get_attribute("src")
-                index = image_url.find('?')
-                # Remove everything after the '?' character
-                modified_url = image_url[:index] if index != -1 else image_url
+            except NoSuchElementException:
+
+                active_image = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img')
+                img1 = active_image.get_attribute("src")
+                index = img1.find('?')
+                modified_url = img1[:index] if index != -1 else img1
                 images.append(modified_url)
+
+                parent_element = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div')
+                child_elem = parent_element.find_elements(
+                    By.XPATH, './/chr-lot-header-gallery-button')
+                for chr_lot in child_elem:
+                    div_1 = chr_lot.find_element(By.XPATH, './/div')
+                    div_2 = div_1.find_element(By.XPATH, './/div')
+                    chr_image = div_2.find_element(By.XPATH, './/chr-image')
+                    div_3 = chr_image.find_element(By.XPATH, './/div')
+                    img = div_3.find_element(By.XPATH, './/img')
+                    image_url = img.get_attribute("src")
+                    index = image_url.find('?')
+                    # Remove everything after the '?' character
+                    modified_url = image_url[:index] if index != - \
+                        1 else image_url
+                    images.append(modified_url)
 
             item['images'] = images
 

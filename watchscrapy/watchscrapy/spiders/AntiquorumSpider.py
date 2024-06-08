@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
-import scrapy
 import re
+import math
+import scrapy
 import logging
 import traceback
-from watchscrapy.items import WatchItem
 from datetime import datetime
-import math
+from watchscrapy.items import WatchItem
 
 
 class AntiquorumSpider(scrapy.Spider):
@@ -42,15 +41,6 @@ class AntiquorumSpider(scrapy.Spider):
             '//div[@class="shadow mt-4"]/div[@class="row"]/div[@class="N_lots_thumbail col-sm p-2"]/div[@class="mt-4"]/a/@href').extract()
         sold_pre_list = products.xpath('//div[@class="row"]/div[@class="col"]')
 
-        """ For sold only
-        sold_list = []
-        final_url_list = []
-        for sel in range(len(url_list)):
-            sold = sold_pre_list[sel].xpath('div[@class="N_lots_price mt-0"]').extract()
-            if sold:
-                final_url_list.append(url_list[sel])
-        
-        """
         final_url = []
         for url in url_list:
             final_url.append("https://" + self.allowed_domains[0] + url)
@@ -70,9 +60,6 @@ class AntiquorumSpider(scrapy.Spider):
 
             item['house_name'] = 1
 
-            # name = all_desc.xpath("//p[1]/text()").extract_first() or None
-            # name = response.xpath(
-            # "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/text()").extract()
             name = response.xpath(
                 "/html/body/div[10]/div[2]/div[1]/div[2]/p[1]/text()").extract()
             name_title = " ".join(name)
@@ -94,8 +81,6 @@ class AntiquorumSpider(scrapy.Spider):
             lot_number = re.findall(r'\d+', lot[1])[0]
             item['lot'] = lot_number
 
-            # images_url = response.xpath(
-            #     '//div[@class="container"]/div[@class="container"]/div/div/div[1]/div[2]/a/@href').extract()
             parent_element = response.xpath(
                 '/html/body/div[10]/div[2]/div[1]/div[3]/div[3]').extract()
             images = []
@@ -190,8 +175,7 @@ class AntiquorumSpider(scrapy.Spider):
                 "AntiquorumSpider; msg=Crawling Processed;url= %s", response.url)
         except Exception as e:
             item['status'] = "Failed"
-            # logging.error(
-            #     "AntiquorumSpider; msg=Crawling Failed;url= %s", response.url)
+            
             logging.error("AntiquorumSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
         item["auction_url"] = response.meta.get("auction_url")
