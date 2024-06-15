@@ -20,7 +20,6 @@ class PhillipsSpider(scrapy.Spider):
     def __init__(self, url='', job='', *args, **kwargs):
         super(PhillipsSpider, self).__init__(*args, **kwargs)
         self.start_urls = url.split(",")
-        print(f'\n\n\n--------- 1. start_urls:: {self.start_urls} -------\n\n')
         self.job = job
 
     def sel_configuration(self):
@@ -54,9 +53,11 @@ class PhillipsSpider(scrapy.Spider):
             "PhillipsSpider; msg=Spider started;url= %s", response.url)
         self.browser.get(response.url)
         time.sleep(10)
+        # number_of_lots = self.browser.find_element(By.XPATH,
+        #    '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text or None
+        # if number_of_lots is None:
         number_of_lots = self.browser.find_element(By.XPATH,
-                                                   '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
-
+                                                   '/html/body/div[2]/div/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
         all_lots = re.search(r'\d+', number_of_lots).group()
 
         auction_details = response.xpath('//div[@class="auction-details"]')
@@ -82,11 +83,9 @@ class PhillipsSpider(scrapy.Spider):
 
         # 4 Location
         location = date_location[0].strip()
-
         for lot in all_lots:
             select_element = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[2]/select')
-
+                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[2]/header/nav/div[2]/select')
             options = select_element.find_elements(By.TAG_NAME, "option")
             url_info = [option.get_attribute(
                 "value") for option in options if option.get_attribute("value")]
@@ -121,18 +120,21 @@ class PhillipsSpider(scrapy.Spider):
             # 5 Lot
             lot_number_info = response.xpath(
                 "//h3[@class='lot-page__lot__number']/text()").extract_first()
-            print(f'\n\n ---- lot_number_info:: {lot_number_info} --\n\n')
             lot_number = re.findall(r'\d+', lot_number_info)[0]
             item["lot"] = lot_number
 
-            title = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
-            item["title"] = title
+            title1 = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text
+
+            title2 = self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
+            item["title"] = f'{title1} \n{title2}'
+
             # 6 Images
 
             try:
                 parent_element = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
+                    By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
 
                 div_elements = parent_element.find_elements(
                     By.XPATH, './/div')
@@ -157,12 +159,13 @@ class PhillipsSpider(scrapy.Spider):
             description = ""
 
             description = description + "\n"
-            desc = response.xpath(
-                '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
-            if desc is None:
+            try:
+                desc = response.xpath(
+                    '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
+            except NoSuchElementException:
 
                 desc = response.xpath(
-                    '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
+                    '/html/body/div[2]/div//div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
 
             description = description + desc[0]
             essay_info = response.xpath(
@@ -172,32 +175,43 @@ class PhillipsSpider(scrapy.Spider):
             for para in essay_info:
                 essay = essay + para
             description = description + "\n" + essay
-            # soup = BeautifulSoup(html_content, 'html.parser')
 
             item["description"] = description
 
-            # 10 Estimate Min Price
-            # 11 Estimate Max Price
             est_min_price = est_max_price = 0
-            estimation = response.xpath(
-                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]/text()').extract() or None
+            try:
+                estimation = self.browser.find_element(By.XPATH,
+                                                       '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]').text
+            except NoSuchElementException:
+                estimation = self.browser.find_element(By.XPATH,
+                                                       '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]').text
+            # Define regex pattern to match numbers with optional currency symbols
+            pattern = r'[\$€£¥]?([\d,]+)[\s-]*([\d,]+)'
 
-            if estimation is None and estimation[0] != '$':
-                estimation = response.xpath(
-                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]/text()').extract()
-            est_min_price = estimation[1]
-            est_max_price = estimation[3]
+            # Initialize variables to store min and max prices
+            est_min_price = None
+            est_max_price = None
+
+            # Search for matches in the estimation string
+            matches = re.findall(pattern, estimation)
+
+            # Process the first match found (assuming first line is what we need)
+            if matches:
+                est_min_price = matches[0][0].replace(',', '')
+                est_max_price = matches[0][1].replace(',', '')
 
             item["est_min_price"] = est_min_price
             item["est_max_price"] = est_max_price
 
             # 9 Lot Currency
             sold = 0
-            sold_price_info = response.xpath(
-                '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract() or None
-            if sold_price_info is None:
+            try:
                 sold_price_info = response.xpath(
-                    '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract()
+                    '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract() or None
+            except NoSuchElementException:
+
+                sold_price_info = response.xpath(
+                    '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract()
             # 12 Sold Price
             if sold_price_info:
                 lot_currency = sold_price_info[1]
