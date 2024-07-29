@@ -141,7 +141,13 @@
 		
                 <tr class="mylot" data-href="/watch/lot/{{lot.id}}" >
 			        <!-- <td>{{lot.id}}</td>-->
-	            	<td><img src="{{lot}}" style="max-width:80px;max-height:80px;"></td>
+                     
+	            	<td>
+                        {% if lot %}
+                        <img src="{{lot}}" style="max-width:80px;max-height:80px;"></td>
+                        {% else %}
+                        <img src="" alt="Image" style="max-width:80px;max-height:80px;"></td>
+                        {% endif %}
 	                <td class="d-none d-sm-table-cell">{{lot.auction.auction_house.name}}</td>
 	                <!--<td>{{lot.lot_number}}</td>-->
 	                <td>{{lot.title}}</td>
