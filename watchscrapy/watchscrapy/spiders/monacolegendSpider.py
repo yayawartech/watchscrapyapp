@@ -14,7 +14,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 class monacolegendSpider(scrapy.Spider):
-    name = "monacolegendSpider"
+    name = "MonacoLegendSpider"
     allowed_domains = ["www.monacolegendauctions.com"]
 
     def __init__(self, url='', job='', *args, **kwargs):
@@ -134,7 +134,7 @@ class monacolegendSpider(scrapy.Spider):
             browser.get(url)
             time.sleep(5)
             # 1 House Name
-            item['house_name'] = 7  # HeritageSpider was house_name=7
+            item['house_name'] = 10
 
             # 2 Auction Name
             item['name'] = self.browser.find_element(

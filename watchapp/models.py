@@ -117,7 +117,8 @@ INSERT into watchapp_auctionhouse (name,base_url) values ('Bonhams','');
 INSERT into watchapp_auctionhouse (name,base_url) values ('Bonhams','');
 INSERT into watchapp_auctionhouse (name,base_url) values ('Christies','');
 INSERT into watchapp_auctionhouse (name,base_url) values ('Dorotheum','');
-INSERT into watchapp_auctionhouse (name,base_url) values ('monacolegend','');
+INSERT into watchapp_auctionhouse (name,base_url) values ('Heritage','');
 INSERT into watchapp_auctionhouse (name,base_url) values ('Phillips','');
-INSERT into watchapp_auctionhouse (name,base_url) values ('sothebys','');
+INSERT into watchapp_auctionhouse (name,base_url) values ('Sothebys','');
+INSERT into watchapp_auctionhouse (name,base_url) values ('MonacoLegend','');
 """
