@@ -1,4 +1,3 @@
-
 import re
 import time
 import scrapy
@@ -13,12 +12,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
-class monacolegendSpider(scrapy.Spider):
-    name = "MonacoLegendSpider"
+class MonacolegendSpider(scrapy.Spider):
+    name = "monacolegendSpider"
     allowed_domains = ["www.monacolegendauctions.com"]
 
     def __init__(self, url='', job='', *args, **kwargs):
-        super(monacolegendSpider, self).__init__(*args, **kwargs)
+        super(MonacolegendSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
         #     'https://www.monacolegendauctions.com/auction/exclusive-timepieces-33']
 
@@ -44,7 +43,7 @@ class monacolegendSpider(scrapy.Spider):
         source_url = response.url
         try:
             logging.warn(
-                "monacolegendSpider; msg=Spider started; url= %s", source_url)
+                "MonacolegendSpider; msg=Spider started; url= %s", source_url)
 
             self.browser.get(response.url)
             time.sleep(5)
@@ -74,12 +73,12 @@ class monacolegendSpider(scrapy.Spider):
 
             except TimeoutException as e:
                 logging.warning(
-                    "monacolegendSpider; msg=Did not found next button on the page. Assuming there is only one page. url=%s", source_url)
+                    "MonacolegendSpider; msg=Did not found next button on the page. Assuming there is only one page. url=%s", source_url)
 
             # raised by browser.find_elements_by_css_selector, if links are not found in the page
             except NoSuchElementException as e:
                 logging.warning(
-                    "monacolegendSpider; msg=Could not find Lot Url links.")
+                    "MonacolegendSpider; msg=Could not find Lot Url links.")
 
             # any other generic exceptions
             except Exception as e:
@@ -88,7 +87,7 @@ class monacolegendSpider(scrapy.Spider):
 
             total_lots = int(last_lot_number)
             logging.warning(
-                "monacolegendSpider; msg=Loading Complete. Found %d lots. url= %s", total_lots, source_url)
+                "MonacolegendSpider; msg=Loading Complete. Found %d lots. url= %s", total_lots, source_url)
 
             date_and_location = self.browser.find_element(
                 By.XPATH, '/html/body/main/section[1]/div/div/p').text
@@ -118,8 +117,8 @@ class monacolegendSpider(scrapy.Spider):
             item = WatchItem()
             item['status'] = "Failed"
             logging.error(
-                "monacolegendSpider; msg=Crawling Failed > %s;url=%s", str(e), source_url)
-            logging.error("monacolegendSpider; msg=Crawling Failed;url=%sError=%s",
+                "MonacolegendSpider; msg=Crawling Failed > %s;url=%s", str(e), source_url)
+            logging.error("MonacolegendSpider; msg=Crawling Failed;url=%sError=%s",
                           traceback.format_exc(), source_url)
             yield item
 
@@ -128,7 +127,7 @@ class monacolegendSpider(scrapy.Spider):
         browser = response.meta.get('browser')
         source_url = response.meta.get('source_url')
         logging.warn(
-            "monacolegendSpider; msg=Crawling going to start;url= %s", url)
+            "MonacolegendSpider; msg=Crawling going to start;url= %s", url)
         item = WatchItem()
         try:
             browser.get(url)
@@ -178,7 +177,7 @@ class monacolegendSpider(scrapy.Spider):
 
             # 8 Description
             description = self.browser.find_element(
-                By.XPATH, '/html/body/main/section/div/div[3]/p[3]').text
+                By.XPATH, '/html/body/main/section/div/div[3]/p[2]').text
 
             item['description'] = description
 
@@ -227,6 +226,8 @@ class monacolegendSpider(scrapy.Spider):
             if sold_price:
                 sold_price = sold_price.replace(",", "")
                 sold = 1
+            else:
+                sold = 0
             item['sold_price'] = sold_price
 
             item['sold'] = sold
@@ -237,13 +238,13 @@ class monacolegendSpider(scrapy.Spider):
             item['url'] = url
             item["status"] = "Success"
             logging.debug(
-                "monacolegendSpider; msg=Crawling Completed > %s;url= %s", item, url)
+                "MonacolegendSpider; msg=Crawling Completed > %s;url= %s", item, url)
         except Exception as e:
             item['status'] = "Failed"
             logging.error(
-                "monacolegendSpider; msg=Crawling Failed > %s;url= %s", str(e), url)
+                "MonacolegendSpider; msg=Crawling Failed > %s;url= %s", str(e), url)
             logging.error(
-                "monacolegendSpider; msg=Crawling Failed;url= %s;Error=%s", url, traceback.format_exc())
+                "MonacolegendSpider; msg=Crawling Failed;url= %s;Error=%s", url, traceback.format_exc())
         item['total_lots'] = response.meta.get("lots")
         item["auction_url"] = source_url
         item["job"] = self.job
@@ -251,7 +252,7 @@ class monacolegendSpider(scrapy.Spider):
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
-        spider = super(monacolegendSpider, cls).from_crawler(
+        spider = super(MonacolegendSpider, cls).from_crawler(
             crawler, *args, **kwargs)
         crawler.signals.connect(spider.spider_closed,
                                 signal=signals.spider_closed)

@@ -125,10 +125,10 @@ class PhillipsSpider(scrapy.Spider):
             item["lot"] = lot_number
 
             title1 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text
+                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text or None
 
             title2 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
+                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text or None
             item["title"] = f'{title1} \n{title2}'
 
             # 6 Images
@@ -190,8 +190,8 @@ class PhillipsSpider(scrapy.Spider):
             pattern = r'[\$€£¥]?([\d,]+)[\s-]*([\d,]+)'
 
             # Initialize variables to store min and max prices
-            est_min_price = None
-            est_max_price = None
+            est_min_price = "0"
+            est_max_price = "0"
 
             # Search for matches in the estimation string
             matches = re.findall(pattern, estimation)

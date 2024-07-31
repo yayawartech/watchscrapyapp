@@ -40,6 +40,7 @@ class BonhamsSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
+        self.browser = self.sel_configuration()
         # start_urls = [
         #     'https://www.bonhams.com/auction/28690/hong-kong-watches/']
         for url in self.start_urls:
@@ -52,7 +53,6 @@ class BonhamsSpider(scrapy.Spider):
             # 1 HouseName
             house_name = 3
             item["house_name"] = house_name
-
             # 2 Name
             name = response.xpath(
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/h1/div/text()').extract()
@@ -121,7 +121,6 @@ class BonhamsSpider(scrapy.Spider):
                     except Exception as e:
                         est_min_price = 0
                         est_max_price = 0
-
                     item["est_min_price"] = est_min_price
                     item["est_max_price"] = est_max_price
 
@@ -140,7 +139,6 @@ class BonhamsSpider(scrapy.Spider):
                         item["sold_price"] = 0
 
                     item["sold_price_dollar"] = None
-
                     # 15 url
                     url = "https://"+self.allowed_domains[0] + lot['url']
                     logging.debug(
@@ -210,21 +208,23 @@ class BonhamsSpider(scrapy.Spider):
             yield item
 
     def parse_image(self, response):
-        parent_element = response.xpath(
-            '/html/body/div[1]/main/section/div/div/div[3]/div[2]/div[3]').extract_first()
+        self.browser.get(response.url)
+        parent_element = self.browser.find_element(
+            By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
 
-        selector = scrapy.Selector(text=parent_element)
-
-        # Extract image URLs using XPath
-        image_urls = selector.xpath('//img/@src').getall()
+        button_elements = parent_element.find_elements(By.XPATH, './/button')
         images = []
-        for img in image_urls:
-            khai_k = img.split("&")
-            images.append(khai_k[0])
+        for image in button_elements:
+            try:
+                img = image.find_element(By.XPATH, './/img')
+                img_value = img.get_attribute("src")
+                images.append(img_value)
+            except NoSuchElementException:
+                continue
 
-        # Retrieve the lot item from meta
+
         item = response.meta['item']
-        # Add the extracted image URLs to the item
+
         item['images'] = images
 
         # Yield the item with the extracted image URLs

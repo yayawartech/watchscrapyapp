@@ -21,14 +21,18 @@ def load_auction_houses(apps, schema_editor):
     dorotheum = AuctionHouse(id=6,name='Dorotheum',base_url='')
     dorotheum.save()
 
-    monacolegend = AuctionHouse(id=7,name='Monacolegend',base_url='')
+    monacolegend = AuctionHouse(id=7,name='Heritage',base_url='')
     monacolegend.save()
+    
 
     phillips = AuctionHouse(id=8,name='Phillips',base_url='')
     phillips.save()
 
     sothebys = AuctionHouse(id=9,name='Sothebys',base_url='')
     sothebys.save()
+
+    monacolegend = AuctionHouse(id=10,name='Monacolegend',base_url='')
+    monacolegend.save()
 
 class Migration(migrations.Migration):
     dependencies = [

@@ -21,7 +21,7 @@ class ArtcurialSpider(scrapy.Spider):
     name = "artcurialSpider"
     allowed_domains = ["www.artcurial.com"]
     # start_urls = [
-    #     'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
+    # 'https://www.artcurial.com/en/sales/vente-fr-3484-modern-vintage-watches-online']
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(ArtcurialSpider, self).__init__(*args, **kwargs)
@@ -48,10 +48,12 @@ class ArtcurialSpider(scrapy.Spider):
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
+            self.browser = response.meta.get('browser')
             self.browser.get(response.url)
             time.sleep(15)
             name = self.browser.find_element(By.XPATH,
-                                             '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[1]/div/div/div/h3').text
+                                             '/html/body/div/div/div/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[1]/div/div/div/h1').text
+            
             # 3
             date_string = self.browser.find_element(By.XPATH,
                                                     '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/div[2]/div/a/span').text
@@ -68,7 +70,7 @@ class ArtcurialSpider(scrapy.Spider):
             browser = response.meta.get('browser')
             try:
                 browser.get(response.url)
-                
+
             except Exception as e:
                 logging.warn(f'Failed to load page: {e}')
 
@@ -76,10 +78,9 @@ class ArtcurialSpider(scrapy.Spider):
 
             all_lots_elements = browser.find_elements(
                 By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[2]/td[1]/h5')
-
             # Extracting text content from each element in the list
             all_lots = [element.text for element in all_lots_elements]
-            all_lots = int(all_lots[0].split()[0])            
+            all_lots = int(all_lots[0].split()[0])
 
             total_lots = all_lots
             # =====================================
@@ -132,8 +133,9 @@ class ArtcurialSpider(scrapy.Spider):
             time.sleep(10)
             try:
                 parent_element = self.browser.find_element(
-                By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
-                child_elements = parent_element.find_elements(By.XPATH, './/li')
+                    By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
+                child_elements = parent_element.find_elements(
+                    By.XPATH, './/li')
                 images = []
 
                 url_pattern = r'url\("([^"]+)"\)'
@@ -143,7 +145,7 @@ class ArtcurialSpider(scrapy.Spider):
                         div_1 = li.find_element(By.XPATH, './/div')
                         div_list = div_1.find_elements(By.XPATH, './/div')
 
-                        for i in div_list:                        
+                        for i in div_list:
                             try:
                                 image_url_style = i.get_attribute('style')
 
@@ -151,7 +153,7 @@ class ArtcurialSpider(scrapy.Spider):
                                 if match:
                                     url = match.group(1)
                                     img_url = url.split("?")
-                                    
+
                                     images.append(img_url[0])
 
                             except NoSuchElementException:
