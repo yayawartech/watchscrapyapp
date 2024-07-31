@@ -58,11 +58,25 @@ class Lot(models.Model):
 
     search_all = models.TextField(default=None)
 
-    def get_images(self):
-        if not self.s3_images:
-            return []  # Return an empty list if s3_images is None or empty
+    # def get_images(self):
+    #     if not self.s3_images:
+    #         return []  # Return an empty list if s3_images is None or empty
 
-        imgs = self.s3_images
+    #     imgs = self.s3_images
+    #     imgsList = []
+    #     for img in imgs:
+    #         # Ensure img is a string and handle it properly
+    #         if isinstance(img, str):
+    #             imgsList.append(img.strip('[').strip(']').replace("'", ""))
+    #     return imgsList
+    def get_images(self):
+        if self.s3_images:
+            imgs = self.s3_images
+        elif self.images:
+            imgs = self.images
+        else:
+            return []  # Return an empty list if both are None or empty
+        print(f'\n--- imgs:: {imgs} --- \n')
         imgsList = []
         for img in imgs:
             # Ensure img is a string and handle it properly

@@ -49,12 +49,30 @@ cd watchscrapy
 
 2. Syntax for running:
 
-```scrapy crawl antiquorumSpider```
-```scrapy crawl artcurialSpider```
-```scrapy crawl bonhamsSpider```
-```scrapy crawl bukowskisSpider```
-```scrapy crawl christiesSpider```
-```scrapy crawl dorotheumSpider```
-```scrapy crawl monacolegendSpider```
-```scrapy crawl phillipsSpider```
-```scrapy crawl sothebysSpider```
+```
+scrapy crawl antiquorumSpider
+```
+```
+scrapy crawl artcurialSpider
+```
+```
+scrapy crawl bonhamsSpider
+```
+```
+scrapy crawl bukowskisSpider
+```
+```
+scrapy crawl christiesSpider
+```
+```
+scrapy crawl dorotheumSpider
+```
+```
+scrapy crawl monacolegendSpider
+```
+```
+scrapy crawl phillipsSpider
+```
+```
+scrapy crawl sothebysSpider
+```

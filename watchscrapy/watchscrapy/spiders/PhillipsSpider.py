@@ -1,14 +1,14 @@
-import scrapy
 import re
+import time
+import scrapy
 import logging
 import traceback
 from datetime import datetime
-import re
-from watchscrapy.items import WatchItem
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from watchscrapy.items import WatchItem
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
@@ -27,7 +27,8 @@ class PhillipsSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         options.add_argument('headless')
-        browser = webdriver.Chrome(options=options)
+        service = Service('/usr/local/bin/chromedriver')
+        browser = webdriver.Chrome(service=service, options=options)
         browser.set_window_size(1440, 900)
         return browser
 

@@ -13,6 +13,7 @@ from selenium import webdriver
 from scrapy.http import HtmlResponse
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
@@ -29,10 +30,13 @@ class BonhamsSpider(scrapy.Spider):
         # self.images = []
 
     def sel_configuration(self):
+        # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        # options.add_argument('headless')
-        browser = webdriver.Chrome(options=options)
+        options.add_argument('headless')
+        service = Service('/usr/local/bin/chromedriver')
+        browser = webdriver.Chrome(service=service, options=options)
+        browser.set_window_size(1440, 900)
         return browser
 
     def start_requests(self):
