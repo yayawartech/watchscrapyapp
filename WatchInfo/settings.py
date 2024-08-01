@@ -110,6 +110,9 @@ DATABASES = {
         'PASSWORD': os.getenv('RDS_PASSWORD'),
         'HOST': os.getenv('RDS_HOST'),
         'PORT': os.getenv('RDS_PORT'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     },
 }
 

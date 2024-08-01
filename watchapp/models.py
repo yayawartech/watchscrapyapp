@@ -97,6 +97,7 @@ class Lot(models.Model):
         else:
             title_txt = self.title
         descr_text = ""
+        self.description = self.description.encode('utf-8', errors='ignore').decode('utf-8')
         if isinstance(self.description, list):
             descr_text = ""+" ".join(self.description)
         else:

@@ -63,6 +63,7 @@ class WatchscrapyPipeline(object):
             lot.status = item["status"]
             lot.lot_number = item["lot"]
             lot.title = item["title"]
+            item['description'] = item['description'].encode('utf-8', errors='ignore').decode('utf-8')
             lot.description = item["description"]
             lot.estimate_min_price = item["est_min_price"]
             lot.estimate_max_price = item["est_max_price"]
