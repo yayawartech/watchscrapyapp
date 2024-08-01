@@ -14,10 +14,10 @@ class Scraper():
             # subprocess.Popen(["echo ""> ../scrapylogs/"+spider+'.txt'],shell=True)
             subprocess.Popen(
                 ['touch ../scrapylogs/'+spider+'.txt'], shell=True)
-            # proc = subprocess.Popen(['/home/ubuntu/watchscrapyapp/venv/bin/scrapy crawl ' + spider+'Spider -a job=' +
-            #                         job + ' -a url=' + all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
-            proc = subprocess.Popen(['scrapy crawl ' + spider+'Spider -a job=' + job + ' -a url=' +
-                                     all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
+            proc = subprocess.Popen(['/home/ubuntu/watchscrapyapp/venv/bin/scrapy crawl ' + spider+'Spider -a job=' +
+                                    job + ' -a url=' + all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
+            # proc = subprocess.Popen(['scrapy crawl ' + spider+'Spider -a job=' + job + ' -a url=' +
+            # all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
             jobT = Job.objects.filter(name=job).first()
             jobT.process = proc.pid
             jobT.save()
