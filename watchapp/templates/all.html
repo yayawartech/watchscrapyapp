@@ -148,7 +148,14 @@
                         {% if lot.s3_images and lot.s3_images.0 == None %}
                         <img src="{%static 'images/default-image-icon-missing-picture-page.jpg' %}" alt="Image" style="max-width:80px;max-height:80px;"></td>
                         {%else%}
-                        <img src="{{lot}}" style="max-width:80px;max-height:80px;"></td>
+                        <!-- <img src="{{lot}}" style="max-width:80px;max-height:80px;" alt=""></td> -->
+                        <!-- <img src="{{ lot }}" onerror="this.onerror=null; this.src="{% static 'images/default-image-icon-missing-picture-page.jpg' %}";" alt="Image"> -->
+
+                        <img src="{{ lot }}" onerror="this.onerror=null; this.src='{% static 'images/default-image-icon-missing-picture-page.jpg' %}';" alt="Image" style="max-width:80px;max-height:80px;">
+
+
+                        <!-- <img src="{% if lot %}{{ lot }}{% else %}{% static 'images/default-image-icon-missing-picture-page.jpg' %}{% endif %}" style="max-width:80px;max-height:80px;" alt=""> -->
+
                         {% endif %}
 	                <td class="d-none d-sm-table-cell">{{lot.auction.auction_house.name}}</td>
 	                <!--<td>{{lot.lot_number}}</td>-->
