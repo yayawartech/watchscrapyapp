@@ -27,3 +27,4 @@ var/
 *.manifest
 *.spec
 static/tempImages/
+staticfiles

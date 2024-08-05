@@ -1,23 +1,16 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.core import serializers
-from django.template import loader
-from watchapp.utils.scraper import Scraper
-from datetime import datetime
 import time
-from django.db import connection
-from django.db.models import Count, Sum
-
-from django.contrib.auth.models import User
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-from watchapp.models import Lot, Auction, AuctionHouse, Job, Setup
 import subprocess
-
-# Create your views here.
+from datetime import datetime
+from django.contrib import auth
+from django.db import connections
+from django.template import loader
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.db.models import Count, Sum
+from watchapp.utils.scraper import Scraper
+from django.contrib.auth.decorators import login_required
+from watchapp.models import Lot, Auction, AuctionHouse, Job, Setup
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def login(request):
@@ -435,14 +428,15 @@ def job_details(request, job):
     return HttpResponse(template.render(context, request))
 
 
-@login_required()
+@login_required
 def job_progress_details(request, job):
     template = loader.get_template('jobs/job-details-progress.html')
     job = Job.objects.filter(pk=job).prefetch_related("auction_house").first()
     urls = job.urls.split(",")
     total_count = len(urls)
 
-    with connection.cursor() as cursor:
+    # Use the 'awsrds' connection to execute SQL on the MySQL database
+    with connections['awsrds'].cursor() as cursor:
         sql = '''
                 SELECT
                 wa.id,
@@ -457,28 +451,26 @@ def job_progress_details(request, job):
                 auction_id,
                 job,
                 COUNT(*) as lots_processed
-                FROM watchapp_lot wl WHERE wl.job = '%s' 
+                FROM watchapp_lot wl WHERE wl.job = %s
                 GROUP BY auction_id, job
-                ) wld ON wa.id = wld.auction_id 
-                WHERE wa.job = '%s'
-        ''' % (job.name, job.name)
-        cursor.execute(sql)
+                ) wld ON wa.id = wld.auction_id
+                WHERE wa.job = %s
+        '''
+        print(sql)
+        cursor.execute(sql, [job.name, job.name])
         columns = [col[0] for col in cursor.description]
         auctions = [
             dict(zip(columns, row))
             for row in cursor.fetchall()
         ]
-
         total_lots = 0
         processed_lots = 0
         for auc in auctions:
-            total_lots = total_lots + auc['actual_lots']
-            processed_lots = processed_lots + auc['processed_lots']
-
+            total_lots += auc['actual_lots']
+            processed_lots += auc['processed_lots']
         lots_percentage = 0
         if processed_lots > 0 and total_lots > 0:
-            lots_percentage = round(processed_lots*1.0 / total_lots * 100, 2)
-
+            lots_percentage = round(processed_lots * 1.0 / total_lots * 100, 2)
     processed_count = len(auctions)
     context = {
         'auctions': auctions,
@@ -489,7 +481,6 @@ def job_progress_details(request, job):
         'processed_lots': processed_lots,
         'lots_percentage': lots_percentage
     }
-
     return HttpResponse(template.render(context, request))
 
 
