@@ -456,7 +456,6 @@ def job_progress_details(request, job):
                 ) wld ON wa.id = wld.auction_id
                 WHERE wa.job = %s
         '''
-        print(sql)
         cursor.execute(sql, [job.name, job.name])
         columns = [col[0] for col in cursor.description]
         auctions = [

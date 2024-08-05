@@ -98,25 +98,35 @@ class AntiquorumSpider(scrapy.Spider):
             item['images'] = images
 
             title = response.xpath(
-                "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract() or None
-            if title != "" or title is not None:
-                try:
-                    item['title'] = title[0]
-                except:
-                    item['title'] = title
-            else:
-                title1 = response.xpath(
-                    "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract() or None
-                title2 = response.xpath(
-                    '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract() or None
-                if title1:
-                    item['title'] = title1[0]
-                else:
-                    item['title'] = title2[0]
+                "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract()
 
-                if title1 and title2:
-                    title = title1[0]+title2[0]
-                    item['title'] = title
+            # Check if the primary extraction was successful
+            if title:
+                item['title'] = title[0].strip()
+            else:
+                # Attempt to extract title from alternative XPaths
+                title1 = response.xpath(
+                    "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract()
+                title2 = response.xpath(
+                    '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract()
+
+                # Initialize an empty string for title
+                combined_title = ""
+
+                # Combine title1 if present
+                if title1:
+                    combined_title += title1[0].strip()
+
+                # Combine title2 if present
+                if title2:
+                    combined_title += title2[0].strip()
+
+                # Set item['title'] if any title was found
+                if combined_title:
+                    item['title'] = combined_title
+                else:
+                    # Handle case where no title could be found
+                    item['title'] = 'Title not found'
 
             data = ""
             col = response.xpath('/html/body/div[10]/div[2]/div[2]/div[2]')
@@ -142,7 +152,7 @@ class AntiquorumSpider(scrapy.Spider):
             data += f"Accessories: {col.xpath(
                 'p/strong[contains(text(), "Accessories")]/following-sibling::text()').get()}\n"
             description = data
-            
+
             item['description'] = description
 
             min_max_price = all_desc.xpath(
@@ -175,7 +185,7 @@ class AntiquorumSpider(scrapy.Spider):
                 "AntiquorumSpider; msg=Crawling Processed;url= %s", response.url)
         except Exception as e:
             item['status'] = "Failed"
-            
+
             logging.error("AntiquorumSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
         item["auction_url"] = response.meta.get("auction_url")
