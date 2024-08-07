@@ -5,8 +5,8 @@ import json
 import logging
 import traceback
 from datetime import datetime
-
 from watchscrapy.items import WatchItem
+from selenium.common.exceptions import NoSuchElementException
 
 
 class BukowskisSpider(scrapy.Spider):
@@ -50,16 +50,23 @@ class BukowskisSpider(scrapy.Spider):
             # 2
             name = response.xpath(
                 '//div[@class="c-headline-block"]/h1/text()').extract()[0]
-            
+
             for lots in all_lots:
                 url_segment = lots.xpath('a[1]/@href').extract()
                 if url_segment:
                     final_url = "https://" + \
                         self.allowed_domains[0] + url_segment[0]
-                    
-                    lot_number = lots.xpath(
-                        '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div/text()').extract()
-                    lot_number = lot_number[0].split()[0]
+
+                    lot_number_text = lots.xpath(
+                        '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div/text()').get()
+                    if lot_number_text is None:
+                        lot_number_text = lots.xpath(
+                            '/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div').get()
+                    match = re.search(r'(\d+)', lot_number_text)
+                    if match:
+                        lot_number = int(match.group(1))
+                    else:
+                        lot_number = None  # or some default value if no match is found
 
                     items = {'name': name, 'lot_number': lot_number, 'auction_url': response.meta.get(
                         "auction_url"), 'lots': response.meta.get("lots")}
@@ -89,12 +96,16 @@ class BukowskisSpider(scrapy.Spider):
 
             # 3 Date
             # date = response.meta.get("date")
+
             date = response.xpath(
-                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/div[1]/div[1]/div[2]/div/time/div[1]/text()').extract()[0].replace("\xa0", " ")
-
-            item["date"] = datetime.strptime(
+                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/div[1]/div[1]/div[2]/div/time/div[1]/text()').get()
+            if date:
+                date = date.replace("\xa0", " ")
+            else:
+                date = "Jan 01, 1900"
+            final_date = datetime.strptime(
                 date.strip(), '%b %d, %Y').strftime('%b %d,%Y')
-
+            item["date"] = final_date
             location = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/details[2]/div[1]/div/div[2]/div[1]/text()').extract()
 
@@ -103,13 +114,15 @@ class BukowskisSpider(scrapy.Spider):
             # 5 Lot Number
             lot_number = response.meta.get("lot_number")
 
-            item["lot"] = int(lot_number[0].split()[0])
+            item["lot"] = lot_number
 
             # 6 images
             images = []
             parent_element = response.xpath(
-                '/html/body/div[2]/div[2]/div[1]/div[4]/div[2]/div/div[4]/div')
-
+                '/html/body/div[2]/div[2]/div[1]/div[4]/div[2]/div/div[4]/div') or None
+            if parent_element is None:
+                parent_element = response.xpath(
+                    "/html/body/div[2]/div[2]/div[1]/div[3]/div[2]/div/div[4]/div")
             for elem in parent_element:
                 a_tag = elem.xpath('.//a')
                 div = a_tag.xpath(".//div")
@@ -119,35 +132,78 @@ class BukowskisSpider(scrapy.Spider):
             item['images'] = img_url
 
             # 7 title
-            
+
             title = response.xpath(
-                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[1]/div/div[1]/h1/text()').extract()[0]
+                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[1]/div/div[1]/h1/text()').get() or None
+            if title is None:
+                title = response.xpath(
+                    '/html/body/div[2]/div[2]/div[1]/div[3]/div[1]/div/div[2]/h1/text()').get()
             item["title"] = title
 
             # 8 Description
-            
+
             description = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div[3]//text()').extract()
             description = " ".join(description)
             item["description"] = description
 
             # 9 Lot Currency
-            estimation_info = response.xpath(
-                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/div[1]/div[5]/div[2]/text()').extract()[0].replace("\xa0", " ")
-            lot_currency = estimation_info.split(" ")[-1]
-            item['lot_currency'] = lot_currency
 
-            # 10 Est min Price
-            estimation = estimation_info.replace(
-                estimation_info.split(" ")[-1], "").strip().split("-")
-            est_min_price = estimation[0].strip().replace(" ", "")
-            item["est_min_price"] = est_min_price
+            estimation_info_elements = response.xpath(
+                "/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div[2]/div[1]/div[2]/div[3]/text()").extract()
+            if estimation_info_elements:
+                estimation_info = estimation_info_elements[0]
+                # Extract currency by splitting on whitespace and taking the last part
+                currency = estimation_info.split()[-1].strip()
 
-            # 11 Est max Price
-            est_max_price = 0
-            if len(estimation) > 1:
-                est_max_price = estimation[1].strip().replace(" ", "")
-            item["est_max_price"] = est_max_price
+                # Remove the currency part from the string and split by '-' to get the price range
+                price_range = estimation_info.rsplit(maxsplit=1)[0]
+                min_price_str, max_price_str = price_range.split('-')
+
+                # Remove non-breaking spaces and extra whitespace, then convert to integers
+                min_price = int(re.sub(r'\D', '', min_price_str).strip())
+                max_price = int(re.sub(r'\D', '', max_price_str).strip())
+                item['lot_currency'] = currency
+                item["est_min_price"] = min_price
+                item["est_max_price"] = max_price
+            else:
+                estimation_info_elements = response.xpath(
+                    '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/div[1]/div[5]/div[2]/text()').extract() or None
+                if estimation_info_elements:
+                    item['lot_currency'] = estimation_info_elements[-1]
+                    estimation_info = estimation_info_elements[0].replace(
+                        "\xa0", " ")
+                else:
+                    # Fallback to the alternative XPath if the first one is empty
+                    estimation_info_elements = response.xpath(
+                        '/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div[2]/div[1]/text()').extract()
+
+                    if estimation_info_elements:
+                        estimation_info = estimation_info_elements[0].replace(
+                            "\xa0", " ")
+                    else:
+                        # Set a default value or handle the absence of estimation_info
+                        estimation_info = ""
+
+                # 10 Est min Price
+                est_min_price = 0
+                estimation = ""
+                if estimation_info:
+                    estimation = estimation_info.replace(
+                        estimation_info.split(" ")[-1], "").strip().split("-")
+                    if estimation:
+                        est_min_price = estimation[0].strip().replace(" ", "")
+
+                item["est_min_price"] = est_min_price
+
+                # 11 Est max Price
+                est_max_price = 0
+                try:
+                    if len(estimation) > 1:
+                        est_max_price = estimation[1].strip().replace(" ", "")
+                except ValueError:
+                    est_max_price = 0
+                item["est_max_price"] = est_max_price
 
             # 12 sold
             sold_info = response.xpath(

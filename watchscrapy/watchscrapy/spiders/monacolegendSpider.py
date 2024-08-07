@@ -6,6 +6,7 @@ import traceback
 from scrapy import signals
 from datetime import datetime
 from selenium import webdriver
+from WatchInfo.settings import DEBUG
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -28,9 +29,13 @@ class MonacolegendSpider(scrapy.Spider):
         # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
-        service = Service('/usr/local/bin/chromedriver')
-        browser = webdriver.Chrome(service=service, options=options)
+        if not DEBUG:
+            options.add_argument('headless')
+            options.add_argument('headless')
+            service = Service('/usr/local/bin/chromedriver')
+            browser = webdriver.Chrome(service=service, options=options)
+        else:
+            browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
 
@@ -165,11 +170,11 @@ class MonacolegendSpider(scrapy.Spider):
                     except NoSuchElementException:
                         continue
             except NoSuchElementException:
-                logging.warn(f'\n--- parent_element not found ----\n') 
+                logging.warn(f'\n--- parent_element not found ----\n')
 
             item['images'] = images
 
-            # 7 Title            
+            # 7 Title
             title = self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[3]/h1').text
 

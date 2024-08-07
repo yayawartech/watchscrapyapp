@@ -6,6 +6,7 @@ import traceback
 from scrapy import signals
 from datetime import datetime
 from selenium import webdriver
+from WatchInfo.settings import DEBUG
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -29,9 +30,13 @@ class ChristiesSpider(scrapy.Spider):
         # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
-        service = Service('/usr/local/bin/chromedriver')
-        browser = webdriver.Chrome(service=service, options=options)
+        if not DEBUG:
+            options.add_argument('headless')
+            options.add_argument('headless')
+            service = Service('/usr/local/bin/chromedriver')
+            browser = webdriver.Chrome(service=service, options=options)
+        else:
+            browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
 

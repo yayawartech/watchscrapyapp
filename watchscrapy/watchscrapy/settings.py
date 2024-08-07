@@ -52,7 +52,7 @@ ROBOTSTXT_OBEY = True
 # See also autothrottle settings and docs
 #DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
+# CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -80,6 +80,9 @@ DOWNLOADER_MIDDLEWARES = {
     'watchscrapy.useragents.RandomUserAgentMiddleware': 400,
 
 }
+RETRY_ENABLED = True
+RETRY_TIMES = 3 
+DOWNLOAD_TIMEOUT = 60
 
 PROXY_POOL_ENABLED = True
 PROXY_POOL_BACKOFF_BASE = 300  # Set a base backoff time for retries (in seconds)

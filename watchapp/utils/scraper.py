@@ -1,5 +1,6 @@
 import os
 import subprocess
+from WatchInfo.settings import DEBUG
 from watchapp.models import Job
 
 
@@ -11,20 +12,30 @@ class Scraper():
             PARENT_DIR = os.path.dirname(
                 os.path.dirname(os.path.abspath(__file__)))
             os.chdir(os.path.join(PARENT_DIR, "../watchscrapy"))
-            # subprocess.Popen(["echo ""> ../scrapylogs/"+spider+'.txt'],shell=True)
-            subprocess.Popen(
-                ['touch ../scrapylogs/'+spider+'.txt'], shell=True)
-            proc = subprocess.Popen(['/home/ubuntu/watchscrapyapp/venv/bin/scrapy crawl ' + spider+'Spider -a job=' +
-                                    job + ' -a url=' + all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
-            # proc = subprocess.Popen(['scrapy crawl ' + spider+'Spider -a job=' + job + ' -a url=' +
-            # all_urls + ' --loglevel=WARNING --logfile=../scrapylogs/' + spider+'.txt'], shell=True)
+            subprocess.Popen(['touch', f'../scrapylogs/{spider}.txt'])
+            if DEBUG:
+                command = [
+                    'scrapy', 'crawl', f'{spider}Spider',
+                    '-a', f'job={job}',
+                    '-a', f'url={all_urls}',
+                    '--loglevel=WARNING',
+                    '--logfile=../scrapylogs/' + f'{spider}.txt'
+                ]
+            else:
+                command = [
+                    '/home/ubuntu/watchscrapyapp/venv/bin/scrapy', 'crawl', f'{spider}Spider',
+                    '-a', f'job={job}',
+                    '-a', f'url={all_urls}',
+                    '--loglevel=WARNING',
+                    '--logfile=../scrapylogs/' + f'{spider}.txt'
+                ]
+
+            proc = subprocess.Popen(command)
+
             jobT = Job.objects.filter(name=job).first()
             jobT.process = proc.pid
             jobT.save()
         except subprocess.CalledProcessError as cperr:
-            print("Subprocess Error while scraping" + str(cperr))
+            print("Subprocess Error while scraping: " + str(cperr))
         finally:
             os.chdir(cwd)
-
-# scrapy = Scraper()
-# scrapy.scrape('antiquorum')

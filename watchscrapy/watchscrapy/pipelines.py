@@ -44,8 +44,10 @@ class WatchscrapyPipeline(object):
                 auction = Auction()
                 auction.job = self.job
                 auction.name = item["name"]
-                auction.date = datetime.strptime(
+                if item['date']:
+                    auction.date = datetime.strptime(
                     item["date"].strip(), '%b %d,%Y').strftime('%Y-%m-%d')
+              
                 auction.place = item["location"]
                 auction.url = item["auction_url"]
                 auction.actual_lots = int(item["total_lots"])

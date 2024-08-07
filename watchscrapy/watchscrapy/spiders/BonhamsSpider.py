@@ -1,22 +1,19 @@
-# -*- coding: utf-8 -*-
-import scrapy
-import re
 import math
 import time
 import json
+import scrapy
 import logging
 import requests
 import traceback
 from bs4 import BeautifulSoup
 from datetime import datetime
 from selenium import webdriver
+from WatchInfo.settings import DEBUG
 from scrapy.http import HtmlResponse
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 
 
 class BonhamsSpider(scrapy.Spider):
@@ -27,15 +24,18 @@ class BonhamsSpider(scrapy.Spider):
         super(BonhamsSpider, self).__init__(*args, **kwargs)
         self.start_urls = url.split(",")
         self.job = job
-        # self.images = []
 
     def sel_configuration(self):
         # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
-        service = Service('/usr/local/bin/chromedriver')
-        browser = webdriver.Chrome(service=service, options=options)
+        if not DEBUG:
+            options.add_argument('headless')
+            options.add_argument('headless')
+            service = Service('/usr/local/bin/chromedriver')
+            browser = webdriver.Chrome(service=service, options=options)
+        else:
+            browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
 
@@ -63,7 +63,7 @@ class BonhamsSpider(scrapy.Spider):
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[2]/div[1]/text()').extract()[0]
 
             item["date"] = datetime.strptime(
-                date_info.strip(), '%d %B %Y').strftime('%B %d,%Y')
+                date_info.strip(), '%d %B %Y').strftime('%b %d,%Y')
 
             # 4 Location
             location = response.xpath(
@@ -194,7 +194,7 @@ class BonhamsSpider(scrapy.Spider):
                     item["status"] = "Success"
                     item["auction_url"] = response.url
                     item['total_lots'] = total_lot
-                    item["job"] = self.job
+                    item["job"] = self.job                    
 
                     yield scrapy.Request(url_for_image, callback=self.parse_image, meta={'item': item})
 
@@ -209,6 +209,7 @@ class BonhamsSpider(scrapy.Spider):
 
     def parse_image(self, response):
         self.browser.get(response.url)
+        print(f'\n-- url_for_image:: {response.url} --\n')
         parent_element = self.browser.find_element(
             By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
 
@@ -222,10 +223,10 @@ class BonhamsSpider(scrapy.Spider):
             except NoSuchElementException:
                 continue
 
-
         item = response.meta['item']
-
+        print(f'\n--- images:: {images} --\n')
         item['images'] = images
+        print(f'\n--- item:: {item} --\n')
 
         # Yield the item with the extracted image URLs
         yield item

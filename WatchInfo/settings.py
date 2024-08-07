@@ -28,8 +28,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "oigyE&A=PM!F!C1IlhsXfWp10dQqoJrkasB#fN*07(MvS#D6D0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ["23.22.168.26"]
+DEBUG = os.getenv("DEBUG") or False
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = ["23.22.168.26"]
 
 
 # Application definition
@@ -99,21 +102,21 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    # 'awsrds': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
-    # },
     'awsrds': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('RDS_DB_NAME'),
-        'USER': os.getenv('RDS_USER'),
-        'PASSWORD': os.getenv('RDS_PASSWORD'),
-        'HOST': os.getenv('RDS_HOST'),
-        'PORT': os.getenv('RDS_PORT'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
     },
+    # 'awsrds': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': os.getenv('RDS_DB_NAME'),
+    #     'USER': os.getenv('RDS_USER'),
+    #     'PASSWORD': os.getenv('RDS_PASSWORD'),
+    #     'HOST': os.getenv('RDS_HOST'),
+    #     'PORT': os.getenv('RDS_PORT'),
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     },
+    # },
 }
 
 DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',

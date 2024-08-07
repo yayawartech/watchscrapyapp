@@ -6,6 +6,7 @@ import traceback
 import requests
 import json
 import time
+from WatchInfo.settings import DEBUG
 from watchscrapy.items import WatchItem
 from scrapy.http import HtmlResponse
 from datetime import datetime
@@ -32,9 +33,12 @@ class ArtcurialSpider(scrapy.Spider):
         # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        options.add_argument('headless')
-        service = Service('/usr/local/bin/chromedriver')
-        browser = webdriver.Chrome(service=service, options=options)
+        if not DEBUG:
+            options.add_argument('headless')
+            service = Service('/usr/local/bin/chromedriver')
+            browser = webdriver.Chrome(service=service, options=options)
+        else:
+            browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
 
@@ -48,14 +52,17 @@ class ArtcurialSpider(scrapy.Spider):
         logging.warn(
             "ArtcurialSpider; msg=Spider started;url= %s", response.url)
         try:
-            self.browser = response.meta.get('browser')
-            self.browser.get(response.url)
-            time.sleep(15)
-            name = self.browser.find_element(By.XPATH,
+            browser = response.meta.get('browser')
+            browser.get(response.url)
+            print(f'\n-- sleep for 20 seconds --\n')
+            time.sleep(20)
+            print(f'\n-- sleep complete --\n')
+            name = browser.find_element(By.XPATH,
                                              '/html/body/div/div/div/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[1]/div/div/div/h1').text
-            
+            logging.log(f"\n-- name:: {name} --\n")
+            print(f'\n-- name:: {name} --\n')
             # 3
-            date_string = self.browser.find_element(By.XPATH,
+            date_string = browser.find_element(By.XPATH,
                                                     '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/div[2]/div/a/span').text
             full_date_and_time = date_string.split(" at ")
             full_date = full_date_and_time[0]
@@ -80,18 +87,32 @@ class ArtcurialSpider(scrapy.Spider):
                 By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div[1]/div/div/div[2]/div[2]/div[1]/div[2]/div/table/tbody/tr[2]/td[1]/h5')
             # Extracting text content from each element in the list
             all_lots = [element.text for element in all_lots_elements]
+            logging.log(f"\n-- all_lots:: {all_lots} --\n")
             all_lots = int(all_lots[0].split()[0])
 
             total_lots = all_lots
             # =====================================
             logging.warn("ArtcurialSpider; msg=Total Lots: %s;url= %s",
                          all_lots, response.url)
-            for index in range(all_lots):
-                url = response.url + "/lots/"+str(index+1)
-                lot_number = index+1
-                items = {'name': name, 'date': date, 'location': location,
-                         'lot_number': lot_number, 'auction_url': auction_url, 'lots': total_lots}
-                yield scrapy.Request(url, callback=self.parse_url, meta=items)
+
+            url_parent_element = browser.find_element(
+                By.XPATH, '/html/body/div/div/div/div/main/div/div[1]/div/div[2]/div/div/div/div/div/div[1]')
+            logging.log(f"\n-- url_parent_element:: {url_parent_element} --\n")
+            div_elements = url_parent_element.find_elements(By.XPATH, ".//div")
+            for i in div_elements:
+                try:
+                    a_tag = i.find_element(By.XPATH, './/a')
+                    href_value = a_tag.get_attribute("href")
+                    new_url = "".join(self.allowed_domains) + href_value
+                    lot_number = href_value.split('/')[-1]
+
+                    # url_list.append(href_value)
+                    items = {'name': name, 'date': date, 'location': location,
+                             'lot_number': lot_number, 'auction_url': auction_url, 'lots': total_lots}
+                    yield scrapy.Request(new_url, callback=self.parse_url, meta=items)
+                except NoSuchElementException:
+                    continue
+            
         except Exception as e:
             item = WatchItem()
             item['url'] = response.url
@@ -132,108 +153,116 @@ class ArtcurialSpider(scrapy.Spider):
             self.browser.get(response.url)
             time.sleep(10)
             try:
-                parent_element = self.browser.find_element(
-                    By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
-                child_elements = parent_element.find_elements(
-                    By.XPATH, './/li')
-                images = []
-
-                url_pattern = r'url\("([^"]+)"\)'
-
-                for li in child_elements:
-                    try:
-                        div_1 = li.find_element(By.XPATH, './/div')
-                        div_list = div_1.find_elements(By.XPATH, './/div')
-
-                        for i in div_list:
-                            try:
-                                image_url_style = i.get_attribute('style')
-
-                                match = re.search(url_pattern, image_url_style)
-                                if match:
-                                    url = match.group(1)
-                                    img_url = url.split("?")
-
-                                    images.append(img_url[0])
-
-                            except NoSuchElementException:
-                                continue
-                    except NoSuchElementException:
-                        continue
-
-                item["images"] = images
+                error_page = self.browser.find_element(
+                    By.XPATH, '/html/body/div/div/div/div/main/div/div[1]/div/div/h3')
+                logging.warn("Error page found")
             except NoSuchElementException:
-                logging.error("Parent element not found")
+                logging.warn("Error page not found")
+                try:
+                    parent_element = self.browser.find_element(
+                        By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[1]/section/section/div/ul')
+                    child_elements = parent_element.find_elements(
+                        By.XPATH, './/li')
+                    images = []
 
-            title = self.browser.find_elements(
-                By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[1]/div/h4')
+                    url_pattern = r'url\("([^"]+)"\)'
 
-            title = [element.text for element in title]
-            item["title"] = "".join(title)
+                    for li in child_elements:
+                        try:
+                            div_1 = li.find_element(By.XPATH, './/div')
+                            div_list = div_1.find_elements(By.XPATH, './/div')
 
-            # 8 Description
-            description = self.browser.find_elements(
-                By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div')
-            description = [element.text for element in description]
-            description = " ".join(description)
+                            for i in div_list:
+                                try:
+                                    image_url_style = i.get_attribute('style')
 
-            # Remove all single quotes
-            text_without_single_quotes = description.replace("'", "")
+                                    match = re.search(
+                                        url_pattern, image_url_style)
+                                    if match:
+                                        url = match.group(1)
+                                        img_url = url.split("?")
 
-            # Remove all double quotes
-            text_without_quotes = text_without_single_quotes.replace('"', '')
-            item["description"] = text_without_quotes
+                                        images.append(img_url[0])
 
-            estimation_info = self.browser.find_elements(
-                By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/span')
-            estimation_info = [element.text for element in estimation_info]
-            # 9 Lot Currency
-            # item["lot_currency"] = "€"
-            # 10 Est min Price
-            # Assuming the currency symbols are €, $, or £
-            pattern = r'Estimation : (\d{1,3}(?:\s\d{3})*)\s*€\s*-\s*(\d{1,3}(?:\s\d{3})*)\s*€'
+                                except NoSuchElementException:
+                                    continue
+                        except NoSuchElementException:
+                            continue
 
-            # Initialize variables to store extracted information
-            est_min_price = None
-            est_max_price = None
-            lot_currency = None
+                    item["images"] = images
+                except NoSuchElementException:
+                    logging.error("Parent element not found")
 
-            # Extracting information from each estimation info
-            for info in estimation_info:
-                match = re.search(pattern, info)
-                if match:
-                    # Extract estimated min and max prices and the currency
-                    est_min_price = match.group(1).replace(' ', '')
-                    est_max_price = match.group(2).replace(' ', '')
-                    # lot_currency = match.group(3)
-            # Printing the extracted information
-            print("Estimated Min Price:", est_min_price)
-            print("Estimated Max Price:", est_max_price)
+                title = self.browser.find_elements(
+                    By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[1]/div/h4')
 
-            item["est_min_price"] = est_min_price
+                title = [element.text for element in title]
+                item["title"] = "".join(title)
 
-            # 11 Est max Price
-            item["est_max_price"] = est_max_price
+                # 8 Description
+                description = self.browser.find_elements(
+                    By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div')
+                description = [element.text for element in description]
+                description = " ".join(description)
 
-            item["lot_currency"] = '€'
-            # 12 sold
-            sold_price = 0
-            try:
-                sold_price = self.browser.find_element(
-                    By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[3]/div[1]/div/div/div').text
-                price = int(re.sub(r'\D', '', sold_price[0]))
-                item['sold_price'] = price
-                item['sold'] = 1
-            except:
-                item["sold"] = 0
-                item["sold_price"] = 0
+                # Remove all single quotes
+                text_without_single_quotes = description.replace("'", "")
 
-            # 14 sold_price_dollar
-            item["sold_price_dollar"] = None
+                # Remove all double quotes
+                text_without_quotes = text_without_single_quotes.replace(
+                    '"', '')
+                item["description"] = text_without_quotes
 
-            # 15 url
-            item["url"] = response.url
-            item["status"] = "Success"
+                estimation_info = self.browser.find_elements(
+                    By.XPATH, '//*[@id="app"]/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/div[2]/span')
+                estimation_info = [element.text for element in estimation_info]
+                # 9 Lot Currency
+                # item["lot_currency"] = "€"
+                # 10 Est min Price
+                # Assuming the currency symbols are €, $, or £
+                pattern = r'Estimation : (\d{1,3}(?:\s\d{3})*)\s*€\s*-\s*(\d{1,3}(?:\s\d{3})*)\s*€'
+
+                # Initialize variables to store extracted information
+                est_min_price = None
+                est_max_price = None
+                lot_currency = None
+
+                # Extracting information from each estimation info
+                for info in estimation_info:
+                    match = re.search(pattern, info)
+                    if match:
+                        # Extract estimated min and max prices and the currency
+                        est_min_price = match.group(1).replace(' ', '')
+                        est_max_price = match.group(2).replace(' ', '')
+                        # lot_currency = match.group(3)
+                # Printing the extracted information
+                print("Estimated Min Price:", est_min_price)
+                print("Estimated Max Price:", est_max_price)
+
+                item["est_min_price"] = est_min_price
+
+                # 11 Est max Price
+                item["est_max_price"] = est_max_price
+
+                item["lot_currency"] = '€'
+                # 12 sold
+                sold_price = 0
+                try:
+                    sold_price = self.browser.find_element(
+                        By.XPATH, '/html/body/div/div/div/div/main/div/section/div[1]/div[2]/div[3]/div/div[1]/div/div[3]/div[1]/div/div/div').text
+                    price = int(re.sub(r'\D', '', sold_price[0]))
+                    item['sold_price'] = price
+                    item['sold'] = 1
+                except:
+                    item["sold"] = 0
+                    item["sold_price"] = 0
+
+                # 14 sold_price_dollar
+                item["sold_price_dollar"] = None
+
+                # 15 url
+                item["url"] = response.url
+                item["status"] = "Success"
         except Exception as e:
             item['status'] = "Failed"
             logging.error(
