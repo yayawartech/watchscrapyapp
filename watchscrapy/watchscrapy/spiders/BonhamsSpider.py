@@ -15,7 +15,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 
-
 class BonhamsSpider(scrapy.Spider):
     name = "bonhamsSpider"
     allowed_domains = ["www.bonhams.com"]
@@ -43,6 +42,7 @@ class BonhamsSpider(scrapy.Spider):
         self.browser = self.sel_configuration()
         # start_urls = [
         #     'https://www.bonhams.com/auction/28690/hong-kong-watches/']
+        #  https://www.bonhams.com/auction/27040/
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -151,8 +151,7 @@ class BonhamsSpider(scrapy.Spider):
                     # 8 Description
 
                     desc_name = ""
-                    # desc_content_info = htmlr.xpath(
-                    #     '//div[@class="lot-details__description__content"]/text()').extract()
+                    
                     desc_content_info = htmlr.xpath(
                         '//*[@id="skip-to-content"]/section/div/div/div[5]/div[1]/div/div/div[1]/div[1]/div').extract()
 
@@ -194,8 +193,7 @@ class BonhamsSpider(scrapy.Spider):
                     item["status"] = "Success"
                     item["auction_url"] = response.url
                     item['total_lots'] = total_lot
-                    item["job"] = self.job                    
-
+                    item["job"] = self.job
                     yield scrapy.Request(url_for_image, callback=self.parse_image, meta={'item': item})
 
         except Exception as e:
@@ -207,26 +205,30 @@ class BonhamsSpider(scrapy.Spider):
                           response.url, traceback.format_exc())
             yield item
 
-    def parse_image(self, response):
+    
+    def parse_image(self,response):
         self.browser.get(response.url)
-        print(f'\n-- url_for_image:: {response.url} --\n')
-        parent_element = self.browser.find_element(
-            By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
-
-        button_elements = parent_element.find_elements(By.XPATH, './/button')
-        images = []
-        for image in button_elements:
-            try:
-                img = image.find_element(By.XPATH, './/img')
-                img_value = img.get_attribute("src")
-                images.append(img_value)
-            except NoSuchElementException:
-                continue
-
+        time.sleep(5)
         item = response.meta['item']
-        print(f'\n--- images:: {images} --\n')
-        item['images'] = images
-        print(f'\n--- item:: {item} --\n')
-
-        # Yield the item with the extracted image URLs
+        try:
+            parent_element = self.browser.find_element(By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
+            button_elements = parent_element.find_elements(By.XPATH, './/button')
+            images = []
+            for image in button_elements:
+                try:
+                    img = image.find_element(By.XPATH, './/img')
+                    img_value = img.get_attribute("src")
+                    images.append(img_value)
+                except NoSuchElementException:                    
+                    continue
+            item['images'] = images
+        except NoSuchElementException:
+            try:
+                elem = self.browser.find_element(By.XPATH, '/html/body/div[1]/main/section[1]/div/div/div[3]/div/button/img')
+                img_list = []
+                img = elem.get_attribute("src")
+                img_list.append(img)
+                item['images'] = img_list
+            except NoSuchElementException:
+                logging.warn(f"Neither parent_element nor elem were found on the page.")
         yield item

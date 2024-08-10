@@ -86,38 +86,35 @@ LOGIN_URL = "/"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'mysql.connector.django',
-    #     'NAME': 'watchesdb',
-    #     'USER': 'root',
-    #     'PASSWORD': 'changeme',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    #     'OPTIONS': {
-    #         'charset': 'utf8mb4',
-    #     },
-    # },
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'awsrds': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
-    },
-    # 'awsrds': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': os.getenv('RDS_DB_NAME'),
-    #     'USER': os.getenv('RDS_USER'),
-    #     'PASSWORD': os.getenv('RDS_PASSWORD'),
-    #     'HOST': os.getenv('RDS_HOST'),
-    #     'PORT': os.getenv('RDS_PORT'),
-    #     'OPTIONS': {
-    #         'charset': 'utf8mb4',
-    #     },
-    # },
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        },
+        'awsrds': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'rds.sqlite3'),
+        },
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        },
+        'awsrds': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('RDS_DB_NAME'),
+            'USER': os.getenv('RDS_USER'),
+            'PASSWORD': os.getenv('RDS_PASSWORD'),
+            'HOST': os.getenv('RDS_HOST'),
+            'PORT': os.getenv('RDS_PORT'),
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            },
+        },
+    }
 
 DATABASE_ROUTERS = ['watchapp.routers.AwsRdsRouter',
                     'WatchInfo.routers.DefaultRouter',]
