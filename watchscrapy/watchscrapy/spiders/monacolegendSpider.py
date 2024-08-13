@@ -62,19 +62,23 @@ class MonacolegendSpider(scrapy.Spider):
                 self.browser.execute_script(
                     "arguments[0].setAttribute('open', 'open')", button)
                 time.sleep(2)
+                try:
+                    end_lot_number = self.browser.find_element(
+                        By.XPATH, '/html/body/main/section[1]/div/div/div[1]/details/ul/li[3]').text
+                    last_lot_number = re.search(
+                        r'Lots (\d+)\s+to\s+(\d+)', end_lot_number).group(2)
+                except NoSuchElementException:
+                    end_lot_number = self.browser.find_element(
+                        By.XPATH, '/html/body/main/section[1]/div/div/div[1]/details/p').text
 
-                start_lot_number = self.browser.find_element(
-                    By.XPATH, '/html/body/main/section[1]/div/div/div[1]/details/ul/li[1]').text
-                s_lot_number = re.search(
-                    r'Lots (\d+)', start_lot_number).group(1)
+                    match = re.search(
+                        r'Session III:[\s\S]*?lots \d+ to (\d+)', end_lot_number)
 
-                time.sleep(2)
+                    if match:
+                        last_lot_number = int(match.group(1))
 
-                end_lot_number = self.browser.find_element(
-                    By.XPATH, '/html/body/main/section[1]/div/div/div[1]/details/ul/li[3]').text
-
-                last_lot_number = re.search(
-                    r'Lots (\d+)\s+to\s+(\d+)', end_lot_number).group(2)
+                        logging.warn(
+                            f'\n--- last_lot_number:: {last_lot_number} ---\n\n')
 
             except TimeoutException as e:
                 logging.warning(
