@@ -32,7 +32,7 @@ DEBUG = os.getenv("DEBUG") or False
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ["23.22.168.26"]
+    ALLOWED_HOSTS = ["http://ec2-54-205-190-151.compute-1.amazonaws.com","54.205.190.151"]
 
 
 # Application definition
