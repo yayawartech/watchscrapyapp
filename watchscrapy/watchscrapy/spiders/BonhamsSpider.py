@@ -30,7 +30,6 @@ class BonhamsSpider(scrapy.Spider):
         options.add_argument("start-maximized")
         if not DEBUG:
             options.add_argument('headless')
-            options.add_argument('headless')
             service = Service('/usr/local/bin/chromedriver')
             browser = webdriver.Chrome(service=service, options=options)
         else:
