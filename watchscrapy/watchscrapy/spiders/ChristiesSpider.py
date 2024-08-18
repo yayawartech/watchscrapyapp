@@ -61,13 +61,13 @@ class ChristiesSpider(scrapy.Spider):
                 By.XPATH, '/html/body/div[3]/div[2]/div/div/div[2]/div/div/button[2]')
 
             accept_cookie.click()
-            logging.warn("\n ---- Cookie accepted----\n")
+            logging.warn("---- Cookie accepted----")
             time.sleep(5)
         except NoSuchElementException:
             accept_cookie = self.browser.find_element(By.XPATH,
                                                       '/html/body/div[6]/div[2]/div/div/div[2]/div/div/button[2]')
             accept_cookie.click()
-            logging.warn("\n---- Cookie accepted----\n")
+            logging.warn("---- Cookie accepted----")
             time.sleep(5)
 
         item = WatchItem()
@@ -168,7 +168,7 @@ class ChristiesSpider(scrapy.Spider):
         url = response.meta.get('url')
 
         logging.warn(
-            "SothebysSpider; msg=Crawling going to start;url= %s", url)
+            "ChristiesSpider; msg=Crawling going to start;url= %s", url)
         item = WatchItem()
         item['name'] = response.meta.get('name')
         item['house_name'] = 5
@@ -266,8 +266,7 @@ class ChristiesSpider(scrapy.Spider):
                             image_url = img.get_attribute("src")
                             index = image_url.find('?')
                             # Remove everything after the '?' character
-                            modified_url = image_url[:index] if index != - \
-                                1 else image_url
+                            modified_url = image_url[:index] if index != - 1 else image_url
                             images.append(modified_url)
 
             except Exception as e:
@@ -302,8 +301,8 @@ class ChristiesSpider(scrapy.Spider):
 
             else:
                 lot_currency = None
-                est_min_price = None
-                est_max_price = None
+                est_min_price = 0
+                est_max_price = 0
 
             # 9 Lot Currency
             item['lot_currency'] = lot_currency
@@ -317,14 +316,13 @@ class ChristiesSpider(scrapy.Spider):
                 sold_price = self.browser.find_element(
                     By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
             except NoSuchElementException:
-                try:
-                    sold_price = self.browser.find_element(
-                        By.XPATH, '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
-                except NoSuchElementException:
-                    sold_price = 0
+                sold_price = self.browser.find_element(
+                    By.XPATH, '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
+            except Exception:
+                sold_price = 0
 
             # Split the sold_price string by spaces
-            if sold_price:
+            if sold_price != 0:
                 parts = sold_price.split()
 
             # Extract the sold price
@@ -334,10 +332,11 @@ class ChristiesSpider(scrapy.Spider):
 
                 if sold_price_value:
                     item["sold"] = 1
-                else:
-                    item['sold'] = 0
+
             else:
+                item['sold_price'] = 0
                 sold_price = 0
+                item['sold'] = 0
                 # 13 Sold Price Dollar
             item['sold_price_dollar'] = None
 
