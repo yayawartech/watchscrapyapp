@@ -6,12 +6,13 @@ import traceback
 from scrapy import signals
 from datetime import datetime
 from selenium import webdriver
+from scrapy.spiders import Spider
 from WatchInfo.settings import DEBUG
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -42,7 +43,7 @@ class ChristiesSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
-        self.browser = self.sel_configuration()
+        # self.browser = self.sel_configuration()
         time.sleep(5)
 
         for url in self.start_urls:
@@ -53,7 +54,7 @@ class ChristiesSpider(scrapy.Spider):
         url = response.url
         time.sleep(5)
         self.browser.get(response.url)
-        time.sleep(10)
+        time.sleep(5)
         # Accept Cookie popup
         try:
             accept_cookie = self.browser.find_element(
@@ -73,7 +74,7 @@ class ChristiesSpider(scrapy.Spider):
         lots_urls = set()
         try:
             # 1 House Name
-            time.sleep(10)
+            time.sleep(5)
             # 2 Auction Name
             try:
                 name = self.browser.find_element(
@@ -122,10 +123,11 @@ class ChristiesSpider(scrapy.Spider):
                     # Find 'a' tag inside the div
                     a_tag = li.find_element(
                         By.XPATH, './/chr-lot-tile/div[2]/div[2]/h2/a')
+                    if a_tag:
+                        # Get the href attribute value
 
-                    # Get the href attribute value
-                    href_value = a_tag.get_attribute('href')
-                    lots_urls.add(href_value)
+                        href_value = a_tag.get_attribute('href')
+                        lots_urls.add(href_value)
 
                 except NoSuchElementException:
                     # If 'a' tag is not found in the div, skip it
@@ -137,7 +139,9 @@ class ChristiesSpider(scrapy.Spider):
                 '/html/body/main/nav/div/div[2]/ul/li[2]/a'
             ])
 
-            lot_string_text = lot_string_element.get_attribute('textContent')
+            # Execute JavaScript to get the text content
+            lot_string_text = self.browser.execute_script(
+                "return arguments[0].textContent;", lot_string_element)
 
             if lot_string_element is not None:
 
@@ -155,7 +159,7 @@ class ChristiesSpider(scrapy.Spider):
             time.sleep(5)
 
             for url in lots_urls:
-                yield scrapy.Request("https://www.google.com", dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'date': formatted_date, 'name': name, 'location': location, 'lots': lot})
+                yield scrapy.Request(url, dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'date': formatted_date, 'name': name, 'location': location, 'lots': lot})
         except Exception as e:
             item['status'] = "Failed"
             logging.error(
@@ -198,6 +202,7 @@ class ChristiesSpider(scrapy.Spider):
                 if click_more_button is not None:
                     logging.warn(
                         f'\nclick_more_button found for url:: {url}\n')
+                    
                     try:
                         try:
                             self.browser.execute_script(
@@ -208,7 +213,7 @@ class ChristiesSpider(scrapy.Spider):
                         except Exception:
                             logging.warn(f'\n--Cannot click more button: \n')
 
-                        time.sleep(8)
+                        time.sleep(5)
                         # parent_element_ul activates when more button is clicked otherwise not
                         parent_element_ul = self.find_element_with_multiple_xpaths(self.browser, [
                             '/html/body/div[2]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul',
@@ -233,10 +238,12 @@ class ChristiesSpider(scrapy.Spider):
                         '/html/body/main/div[2]/div/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/div/div/img',
                         '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img'
                     ])
-                    img1 = active_image.get_attribute("src")
-                    index = img1.find('?')
-                    modified_url = img1[:index] if index != -1 else img1
-                    images.append(modified_url)
+                    if active_image:
+
+                        img1 = active_image.get_attribute("src")
+                        index = img1.find('?')
+                        modified_url = img1[:index] if index != -1 else img1
+                        images.append(modified_url)
 
                     # get other images
                     try:
@@ -265,7 +272,8 @@ class ChristiesSpider(scrapy.Spider):
                             image_url = img.get_attribute("src")
                             index = image_url.find('?')
                             # Remove everything after the '?' character
-                            modified_url = image_url[:index] if index != - 1 else image_url
+                            modified_url = image_url[:index] if index != - \
+                                1 else image_url
                             images.append(modified_url)
 
             except Exception as e:
@@ -275,12 +283,14 @@ class ChristiesSpider(scrapy.Spider):
 
             # 8 Description
             try:
-                description = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item/div/fieldset/div').text
-            except NoSuchElementException:
-                description = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[3]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span').text
-            item['description'] = description
+                description = self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item/div/fieldset/div',
+                    '/html/body/main/div[3]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span'
+                ])
+            except Exception as e:
+                logging.warn(f"Error: {e} -- for url: {url} --\n")
+
+            item['description'] = description.text
 
             try:
                 estimation = self.get_estimation()
@@ -373,15 +383,26 @@ class ChristiesSpider(scrapy.Spider):
 
     def get_title(self):
         try:
-            title_elem = self.find_element_with_multiple_xpaths(self.browser, [
-                '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/span',
-                '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/div/span',
-                '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span'
-            ])
-            if title_elem:
-                return title_elem.text
+            wait = WebDriverWait(self.browser, 10)
+            xpaths = ['/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/span',
+                      '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/div/span',
+                      '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span']
+            for xpath in xpaths:
+                try:
+                    element = wait.until(
+                        EC.presence_of_element_located((By.XPATH, xpath))
+                    )
+                    if element:
+                        title_text = element.text.strip()
+                        if title_text:                            
+                            return title_text
+                        
+                except Exception as e:
+                    pass
         except Exception as e:
-            pass
+
+            logging.warn(f"An error occurred while getting the title: {e}")
+
         return None
 
     def find_element_with_multiple_xpaths(self, browser, xpaths):
@@ -398,15 +419,20 @@ class ChristiesSpider(scrapy.Spider):
         wait = WebDriverWait(browser, 10)
         for xpath in xpaths:
             try:
-                elem = browser.find_element(By.XPATH, xpath)
+                # elem = browser.find_element(By.XPATH, xpath)
+                # element = wait.until(
+                #     EC.visibility_of_element_located(
+                #         (By.XPATH, xpath))
+                # )
                 element = wait.until(
-                    EC.visibility_of_element_located(
-                        (By.XPATH, xpath))
+                    EC.presence_of_element_located((By.XPATH, xpath))
                 )
+
                 if element:
                     return element
 
-            except Exception:
+            except Exception as e:
+                # print(f"Exception occurred: {e}")  # Debugging statement
                 continue
         return None
 
@@ -427,6 +453,7 @@ class ChristiesSpider(scrapy.Spider):
                     By.XPATH, './/chr-gallery-image-zoom')
                 div_elem = chr_lot.find_element(By.XPATH, './/div')
                 img = div_elem.find_element(By.XPATH, './/img')
+
                 image_url = img.get_attribute("src")
                 index = image_url.find('?')
                 modified_url = image_url[:index] if index != -1 else image_url
@@ -435,24 +462,24 @@ class ChristiesSpider(scrapy.Spider):
                 continue
         return images
 
-    # @classmethod
-    # def from_crawler(cls, crawler, *args, **kwargs):
-    #     spider = super(ChristiesSpider, cls).from_crawler(
-    #         crawler, *args, **kwargs)
-    #     crawler.signals.connect(spider.spider_closed,
-    #                             signal=signals.spider_closed)
-    #     crawler.signals.connect(spider.spider_opened,
-    #                             signal=signals.spider_opened)
-    #     return spider
+    @classmethod
+    def from_crawler(cls, crawler, *args, **kwargs):
+        spider = super(ChristiesSpider, cls).from_crawler(
+            crawler, *args, **kwargs)
+        crawler.signals.connect(spider.spider_closed,
+                                signal=signals.spider_closed)
+        crawler.signals.connect(spider.spider_opened,
+                                signal=signals.spider_opened)
+        return spider
 
-    # # signal fired when spider first opens
-    # # used for creating a chrome browser instance
-    # def spider_opened(self, spider):
-    #     logging.warning("Setting up resources...")
-    #     self.browser = self.sel_configuration()
+    # signal fired when spider first opens
+    # used for creating a chrome browser instance
+    def spider_opened(self, spider):
+        logging.warning("Setting up resources...")
+        self.browser = self.sel_configuration()
 
-    # # singal fired when spider closes
-    # # used for cleaning up resources
-    # def spider_closed(self, spider):
-    #     logging.warning("Cleaning up resources...")
-    #     self.browser.close()
+    # singal fired when spider closes
+    # used for cleaning up resources
+    def spider_closed(self, spider):
+        logging.warning("Cleaning up resources...")
+        self.browser.close()

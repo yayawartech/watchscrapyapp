@@ -1,3 +1,4 @@
+import django
 import os
 import sys
 
@@ -84,9 +85,10 @@ RETRY_ENABLED = True
 RETRY_TIMES = 3 
 DOWNLOAD_TIMEOUT = 60
 
-PROXY_POOL_ENABLED = True
-PROXY_POOL_BACKOFF_BASE = 300  # Set a base backoff time for retries (in seconds)
-PROXY_POOL_MAX_RETRY_TIMES = 10  # Set the maximum number of retry times
+PROXY_POOL_ENABLED = False
+# Set a base backoff time for retries (in seconds)
+PROXY_POOL_BACKOFF_BASE = None
+PROXY_POOL_MAX_RETRY_TIMES = None  # Set the maximum number of retry times
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

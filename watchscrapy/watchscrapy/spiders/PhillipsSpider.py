@@ -3,14 +3,16 @@ import time
 import scrapy
 import logging
 import traceback
+from scrapy import signals
 from datetime import datetime
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from WatchInfo.settings import DEBUG
 from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class PhillipsSpider(scrapy.Spider):
@@ -45,6 +47,7 @@ class PhillipsSpider(scrapy.Spider):
 
         time.sleep(5)
         redirected_url = self.browser.current_url
+        time.sleep(5)
 
         self.login(redirected_url)
 
@@ -53,59 +56,80 @@ class PhillipsSpider(scrapy.Spider):
 
 # ====================================
     def parse(self, response):
+        item = WatchItem()
 
         logging.warn(
             "PhillipsSpider; msg=Spider started;url= %s", response.url)
-        self.browser.get(response.url)
+
         time.sleep(10)
-        # number_of_lots = self.browser.find_element(By.XPATH,
-        #    '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text or None
-        # if number_of_lots is None:
-        number_of_lots = self.browser.find_element(By.XPATH,
-                                                   '/html/body/div[2]/div/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
-        all_lots = re.search(r'\d+', number_of_lots).group()
+        try:
 
-        auction_details = response.xpath('//div[@class="auction-details"]')
-        total_lots = response.xpath(
-            '//div[@class="auction-page__grid__nav__info"]/text()').extract_first().split(" ")[1].strip()
-        logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
-                      len(all_lots), response.url)
-        logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
-                      total_lots, response.url)
-        # 2 Auction Name
-        name = response.xpath(
-            '//h1[@class="auction-page__hero__title"]/text()').extract()[0].strip()
+            number_of_lots = self.browser.find_element(By.XPATH,
+                                                       '/html/body/div[2]/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
+            # number_of_lots = self.browser.find_element(By.XPATH,
+            #                                            '/html/body/div[2]/div/div/div[2]/div/div/div/div[2]/header/nav/div[1]').text
+            logging.warn(f'\n--number_of_lots:: {number_of_lots} ---\n')
+            all_lots = re.search(r'\d+', number_of_lots).group()
 
-        date_location = response.xpath(
-            '//span[@class="auction-page__hero__date"]/text()').extract()[0].strip().split("Auction")
-        # 3 Date
+            # auction_details = response.xpath('//div[@class="auction-details"]')
+            total_lots = response.xpath(
+                '//div[@class="auction-page__grid__nav__info"]/text()').extract_first().split(" ")[1].strip()
+            logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
+                          len(all_lots), response.url)
+            logging.debug("PhillipsSpider; msg=Total Lots: %s;url= %s",
+                          total_lots, response.url)
+            # 2 Auction Name
+            name = response.xpath(
+                '//h1[@class="auction-page__hero__title"]/text()').extract()[0].strip()
+            date_location = response.xpath(
+                '//span[@class="auction-page__hero__date"]/text()').extract()[0].strip().split("Auction")
+            # 3 Date
 
-        date_info = date_location[1].split(" ")
-        date_str = date_info[-3] + " " + date_info[-2] + " " + date_info[-1]
+            date_info = date_location[1].split(" ")
+            date_str = date_info[-3] + " " + \
+                date_info[-2] + " " + date_info[-1]
 
-        date = datetime.strptime(
-            date_str.strip(), '%d %B %Y').strftime('%b %d,%Y')
+            date = datetime.strptime(
+                date_str.strip(), '%d %B %Y').strftime('%b %d,%Y')
+            # 4 Location
+            location = date_location[0].strip()
+            time.sleep(5)
+            wait = WebDriverWait(self.browser, 10)
+            try:
+                parent_element_ul = wait.until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, '/html/body/div[2]/div/div[2]/div/div/div/div[2]/ul'))
+                )
+            except Exception as e:
+                logging.warn(f"\n Exceptionn :: {e} -\n")
+            all_lis = parent_element_ul.find_elements(By.XPATH, './/li')
 
-        # 4 Location
-        location = date_location[0].strip()
-        for lot in all_lots:
-            select_element = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[2]/header/nav/div[2]/select')
-            options = select_element.find_elements(By.TAG_NAME, "option")
-            url_info = [option.get_attribute(
-                "value") for option in options if option.get_attribute("value")]
+            lots_urls = []
+            for i in all_lis:
+                div_elem = i.find_element(By.XPATH, './/div')
+                try:
+                    a_tag = div_elem.find_element(By.XPATH, './/a')
+                except NoSuchElementException:
+                    continue
 
-            if select_element:
-                for url in url_info:
-                    yield scrapy.Request(url, callback=self.parse_details, meta={'lot': lot, 'name': name, 'date': date, 'location': location, 'base_url': url_info[0], 'auction_url': response.url, 'lots': total_lots})
+                href_value = a_tag.get_attribute('href')
+                lots_urls.append(href_value)
+
+            for url in lots_urls:
+                yield scrapy.Request(url, callback=self.parse_details, meta={'name': name, 'date': date, 'location': location, 'auction_url': response.url, 'lots': total_lots})
+        except Exception as e:
+            item['status'] = "Failed"
+            logging.error(
+                "ChristiesSpider; msg=Crawling Failed > %s;url= %s", str(e), url)
+            logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
+                          response.url, traceback.format_exc())
 
     def parse_details(self, response):
         self.browser.get(response.url)
         time.sleep(5)
         item = WatchItem()
         try:
-            lot = response.meta.get('lot')
-            base_url = response.meta.get('base_url')
+
             # 1 House Name
             house_name = 8
             item["house_name"] = house_name
@@ -129,17 +153,16 @@ class PhillipsSpider(scrapy.Spider):
             item["lot"] = lot_number
 
             title1 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text or None
+                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text
 
             title2 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text or None
+                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
             item["title"] = f'{title1} \n{title2}'
-
             # 6 Images
 
             try:
                 parent_element = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
 
                 div_elements = parent_element.find_elements(
                     By.XPATH, './/div')
@@ -185,28 +208,27 @@ class PhillipsSpider(scrapy.Spider):
 
             est_min_price = est_max_price = 0
             try:
-                estimation = self.browser.find_element(By.XPATH,
-                                                       '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]').text
-            except NoSuchElementException:
-                estimation = self.browser.find_element(By.XPATH,
-                                                       '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]').text
-            # Define regex pattern to match numbers with optional currency symbols
-            pattern = r'[\$€£¥]?([\d,]+)[\s-]*([\d,]+)'
+                estimation = self.get_estimation()
+            except NoSuchElementException as e:
+                logging.warn(f"Error:::: {e} -- for url: {response.url} --\n")
+            if estimation:
+                # Define regex pattern to match numbers with optional currency symbols
+                pattern = r'[\$€£¥]?([\d,]+)[\s-]*([\d,]+)'
 
-            # Initialize variables to store min and max prices
-            est_min_price = "0"
-            est_max_price = "0"
+                # Initialize variables to store min and max prices
+                est_min_price = "0"
+                est_max_price = "0"
 
-            # Search for matches in the estimation string
-            matches = re.findall(pattern, estimation)
+                # Search for matches in the estimation string
+                matches = re.findall(pattern, estimation)
 
-            # Process the first match found (assuming first line is what we need)
-            if matches:
-                est_min_price = matches[0][0].replace(',', '')
-                est_max_price = matches[0][1].replace(',', '')
+                # Process the first match found (assuming first line is what we need)
+                if matches:
+                    est_min_price = matches[0][0].replace(',', '')
+                    est_max_price = matches[0][1].replace(',', '')
 
-            item["est_min_price"] = est_min_price
-            item["est_max_price"] = est_max_price
+                item["est_min_price"] = est_min_price
+                item["est_max_price"] = est_max_price
 
             # 9 Lot Currency
             sold = 0
@@ -252,7 +274,6 @@ class PhillipsSpider(scrapy.Spider):
         login_url = redirected_url
         time.sleep(2)
         try:
-            self.browser.get(login_url)
             time.sleep(3)
 
             username = self.browser.find_element(By.XPATH, '//*[@id=":r1:"]')
@@ -275,3 +296,45 @@ class PhillipsSpider(scrapy.Spider):
         return True
 # itsmeyoursujan@gmail.com
 # Phillips@123
+
+    def find_element_with_multiple_xpaths(self, browser, xpaths):
+        """
+        Tries to find an element using multiple XPaths.
+
+        Args:
+            browser: The WebDriver instance.
+            xpaths: A list of XPaths to try.
+
+        Returns:
+            The found element or None if none of the XPaths work.
+        """
+        wait = WebDriverWait(browser, 10)
+        for xpath in xpaths:
+            try:
+                # elem = browser.find_element(By.XPATH, xpath)
+                element = wait.until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, xpath))
+                )
+                if element:
+                    return element
+
+            except Exception:
+                continue
+        return None
+
+    def get_estimation(self):
+        xpaths = [
+            '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]',
+            '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[2]',
+            '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[4]'
+        ]
+
+        for xpath in xpaths:
+            try:
+                estimation = self.browser.find_element(By.XPATH, xpath).text
+                if estimation:
+                    return estimation
+            except NoSuchElementException:
+                continue  # Try the next XPath
+        return None
