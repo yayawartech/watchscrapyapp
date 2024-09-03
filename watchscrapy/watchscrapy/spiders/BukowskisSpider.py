@@ -20,6 +20,7 @@ class BukowskisSpider(scrapy.Spider):
 
     def start_requests(self):
         # start_urls = ['https://www.bukowskis.com/en/auctions/F215/lots']
+        # https://www.bukowskis.com/en/auctions/627/lots
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -143,14 +144,20 @@ class BukowskisSpider(scrapy.Spider):
             # 8 Description
 
             description = response.xpath(
-                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div[3]//text()').extract()
+                '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[3]/div[3]/text()').extract()
+            if not description:
+                description = response.xpath(
+                    '/html/body/div[2]/div[2]/div[1]/div[3]/div[4]/div[3]/p[1]/text()').extract()
+
             description = " ".join(description)
             item["description"] = description
 
             # 9 Lot Currency
 
+            # estimation_info_elements = response.xpath(
+            #     "/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div[2]/div[1]/div[2]/div[3]/text()").extract()
             estimation_info_elements = response.xpath(
-                "/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div[2]/div[1]/div[2]/div[3]/text()").extract()
+                "/html/body/div[2]/div[2]/div[1]/div[3]/div[3]/div[2]/div[1]/div[2]/div[1]/text()").extract()
             if estimation_info_elements:
                 estimation_info = estimation_info_elements[0]
                 # Extract currency by splitting on whitespace and taking the last part
@@ -213,9 +220,9 @@ class BukowskisSpider(scrapy.Spider):
                     "SEK", "").replace("\xa0", "")
                 item["sold_price"] = sold_price
                 item["sold"] = 1
-
-            item["sold"] = 0
-            item["sold_price"] = 0
+            else:
+                item["sold"] = 0
+                item["sold_price"] = 0
 
             # 14 sold_price_dollar
             item["sold_price_dollar"] = None

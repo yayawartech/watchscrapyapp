@@ -97,63 +97,63 @@ class AntiquorumSpider(scrapy.Spider):
 
             item['images'] = images
 
-            title = response.xpath(
-                "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract()
+            # title = response.xpath(
+            #     "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract()
 
-            # Check if the primary extraction was successful
-            if title:
-                item['title'] = title[0].strip()
-            else:
-                # Attempt to extract title from alternative XPaths
-                title1 = response.xpath(
-                    "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract()
-                title2 = response.xpath(
-                    '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract()
+            # # Check if the primary extraction was successful
+            # if title:
+            #     item['title'] = title[0].strip()
+            # else:
+            #     # Attempt to extract title from alternative XPaths
+            #     title1 = response.xpath(
+            #         "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract()
+            #     title2 = response.xpath(
+            #         '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract()
 
-                # Initialize an empty string for title
-                combined_title = ""
+            #     # Initialize an empty string for title
+            #     combined_title = ""
 
-                # Combine title1 if present
-                if title1:
-                    combined_title += title1[0].strip()
+            #     # Combine title1 if present
+            #     if title1:
+            #         combined_title += title1[0].strip()
 
-                # Combine title2 if present
-                if title2:
-                    combined_title += title2[0].strip()
+            #     # Combine title2 if present
+            #     if title2:
+            #         combined_title += title2[0].strip()
 
-                # Set item['title'] if any title was found
-                if combined_title:
-                    item['title'] = combined_title
-                else:
-                    # Handle case where no title could be found
-                    item['title'] = 'Title not found'
+            #     # Set item['title'] if any title was found
+            #     if combined_title:
+            #         item['title'] = combined_title
+            #     else:
+
+            #         item['title'] = ""
+
+            try:
+                title = self.get_title(response)
+                if title:
+                    item['title'] = title
+            except:
+                item['title'] = None
 
             data = ""
             col = response.xpath('/html/body/div[10]/div[2]/div[2]/div[2]')
 
-            data += f"Brand: {col.xpath(
-                'p/strong[contains(text(), "Brand")]/following-sibling::text()').get()}\n"
-            data += f"Model: {col.xpath(
-                'p/strong[contains(text(), "Model")]/following-sibling::text()').get()}\n"
-            data += f"Reference: {col.xpath(
-                'p/strong[contains(text(), "Reference")]/following-sibling::text()').get()}\n"
-            data += f"Year: {col.xpath(
-                'p/strong[contains(text(), "Year")]/following-sibling::text()').get()}\n"
-            data += f"Calibre: {col.xpath(
-                'p/strong[contains(text(), "Calibre")]/following-sibling::text()').get()}\n"
-            data += f"Case No.: {col.xpath(
-                'p/strong[contains(text(), "Case No.")]/following-sibling::text()').get()}\n"
-            data += f"Bracelet: {col.xpath(
-                'p/strong[contains(text(), "Bracelet")]/following-sibling::text()').get()}\n"
-            data += f"Diameter: {col.xpath(
-                'p/strong[contains(text(), "Diameter")]/following-sibling::text()').get()}\n"
-            data += f"Signature: {col.xpath(
-                'p/strong[contains(text(), "Signature")]/following-sibling::text()').get()}\n"
-            data += f"Accessories: {col.xpath(
-                'p/strong[contains(text(), "Accessories")]/following-sibling::text()').get()}\n"
-            description = data
+            # Iterate through each <p> tag
+            for p in col.xpath('.//p'):
+                # Extract the key from <strong> within the <p>
+                key = p.xpath('./strong/text()').get(default='').strip()
 
-            item['description'] = description
+                # Extract the value from the remaining text within the <p>
+                value_parts = p.xpath('./text()[normalize-space()]').getall()
+                value = ' '.join(value_parts).strip()
+
+                # Combine key and value
+                if key and value:
+                    data += f"{key}: {value}<br/>"
+
+            print(f'\nCleaned Data:\n{data.strip()}')
+
+            item['description'] = data.strip()
 
             min_max_price = all_desc.xpath(
                 "//h4[1]/text()").extract_first().strip().split(" ")
@@ -203,3 +203,23 @@ class AntiquorumSpider(scrapy.Spider):
         description = re.sub(r'\s*([-\/])\s*', r'\1', description)
 
         return description
+
+    def get_title(self, response):
+        try:
+            all_xpaths = ['/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()',
+                          '/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()',
+                          '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()']
+            for one_xpath in all_xpaths:
+                try:
+                    element = response.xpath(one_xpath).extract()
+                    if element:
+                        title_text = element[0].strip()
+                        if title_text:
+                            return title_text
+                except Exception as e:
+                    pass
+        except Exception as e:
+
+            logging.warn(f"An error occurred while getting the title: {e}")
+
+        return None
