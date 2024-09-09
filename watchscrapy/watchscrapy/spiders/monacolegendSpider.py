@@ -144,8 +144,10 @@ class MonacolegendSpider(scrapy.Spider):
             item['house_name'] = 10
 
             # 2 Auction Name
-            item['name'] = self.browser.find_element(
+            auction_name = self.browser.find_element(
                 By.XPATH, '/html/body/main/section/div/div[1]/h2/a/span[1]').text
+            cleaned_text = re.sub(r'[^\w\s]', '', auction_name).strip()
+            item['name'] = cleaned_text
 
             # 3 Date
 

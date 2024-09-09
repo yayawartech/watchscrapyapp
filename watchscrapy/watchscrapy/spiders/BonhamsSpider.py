@@ -15,6 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 
+
 class BonhamsSpider(scrapy.Spider):
     name = "bonhamsSpider"
     allowed_domains = ["www.bonhams.com"]
@@ -150,7 +151,7 @@ class BonhamsSpider(scrapy.Spider):
                     # 8 Description
 
                     desc_name = ""
-                    
+
                     desc_content_info = htmlr.xpath(
                         '//*[@id="skip-to-content"]/section/div/div/div[5]/div[1]/div/div/div[1]/div[1]/div').extract()
 
@@ -204,30 +205,36 @@ class BonhamsSpider(scrapy.Spider):
                           response.url, traceback.format_exc())
             yield item
 
-    
-    def parse_image(self,response):
+    def parse_image(self, response):
+        logging.warn(
+            "BonhamsSpider; msg=Crawling going to start;url= %s", response.url)
+
         self.browser.get(response.url)
         time.sleep(5)
         item = response.meta['item']
         try:
-            parent_element = self.browser.find_element(By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
-            button_elements = parent_element.find_elements(By.XPATH, './/button')
+            parent_element = self.browser.find_element(
+                By.XPATH, '/html/body/div[1]/main/section/div/div/div[3]/div/div[2]/div[1]/div')
+            button_elements = parent_element.find_elements(
+                By.XPATH, './/button')
             images = []
             for image in button_elements:
                 try:
                     img = image.find_element(By.XPATH, './/img')
                     img_value = img.get_attribute("src")
                     images.append(img_value)
-                except NoSuchElementException:                    
+                except NoSuchElementException:
                     continue
             item['images'] = images
         except NoSuchElementException:
             try:
-                elem = self.browser.find_element(By.XPATH, '/html/body/div[1]/main/section[1]/div/div/div[3]/div/button/img')
+                elem = self.browser.find_element(
+                    By.XPATH, '/html/body/div[1]/main/section[1]/div/div/div[3]/div/button/img')
                 img_list = []
                 img = elem.get_attribute("src")
                 img_list.append(img)
                 item['images'] = img_list
             except NoSuchElementException:
-                logging.warn(f"Neither parent_element nor elem were found on the page.")
+                logging.warn(
+                    f"Neither parent_element nor elem were found on the page.")
         yield item

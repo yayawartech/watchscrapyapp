@@ -84,7 +84,8 @@ class BukowskisSpider(scrapy.Spider):
             yield item
 
     def parse_lot_url(self, response):
-
+        logging.warn(
+            "BukowskisSpider; msg=Crawling going to start;url= %s", response.url)
         item = WatchItem()
         try:
             # 1 HouseName
@@ -101,11 +102,27 @@ class BukowskisSpider(scrapy.Spider):
             date = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/div[1]/div[1]/div[2]/div/time/div[1]/text()').get()
             if date:
-                date = date.replace("\xa0", " ")
+                date = date.replace("\xa0", " ").strip()
             else:
                 date = "Jan 01, 1900"
-            final_date = datetime.strptime(
-                date.strip(), '%b %d, %Y').strftime('%b %d,%Y')
+
+            # Check if the date contains a year, if not, append the current year
+
+            if len(date.split()) == 2:  # Only month and day are present
+                date += f", {datetime.now().year}"
+
+            # Print the date for debugging
+            # print(f"Debug: Parsed date is '{date}'")
+
+            # Parse the date and format it
+            try:
+                final_date = datetime.strptime(
+                    date, '%b %d, %Y').strftime('%b %d,%Y')
+                # print(f"Final formatted date: {final_date}")
+            except ValueError as e:
+                # print(f"Error: {e}")
+                pass
+
             item["date"] = final_date
             location = response.xpath(
                 '//*[@id="js-boost-target"]/div[2]/div[1]/div[4]/div[4]/details[2]/div[1]/div/div[2]/div[1]/text()').extract()

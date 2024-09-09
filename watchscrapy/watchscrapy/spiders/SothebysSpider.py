@@ -60,11 +60,23 @@ class SothebysSpider(scrapy.Spider):
 
             logging.warning(
                 "SothebysSpider; msg=Trying to load lots in next pages; url= %s", source_url)
+            try:
+                accept_cookie = WebDriverWait(self.browser, 10).until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '/html/body/div[4]/div[2]/div/div[1]/div/div[2]/div/button[2]'))
+                )
+                accept_cookie.click()
+                logging.warn("---- Cookie accepted----")
+                time.sleep(5)
+            except NoSuchElementException:
+                logging.warn("---- Cookie not accepted----")
+                time.sleep(5)
             while True:
+
+                # Accept Cookie popup
                 try:
                     lot_number = self.browser.find_element(
                         By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/span/div[4]/p[1]').text
-
                     # Use regular expression to extract numeric value
                     match = re.search(r'\d+', lot_number)
 
@@ -73,7 +85,7 @@ class SothebysSpider(scrapy.Spider):
                         extracted_number = int(match.group())
                         lot_number = extracted_number
                     else:
-                        print("No numeric value found in the string")
+                        logging.warn("No numeric value found in the string")
 
                     # Find the parent element by XPath
                     parent_element = self.browser.find_element(
@@ -92,16 +104,22 @@ class SothebysSpider(scrapy.Spider):
                             # Get the href attribute value
                             href_value = a_tag.get_attribute('href')
                             lots_urls.add(href_value)
-
                         except NoSuchElementException:
                             # If 'a' tag is not found in the div, skip it
                             continue
+                    
 
                     # waiting for Next button to be available for 10 seconds.
-                    next_button = WebDriverWait(self.browser, 10).until(
-                        EC.presence_of_element_located(
-                            (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[6]/button'))
-                    )
+                    try:
+                        next_button = WebDriverWait(self.browser, 10).until(
+                            EC.presence_of_element_located(
+                                (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[6]/button'))
+                        )
+                    except Exception:
+                        next_button = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(
+                            (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[5]/button'))
+                        )
+
                     # if next_button is not enabled, it means we reached to the last page.
                     if not next_button.is_enabled():
                         break
@@ -142,7 +160,7 @@ class SothebysSpider(scrapy.Spider):
             location = pre_data['@graph'][0]['location']['name']
 
             for i, url in enumerate(lots_urls):
-                yield scrapy.Request("https://www.google.com", dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'source_url': source_url, 'date': date, 'location': location, 'lots': total_lots})
+                yield scrapy.Request(url, dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'source_url': source_url, 'date': date, 'location': location, 'lots': total_lots})
                 # break
 
         except Exception as e:
@@ -169,11 +187,6 @@ class SothebysSpider(scrapy.Spider):
 
             # 1 House Name
             item['house_name'] = 9
-
-            # 2 Auction Name
-            item['name'] = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
-            # logging.warn("====>name : " + item['name'])
 
             # 3 Date
             item['date'] = datetime.strptime(response.meta.get(
@@ -223,9 +236,21 @@ class SothebysSpider(scrapy.Spider):
             item['images'] = images
 
             # 7 Title
-            title = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text
+            try:
+                auction_name = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+                title = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text.strip()
+                if title.upper() == "OFFERED WITHOUT RESERVE":
+                    raise ValueError(
+                        "Title is 'Offered Without Reserve', aborting.")
 
+            except Exception as e:
+                full_title = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+                title = full_title.strip()
+                auction_name = full_title.split(" | ")[0].strip()
+            item['name'] = auction_name
             item['title'] = title
 
             # 8 Description

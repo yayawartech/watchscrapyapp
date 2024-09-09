@@ -97,40 +97,10 @@ class AntiquorumSpider(scrapy.Spider):
 
             item['images'] = images
 
-            # title = response.xpath(
-            #     "/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()").extract()
-
-            # # Check if the primary extraction was successful
-            # if title:
-            #     item['title'] = title[0].strip()
-            # else:
-            #     # Attempt to extract title from alternative XPaths
-            #     title1 = response.xpath(
-            #         "/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()").extract()
-            #     title2 = response.xpath(
-            #         '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()').extract()
-
-            #     # Initialize an empty string for title
-            #     combined_title = ""
-
-            #     # Combine title1 if present
-            #     if title1:
-            #         combined_title += title1[0].strip()
-
-            #     # Combine title2 if present
-            #     if title2:
-            #         combined_title += title2[0].strip()
-
-            #     # Set item['title'] if any title was found
-            #     if combined_title:
-            #         item['title'] = combined_title
-            #     else:
-
-            #         item['title'] = ""
-
             try:
                 title = self.get_title(response)
                 if title:
+                    # print(f'\n-- title:: {title} --\n url:: {response.url}')
                     item['title'] = title
             except:
                 item['title'] = None
@@ -150,8 +120,6 @@ class AntiquorumSpider(scrapy.Spider):
                 # Combine key and value
                 if key and value:
                     data += f"{key}: {value}<br/>"
-
-            print(f'\nCleaned Data:\n{data.strip()}')
 
             item['description'] = data.strip()
 
@@ -208,7 +176,7 @@ class AntiquorumSpider(scrapy.Spider):
         try:
             all_xpaths = ['/html/body/div[10]/div[2]/div[1]/div[2]/p[4]/text()',
                           '/html/body/div[10]/div[2]/div[1]/div[2]/div[1]/strong/text()',
-                          '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()']
+                          '/html/body/div[10]/div[2]/div[1]/div[2]/div[2]/text()', '/html/body/div[10]/div[2]/div[1]/div[2]/div[1]']
             for one_xpath in all_xpaths:
                 try:
                     element = response.xpath(one_xpath).extract()

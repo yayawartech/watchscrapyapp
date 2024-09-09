@@ -8,3 +8,5 @@ RDS_USER = ""
 RDS_PASSWORD = ""
 RDS_HOST = ""
 RDS_PORT = ""
+
+DEBUG = True #True for development environment
