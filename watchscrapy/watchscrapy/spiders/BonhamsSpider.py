@@ -34,21 +34,23 @@ class BonhamsSpider(scrapy.Spider):
             service = Service('/usr/local/bin/chromedriver')
             browser = webdriver.Chrome(service=service, options=options)
         else:
+            options.add_argument('headless')
             browser = webdriver.Chrome(options=options)
         browser.set_window_size(1440, 900)
         return browser
 
     def start_requests(self):
+        logging.warn("Starting requests...")
         self.browser = self.sel_configuration()
         # start_urls = [
         #     'https://www.bonhams.com/auction/28690/hong-kong-watches/']
-        #  https://www.bonhams.com/auction/27040/
+        #  https://www.bonhams.com/auction/27040/hong-kong-watches/
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         item = WatchItem()
-        logging.warn("BonhamsSpider; msg=Spider started;url= %s", response.url)
+        logging.warn(f"Parsing response from URL: {response.url}")
         try:
             # 1 HouseName
             house_name = 3
@@ -57,11 +59,9 @@ class BonhamsSpider(scrapy.Spider):
             name = response.xpath(
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/h1/div/text()').extract()
             item["name"] = " ".join(name)
-
             # 3 Date
             date_info = response.xpath(
                 '//*[@id="skip-to-content"]/section[1]/div/div/div[1]/div[2]/div[1]/text()').extract()[0]
-
             item["date"] = datetime.strptime(
                 date_info.strip(), '%d %B %Y').strftime('%b %d,%Y')
 
@@ -84,7 +84,7 @@ class BonhamsSpider(scrapy.Spider):
             jresp = json.loads(resp)
             total_lot = jresp["total_lots"]
 
-            page_numbers = int(math.ceil(total_lot/10))
+            page_numbers = int(math.ceil(total_lot/10))  # 12 pages are there
             for i in range(page_numbers):
                 final_url = base_url + "?page=" + str(i+1)
                 resp = requests.get(final_url).text
@@ -141,9 +141,8 @@ class BonhamsSpider(scrapy.Spider):
                     item["sold_price_dollar"] = None
                     # 15 url
                     url = "https://"+self.allowed_domains[0] + lot['url']
-                    logging.debug(
-                        "BonhamsSpider; msg=New URL is ;url= %s;", url)
-                    item["url"] = url
+                    _url = url.replace('auctions', 'auction')
+                    item["url"] = _url
 
                     resp = requests.get(url)
                     htmlr = HtmlResponse(
@@ -206,8 +205,7 @@ class BonhamsSpider(scrapy.Spider):
             yield item
 
     def parse_image(self, response):
-        logging.warn(
-            "BonhamsSpider; msg=Crawling going to start;url= %s", response.url)
+        logging.warn(f"Parsing images from URL: {response.url}")
 
         self.browser.get(response.url)
         time.sleep(5)
@@ -235,6 +233,5 @@ class BonhamsSpider(scrapy.Spider):
                 img_list.append(img)
                 item['images'] = img_list
             except NoSuchElementException:
-                logging.warn(
-                    f"Neither parent_element nor elem were found on the page.")
+                logging.warn(f"Neither parent_element nor element were found on the page.")
         yield item

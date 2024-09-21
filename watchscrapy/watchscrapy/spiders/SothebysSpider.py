@@ -53,6 +53,7 @@ class SothebysSpider(scrapy.Spider):
                 "SothebysSpider; msg=Spider started; url= %s", source_url)
             # use set to avoid duplicates
             lots_urls = set()
+            # temp = []
             time.sleep(4)
 
             self.browser.get(response.url)
@@ -103,11 +104,14 @@ class SothebysSpider(scrapy.Spider):
 
                             # Get the href attribute value
                             href_value = a_tag.get_attribute('href')
-                            lots_urls.add(href_value)
+                            if href_value not in lots_urls:
+                                logging.info(f"New URL found: {href_value}")
+                                lots_urls.add(href_value)
+                                # temp.append(href_value)
+
                         except NoSuchElementException:
                             # If 'a' tag is not found in the div, skip it
                             continue
-                    
 
                     # waiting for Next button to be available for 10 seconds.
                     try:
@@ -119,7 +123,6 @@ class SothebysSpider(scrapy.Spider):
                         next_button = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(
                             (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[5]/button'))
                         )
-
                     # if next_button is not enabled, it means we reached to the last page.
                     if not next_button.is_enabled():
                         break
@@ -142,7 +145,7 @@ class SothebysSpider(scrapy.Spider):
                         "Exception occured while trying to collect lot urls.")
                     break
 
-            total_lots = len(lots_urls)
+            total_lots = len(lots_urls)        
             logging.warning(
                 "SothebysSpider; msg=Loading Complete. Found %d lots. url= %s", total_lots, source_url)
 
@@ -203,7 +206,6 @@ class SothebysSpider(scrapy.Spider):
             lot_number_list = re.findall(r'Lot\s*(\d+)', lot_number_info)
 
             lot_number = lot_number_list[0] if lot_number_list else None
-
             item['lot'] = lot_number
 
             # logging.warn("====>lot : " + item['lot'])
@@ -341,3 +343,4 @@ class SothebysSpider(scrapy.Spider):
     def spider_closed(self, spider):
         logging.warning("Cleaning up resources...")
         self.browser.close()
+# https://www.sothebys.com/en/buy/auction/2021/watches-online

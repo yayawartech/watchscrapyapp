@@ -21,6 +21,7 @@ class MonacolegendSpider(scrapy.Spider):
         super(MonacolegendSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
         #     'https://www.monacolegendauctions.com/auction/exclusive-timepieces-33']
+        #     https://www.monacolegendauctions.com/auction/exclusive-timepieces-30
 
         self.start_urls = url.split(",")
         self.job = job
@@ -117,9 +118,8 @@ class MonacolegendSpider(scrapy.Spider):
             year = date_and_location_list[4]
 
             date = f"{month} {day},{year}"
-
             for i in range(total_lots):
-                yield scrapy.Request("https://www.google.com", dont_filter=True, callback=self.parseBS, meta={'url': source_url + "/lot-" + str(int(i) + 1), 'browser': self.browser, 'source_url': source_url, 'date': date, 'location': location, 'lots': total_lots, 'lot_number': str(i + 1)})
+                yield scrapy.Request(source_url + "/lot-" + str(int(i) + 1), dont_filter=True, callback=self.parseBS, meta={'url': source_url + "/lot-" + str(int(i) + 1), 'browser': self.browser, 'source_url': source_url, 'date': date, 'location': location, 'lots': total_lots, 'lot_number': str(i + 1)})
 
         except Exception as e:
             item = WatchItem()

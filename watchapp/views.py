@@ -401,15 +401,23 @@ def job_details(request, job):
     lot_counts = []
     urls = job.urls
     for url in urls.split(","):
+        url = url.strip()
+        print(f'\n-- Processing URL: {url}\n')
+        lot = Lot.objects.all().prefetch_related("auction").filter(auction__url=url)
+        print(f'\n-- QuerySet: {lot}\n')
+
         counts = {}
-        lot = Lot.objects.all().prefetch_related(
-            "auction").filter(auction__url=url.strip())
-        # MB - fix where the URL was not processed
         try:
-            counts["actual_lots"] = lot[0].auction.actual_lots
-            counts["fetched_lots"] = lot.count()
-            counts["auction"] = lot[0].auction.name
-            counts["house"] = lot[0].auction.auction_house.name
+            if lot.exists():
+                counts["actual_lots"] = lot[0].auction.actual_lots
+                counts["fetched_lots"] = lot.count()
+                counts["auction"] = lot[0].auction.name
+                counts["house"] = lot[0].auction.auction_house.name
+            else:
+                counts["actual_lots"] = 0
+                counts["fetched_lots"] = 0
+                counts["auction"] = 'No Lots Found'
+                counts["house"] = 'No Lots Found'
             counts["url"] = url
         except IndexError:
             counts["actual_lots"] = 0

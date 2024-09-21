@@ -151,13 +151,16 @@ class PhillipsSpider(scrapy.Spider):
                 "//h3[@class='lot-page__lot__number']/text()").extract_first()
             lot_number = re.findall(r'\d+', lot_number_info)[0]
             item["lot"] = lot_number
-
-            title1 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text
-
-            title2 = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
-            item["title"] = f'{title1} \n{title2}'
+            try:
+                title1 = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/div[1]/a/h1').text
+                title2 = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
+                item["title"] = f'{title1} \n{title2}'
+            except NoSuchElementException:
+                title2 = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div[2]/h1').text
+                item["title"] = title2
             # 6 Images
 
             try:
@@ -187,15 +190,14 @@ class PhillipsSpider(scrapy.Spider):
             description = ""
 
             description = description + "\n"
+            desc =""
             try:
-                desc = response.xpath(
-                    '//ul[@class="lot-page__details__list"]/li[1]/p').extract() or None
+                desc += self.browser.find_element(
+                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').text
             except NoSuchElementException:
+                logging.warn(f"Cannot get description for url: {response.url}")
 
-                desc = response.xpath(
-                    '/html/body/div[2]/div//div/div[2]/div/div[1]/div[3]/ul/li[2]/p').extract()
-
-            description = description + desc[0]
+            description = description + desc
             essay_info = response.xpath(
                 '//div[@class="lot-essay"]/p/text()').extract()
 
@@ -317,7 +319,9 @@ class PhillipsSpider(scrapy.Spider):
                         (By.XPATH, xpath))
                 )
                 if element:
-                    return element
+                    desc_text = element.text.strip()
+                    if desc_text:
+                        return desc_text
 
             except Exception:
                 continue
@@ -338,3 +342,4 @@ class PhillipsSpider(scrapy.Spider):
             except NoSuchElementException:
                 continue  # Try the next XPath
         return None
+# https://www.phillips.com/auctions/auction/HK090321
