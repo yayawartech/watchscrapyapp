@@ -402,9 +402,7 @@ def job_details(request, job):
     urls = job.urls
     for url in urls.split(","):
         url = url.strip()
-        print(f'\n-- Processing URL: {url}\n')
         lot = Lot.objects.all().prefetch_related("auction").filter(auction__url=url)
-        print(f'\n-- QuerySet: {lot}\n')
 
         counts = {}
         try:

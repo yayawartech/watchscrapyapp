@@ -19,6 +19,7 @@ class PhillipsSpider(scrapy.Spider):
     name = "phillipsSpider"
     allowed_domains = ["www.phillips.com"]
     # start_urls = ['https://www.phillips.com/auctions/auction/NY080119']
+    # https://www.phillips.com/auctions/auction/HK090321
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(PhillipsSpider, self).__init__(*args, **kwargs)
@@ -164,40 +165,44 @@ class PhillipsSpider(scrapy.Spider):
             # 6 Images
 
             try:
+                images = []
+                active_image = self.browser.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[1]/div[2]/div/img')
+                active_image_src = active_image.get_attribute('src')
+                images.append(active_image_src)
                 parent_element = self.browser.find_element(
                     By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div/div')
 
                 div_elements = parent_element.find_elements(
                     By.XPATH, './/div')
-                images = []
-
                 # Iterate over each div element to find the 'a' tag and extract href attribute
                 for div in div_elements:
                     try:
                         inner_div = div.find_element(By.XPATH, './/div')
                         img = inner_div.find_element(By.XPATH, './/img')
                         img_src = img.get_attribute('src')
-                        images.append(img_src)
+                        if img_src not in images:
+                            images.append(img_src)
 
                     except NoSuchElementException:
                         continue
             except NoSuchElementException:
                 logging.warn(f'\n--- parent_element not found ----\n')
-
             item["images"] = images
 
             # 8 Description
             description = ""
 
-            description = description + "\n"
-            desc =""
+            # description = description + "\n"
+            # desc = ""
             try:
-                desc += self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p').text
-            except NoSuchElementException:
+                description += self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[2]/p',
+                    '/html/body/div[2]/div/div[2]/div/div[1]/div[3]/ul/li[1]/p',
+                ])
+            except Exception as e:
                 logging.warn(f"Cannot get description for url: {response.url}")
 
-            description = description + desc
             essay_info = response.xpath(
                 '//div[@class="lot-essay"]/p/text()').extract()
 
@@ -236,9 +241,9 @@ class PhillipsSpider(scrapy.Spider):
             sold = 0
             try:
                 sold_price_info = response.xpath(
-                    '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract() or None
-            except NoSuchElementException:
+                    '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[3]/text()').extract()
 
+            except NoSuchElementException:
                 sold_price_info = response.xpath(
                     '/html/body/div[2]/div/div/div[2]/div/div[2]/div/div/div[2]/div[2]/p[5]/text()').extract()
             # 12 Sold Price
@@ -252,6 +257,7 @@ class PhillipsSpider(scrapy.Spider):
             else:
                 item['sold_price'] = 0
                 item['lot_currency'] = ""
+                sold = 0
             item["sold"] = sold
             # 13 Sold Price Dollar
 
@@ -342,4 +348,3 @@ class PhillipsSpider(scrapy.Spider):
             except NoSuchElementException:
                 continue  # Try the next XPath
         return None
-# https://www.phillips.com/auctions/auction/HK090321

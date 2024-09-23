@@ -23,14 +23,13 @@ class ChristiesSpider(scrapy.Spider):
     def __init__(self, url='', job='', *args, **kwargs):
         super(ChristiesSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
-        # 'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
-        # https://www.christies.com/en/auction/only-watch-29184/
+        # '']
+        # https://www.christies.com/en/auction/only-watch-29184
 
         self.start_urls = url.split(",")
         self.job = job
 
     def sel_configuration(self):
-        # Selenium Configuration
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         if not DEBUG:
@@ -43,7 +42,6 @@ class ChristiesSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
-        # self.browser = self.sel_configuration()
         time.sleep(5)
 
         for url in self.start_urls:
@@ -97,7 +95,6 @@ class ChristiesSpider(scrapy.Spider):
 
             # Format the datetime object
             formatted_date = date_obj.strftime('%b %d,%Y')
-
             # 4 Location
             try:
                 location = self.browser.find_element(
@@ -142,7 +139,6 @@ class ChristiesSpider(scrapy.Spider):
             # Execute JavaScript to get the text content
             lot_string_text = self.browser.execute_script(
                 "return arguments[0].textContent;", lot_string_element)
-
             if lot_string_element is not None:
 
                 match = re.search(r'\((\d+)\)', lot_string_text)
@@ -167,7 +163,7 @@ class ChristiesSpider(scrapy.Spider):
             logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
 
-    def parseBS(self, response):
+    def parseBS(self, response):       
         url = response.meta.get('url')
 
         logging.warn(
@@ -202,7 +198,6 @@ class ChristiesSpider(scrapy.Spider):
                 if click_more_button is not None:
                     logging.warn(
                         f'\nclick_more_button found for url:: {url}\n')
-                    
                     try:
                         try:
                             self.browser.execute_script(
@@ -236,7 +231,8 @@ class ChristiesSpider(scrapy.Spider):
 
                     active_image = self.find_element_with_multiple_xpaths(self.browser, [
                         '/html/body/main/div[2]/div/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/div/div/img',
-                        '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img'
+                        '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img',
+                        '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img'
                     ])
                     if active_image:
 
@@ -249,7 +245,8 @@ class ChristiesSpider(scrapy.Spider):
                     try:
                         parent_element = self.find_element_with_multiple_xpaths(self.browser, [
                             '/html/body/main/div[2]/div/div/div[2]/div/div[1]/div',
-                            '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div'
+                            '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div',
+                            '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div'
                         ])
                     except Exception as e:
                         logging.warn(f"Error: {e} -- for url: {url} --\n")
@@ -278,23 +275,23 @@ class ChristiesSpider(scrapy.Spider):
 
             except Exception as e:
                 logging.warn(f"Error:: {e} -- for url: {url} --\n")
-
             item['images'] = images
 
             # 8 Description
             try:
                 description = self.find_element_with_multiple_xpaths(self.browser, [
                     '/html/body/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item/div/fieldset/div',
-                    '/html/body/main/div[3]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span'
+                    '/html/body/main/div[3]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span',
+                    '/html/body/div[2]/div[4]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div',
                 ])
             except Exception as e:
                 logging.warn(f"Error: {e} -- for url: {url} --\n")
-
             item['description'] = description.text
 
             try:
                 estimation = self.get_estimation()
-            except NoSuchElementException as e:
+                
+            except Exception as e:
                 logging.warn(f"Error:::: {e} -- for url: {url} --\n")
             if estimation:
 
@@ -322,31 +319,28 @@ class ChristiesSpider(scrapy.Spider):
 
             # 12 Sold Price
             try:
-                sold_price = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
-            except NoSuchElementException:
-                sold_price = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]').text
+                sold_price = self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]',
+                    '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]'
+                ])
+                if sold_price:
+                    sold_price = sold_price.text
+                    parts = sold_price.split()
+                    sold_price_value = parts[1]
+
+                    sold_price_without_comma = sold_price_value.replace(
+                        ',', '')
+                    item['sold_price'] = sold_price_without_comma
+                    item["sold"] = 1
+                else:
+                    sold_price = 0
+                    item['sold'] = 0
+                    item['sold_price'] = 0
             except Exception:
                 sold_price = 0
-
-            # Split the sold_price string by spaces
-            if sold_price != 0:
-                parts = sold_price.split()
-
-            # Extract the sold price
-                sold_price_value = parts[1]
-                sold_price_without_comma = sold_price_value.replace(',', '')
-                item['sold_price'] = sold_price_without_comma
-
-                if sold_price_value:
-                    item["sold"] = 1
-
-            else:
-                item['sold_price'] = 0
-                sold_price = 0
                 item['sold'] = 0
-                # 13 Sold Price Dollar
+                item['sold_price'] = 0
+
             item['sold_price_dollar'] = None
 
             # 14  URL
@@ -369,14 +363,16 @@ class ChristiesSpider(scrapy.Spider):
         xpaths = [
             '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
             '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
-            '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/div[2]/span'
+            '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/div[2]/span',
+            '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
+            '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/div[2]/span'
         ]
 
         for xpath in xpaths:
             try:
-                estimation = self.browser.find_element(By.XPATH, xpath).text
+                estimation = self.browser.find_element(By.XPATH, xpath)
                 if estimation:
-                    return estimation
+                    return estimation.text
             except NoSuchElementException:
                 continue  # Try the next XPath
         return None
@@ -386,7 +382,7 @@ class ChristiesSpider(scrapy.Spider):
             wait = WebDriverWait(self.browser, 10)
             xpaths = ['/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/span',
                       '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/div/span',
-                      '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span']
+                      '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span', '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span']
             for xpath in xpaths:
                 try:
                     element = wait.until(
@@ -394,9 +390,9 @@ class ChristiesSpider(scrapy.Spider):
                     )
                     if element:
                         title_text = element.text.strip()
-                        if title_text:                            
+                        if title_text:
                             return title_text
-                        
+
                 except Exception as e:
                     pass
         except Exception as e:
@@ -432,7 +428,6 @@ class ChristiesSpider(scrapy.Spider):
                     return element
 
             except Exception as e:
-                # print(f"Exception occurred: {e}")  # Debugging statement
                 continue
         return None
 

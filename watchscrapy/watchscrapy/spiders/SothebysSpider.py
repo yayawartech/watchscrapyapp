@@ -25,6 +25,8 @@ class SothebysSpider(scrapy.Spider):
         super(SothebysSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
         # 'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
+        # 'https://www.sothebys.com/en/buy/auction/2021/important-watches-part-ii', 
+        # 'https://www.sothebys.com/en/buy/auction/2021/important-watches-2'
         self.start_urls = url.split(",")
         self.job = job
 
@@ -69,7 +71,7 @@ class SothebysSpider(scrapy.Spider):
                 accept_cookie.click()
                 logging.warn("---- Cookie accepted----")
                 time.sleep(5)
-            except NoSuchElementException:
+            except Exception:
                 logging.warn("---- Cookie not accepted----")
                 time.sleep(5)
             while True:
@@ -145,7 +147,7 @@ class SothebysSpider(scrapy.Spider):
                         "Exception occured while trying to collect lot urls.")
                     break
 
-            total_lots = len(lots_urls)        
+            total_lots = len(lots_urls)
             logging.warning(
                 "SothebysSpider; msg=Loading Complete. Found %d lots. url= %s", total_lots, source_url)
 
