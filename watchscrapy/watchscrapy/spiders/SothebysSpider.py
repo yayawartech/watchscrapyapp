@@ -25,7 +25,7 @@ class SothebysSpider(scrapy.Spider):
         super(SothebysSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
         # 'https://www.sothebys.com/en/buy/auction/2024/fine-watches-3']
-        # 'https://www.sothebys.com/en/buy/auction/2021/important-watches-part-ii', 
+        # 'https://www.sothebys.com/en/buy/auction/2021/important-watches-part-ii',
         # 'https://www.sothebys.com/en/buy/auction/2021/important-watches-2'
         self.start_urls = url.split(",")
         self.job = job
@@ -115,16 +115,30 @@ class SothebysSpider(scrapy.Spider):
                             # If 'a' tag is not found in the div, skip it
                             continue
 
-                    # waiting for Next button to be available for 10 seconds.
                     try:
+                        # Try the first XPath
                         next_button = WebDriverWait(self.browser, 10).until(
                             EC.presence_of_element_located(
-                                (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[6]/button'))
+                                (By.XPATH,
+                                 '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[6]/button')
+                            )
                         )
                     except Exception:
-                        next_button = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(
-                            (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[5]/button'))
-                        )
+                        try:
+                            # Try the second XPath
+                            next_button = WebDriverWait(self.browser, 10).until(
+                                EC.presence_of_element_located(
+                                    (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[5]/button')
+                                )
+                            )
+                        except Exception:
+                            # Try the third XPath
+                            next_button = WebDriverWait(self.browser, 10).until(
+                                EC.presence_of_element_located(
+                                    (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[4]/button')
+                                )
+                            )
+
                     # if next_button is not enabled, it means we reached to the last page.
                     if not next_button.is_enabled():
                         break
