@@ -93,7 +93,7 @@ wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.89/linu
 sudo apt install -y unzip
 sudo apt-get install -y libxss1 libappindicator3-1 libindicator7
 
-unzip chromedriver_linux64.zip
+unzip chromedriver-linux64.zip
 
 sudo mv chromedriver_linux64/chrome /usr/local/bin/chromedriver
 sudo chmod +x /usr/local/bin/chromedriver
