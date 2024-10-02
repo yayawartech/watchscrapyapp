@@ -73,7 +73,7 @@ class SothebysSpider(scrapy.Spider):
                 time.sleep(5)
             except Exception:
                 logging.warn("---- Cookie not accepted----")
-                time.sleep(5)
+                time.sleep(10)
             while True:
 
                 # Accept Cookie popup

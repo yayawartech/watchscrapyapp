@@ -4,8 +4,6 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=ubuntu
-Group=www-data
 WorkingDirectory=/home/ubuntu/watchscrapyapp
 ExecStart=/home/ubuntu/watchscrapyapp/venv/bin/gunicorn \
           --access-logfile - \

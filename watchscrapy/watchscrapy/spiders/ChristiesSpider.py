@@ -23,7 +23,7 @@ class ChristiesSpider(scrapy.Spider):
     def __init__(self, url='', job='', *args, **kwargs):
         super(ChristiesSpider, self).__init__(*args, **kwargs)
         # self.start_urls = [
-        # '']
+        # 'https://onlineonly.christies.com/s/watches-online-top-time/lots/3229']
         # https://www.christies.com/en/auction/only-watch-29184
 
         self.start_urls = url.split(",")

@@ -30,9 +30,9 @@ SECRET_KEY = "oigyE&A=PM!F!C1IlhsXfWp10dQqoJrkasB#fN*07(MvS#D6D0"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") or False
 if DEBUG:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ["*"]  # for development purpose only
 else:
-    ALLOWED_HOSTS = ["ec2-52-90-182-63.compute-1.amazonaws.com"]
+    ALLOWED_HOSTS = ["165.22.181.81"]  # for production (put production server's ip or domain )
 
 
 # Application definition

@@ -3,10 +3,10 @@ AWS_SECRET_ACCESS_KEY = ''
 AWS_STORAGE_BUCKET_NAME = ''
 
 
-RDS_DB_NAME = ""
-RDS_USER = ""
-RDS_PASSWORD = ""
-RDS_HOST = ""
-RDS_PORT = ""
+RDS_DB_NAME = "watchdb"
+RDS_USER = "root"
+RDS_PASSWORD = "Mysql-123"
+RDS_HOST = "localhost"
+RDS_PORT = "3306"
 
-DEBUG = True #True for development environment
+#DEBUG=True #for development purpose

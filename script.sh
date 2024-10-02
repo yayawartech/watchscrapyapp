@@ -1,22 +1,19 @@
-#!bin/bash
+#!/bin/bash
 
 PROJECT_MAIN_DIR_NAME="watchscrapyapp"
 
 echo "Starting..."
 sudo apt update
 
-# Install Python3 pip
-sudo apt install -y python3-pip
+# Create a directory and copy the project to /home/ubuntu
+mkdir -p /home/ubuntu
 
-# Install Nginx
-sudo apt install -y nginx
-
-# Install Virtualenv
-sudo apt install -y virtualenv
-sudo apt install python3-virtualenv        
+sudo ln -s /root/$PROJECT_MAIN_DIR_NAME /home/ubuntu/$PROJECT_MAIN_DIR_NAME
+echo "Project linked to the path /home/ubuntu/$PROJECT_MAIN_DIR_NAME"
 
 # Create virtual environment
 echo "Creating virtual environment..."
+sudo apt install -y virtualenv
 virtualenv "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/venv"
 
 # Activate virtual environment
@@ -26,31 +23,85 @@ source "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/venv/bin/activate"
 # Install dependencies
 echo "Installing Python dependencies..."
 pip install -r "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/requirements.txt"
-
-pip install gunicorn whitenoise
-
 echo "Dependencies installed successfully."
 
-# Deactivate virtual environment to install and setup server
-deactivate        
+# Setup django application
+echo "Migrate database"
+python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" migrate --database=default
+
+python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" migrate --database=awsrds
+echo "Secondary database migration complete"
+
+echo "Database migration completed"
+ 
+echo "Collect staticfiles"
+python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" collectstatic --noinput
+
+
 
 # Copy gunicorn socket and service files
-sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" "/etc/systemd/system/gunicorn.socket"
-sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" "/etc/systemd/system/gunicorn.service"
+echo "Copying gunicorn socket and service files..."
+if [[ -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" && -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" ]]; then
+    sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" "/etc/systemd/system/gunicorn.socket"
+    sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" "/etc/systemd/system/gunicorn.service"
+else
+    echo "Gunicorn socket or service file not found."
+    exit 1
+fi
 
 # Start and enable Gunicorn service
-sudo systemctl start gunicorn.service
-sudo systemctl enable gunicorn.service
+if sudo systemctl status gunicorn.service &> /dev/null; then
+    echo "Gunicorn service is already running."
+else
+    sudo systemctl daemon-reload
+    sudo systemctl start gunicorn.service
+    sudo systemctl enable gunicorn.service
+fi
+echo "Gunicorn setup completed"
+
+# Install Nginx
+echo "Setting up nginx"
+sudo apt install -y nginx
+
+# remote default from sites-enable
+sudo rm /etc/nginx/sites-enabled/default
 
 sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/nginx/nginx.conf" "/etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME"
 
-# remote default from sites-enable
-sudo rm /etc/nginx/sites-enable/default
-
 sudo ln -s /etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME /etc/nginx/sites-enabled/        
 
-sudo systemctl restart nginx
+sudo nginx -t
+sudo nginx -s reload
 
-sudo service gunicorn restart
 
-sudo service nginx restart 
+# ====================================================================================
+
+echo "Setting up chromedriver..."
+cd 
+echo "Downloading google-chrome"
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+echo "Install Google Chrome"
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt-get install -f
+echo "Google-chrome installation completed"
+google-chrome --version
+
+echo "Installing chromedriver"
+wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.89/linux64/chromedriver-linux64.zip
+
+sudo apt install -y unzip
+sudo apt-get install -y libxss1 libappindicator3-1 libindicator7
+
+unzip chromedriver_linux64.zip
+
+sudo mv chromedriver_linux64/chrome /usr/local/bin/chromedriver
+sudo chmod +x /usr/local/bin/chromedriver
+
+echo "Chromedriver setup completed"
+chromedriver --version
+
+sudo systemctl restart nginx gunicorn
+
+echo "Congratulations, Deployment Completed!"
+echo "Create superuser and your application is ready to access"

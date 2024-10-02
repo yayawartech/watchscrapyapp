@@ -66,3 +66,5 @@ wsproto==1.2.0
 zeep==4.1.0
 zope.interface==6.2
 gunicorn==22.0.0
+pymysql
+whitenoise
