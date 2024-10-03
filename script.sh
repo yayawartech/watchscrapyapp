@@ -95,7 +95,7 @@ sudo apt-get install -y libxss1 libappindicator3-1 libindicator7
 
 unzip chromedriver-linux64.zip
 
-sudo mv chromedriver_linux64/chrome /usr/local/bin/chromedriver
+sudo mv chromedriver-linux64/chromdriver /usr/local/bin/chromedriver
 sudo chmod +x /usr/local/bin/chromedriver
 
 echo "Chromedriver setup completed"
