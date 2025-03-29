@@ -56,7 +56,7 @@ class ChristiesSpider(scrapy.Spider):
         # Accept Cookie popup
         try:
             accept_cookie = self.browser.find_element(
-                By.XPATH, '/html/body/div[3]/div[2]/div/div/div[2]/div/div/button[2]')
+                By.XPATH, '/html/body/div[4]/div[2]/div/div/div[2]/div/div/button[2]')
 
             accept_cookie.click()
             logging.warn("---- Cookie accepted----")
@@ -67,7 +67,6 @@ class ChristiesSpider(scrapy.Spider):
             accept_cookie.click()
             logging.warn("---- Cookie accepted----")
             time.sleep(5)
-
         item = WatchItem()
         lots_urls = set()
         try:

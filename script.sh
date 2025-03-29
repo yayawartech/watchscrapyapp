@@ -37,10 +37,13 @@ echo "Database migration completed"
 echo "Collect staticfiles"
 python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" collectstatic --noinput
 
-
+sudo chown -R www-data:www-data /home/ubuntu/$PROJECT_MAIN_DIR_NAME/staticfiles
+sudo chmod 755 /root/$PROJECT_MAIN_DIR_NAME/staticfiles
 
 # Copy gunicorn socket and service files
 echo "Copying gunicorn socket and service files..."
+sudo chown -R www-data:www-data /home/ubuntu/$PROJECT_MAIN_DIR_NAME
+
 if [[ -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" && -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" ]]; then
     sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" "/etc/systemd/system/gunicorn.socket"
     sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" "/etc/systemd/system/gunicorn.service"
@@ -50,13 +53,10 @@ else
 fi
 
 # Start and enable Gunicorn service
-if sudo systemctl status gunicorn.service &> /dev/null; then
-    echo "Gunicorn service is already running."
-else
-    sudo systemctl daemon-reload
-    sudo systemctl start gunicorn.service
-    sudo systemctl enable gunicorn.service
-fi
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn.service
+sudo systemctl enable gunicorn.service
+
 echo "Gunicorn setup completed"
 
 # Install Nginx
@@ -95,7 +95,7 @@ sudo apt-get install -y libxss1 libappindicator3-1 libindicator7
 
 unzip chromedriver-linux64.zip
 
-sudo mv chromedriver-linux64/chromdriver /usr/local/bin/chromedriver
+sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 sudo chmod +x /usr/local/bin/chromedriver
 
 echo "Chromedriver setup completed"

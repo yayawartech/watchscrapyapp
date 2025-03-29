@@ -100,7 +100,8 @@ class ArtcurialSpider(scrapy.Spider):
                         'disabled') is not None
 
                     if is_disabled:
-                        logging.warn("More button is disabled, breaking the loop.")
+                        logging.warn(
+                            "More button is disabled, breaking the loop.")
                         break
                     else:
                         logging.warn("More button is enabled, clicking it.")
@@ -210,7 +211,8 @@ class ArtcurialSpider(scrapy.Spider):
                                 continue
                     except NoSuchElementException:
                         continue
-                logging.warn(f'\nimage:: {images} -- from url:: {response.url} --\n')
+                logging.warn(
+                    f'\nimage:: {images} -- from url:: {response.url} --\n')
                 item["images"] = images
             except NoSuchElementException:
                 logging.error("Parent element not found")
@@ -295,21 +297,23 @@ class ArtcurialSpider(scrapy.Spider):
         yield item
 
     def login(self, browser):
-        login_url = 'https://www.artcurial.com/en/log-in'
-        time.sleep(2)
+        login_url = 'https://www.artcurial.com/en/login'
         try:
             browser.get(login_url)
-            time.sleep(3)
-
-            username = browser.find_element(By.XPATH, '//*[@id="input-139"]')
+            time.sleep(5)
+            browser.find_element(
+                By.XPATH, '/html/body/div[1]/div/div[2]/div/div/div[1]/button').click()
+            time.sleep(5)
+            
+            username = browser.find_element(By.XPATH, '//*[@id="username"]')
             username.send_keys('manjul@gmail.com')
-            password = browser.find_element(By.XPATH, '//*[@id="input-143"]')
+            password = browser.find_element(By.XPATH, '//*[@id="password"]')
             password.send_keys('Artcurial@123')
 
             time.sleep(5)
             # login button
             browser.find_element(
-                By.XPATH, '//*[@id="app"]/div/main/div/div[1]/div/div/div[2]/span/form/div[3]/div/button').click()
+                By.XPATH, '/html/body/div/main/section/div/div/div/form/div[2]/button').click()
             time.sleep(5)
             logging.info("\n----- login successful -----\n")
         except Exception as e:

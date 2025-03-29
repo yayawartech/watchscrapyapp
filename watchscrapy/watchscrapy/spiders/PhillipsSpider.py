@@ -42,16 +42,24 @@ class PhillipsSpider(scrapy.Spider):
     def start_requests(self):
         self.browser = self.sel_configuration()
         self.browser.get(self.start_urls[0])
-        time.sleep(10)
-        self.browser.find_element(
-            By.XPATH, '/html/body/div[1]/header/nav/ul[2]/li/button').click()
-
         time.sleep(5)
+        # accept cookies
+        try:
+            accept_cookies = self.browser.find_element(
+                By.XPATH, '/html/body/div[4]/div[2]/div/div[1]/div/div[2]/div/button[3]')
+            accept_cookies.click()
+        except Exception as e:
+            logging.warn(f"\n Exceptionn :: {e} -\n")
+
+        self.browser.find_element(
+            By.XPATH, '/html/body/div[1]/header/div[1]/div[2]/button').click()
+
+        time.sleep(10)
         redirected_url = self.browser.current_url
         time.sleep(5)
 
-        self.login(redirected_url)
-
+        self.login(redirected_url)        
+        time.sleep(10)
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -291,9 +299,16 @@ class PhillipsSpider(scrapy.Spider):
 
             time.sleep(5)
             # login button
-            self.browser.find_element(
-                By.XPATH, '//*[@id=":r3:"]').click()
-            time.sleep(5)
+            wait = WebDriverWait(self.browser, 10)
+
+            # self.browser.find_element(
+            #     By.XPATH, '//*[@id=":r3:"]').click()
+            login_button = wait.until(
+                EC.visibility_of_element_located(
+                    (By.XPATH, '//*[@id=":r3:"]'))
+            )
+            login_button.click()
+            time.sleep(15)
             logging.info(f"\n----- login successful -----\n")
         except Exception as e:
             logging.error(

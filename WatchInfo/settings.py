@@ -32,7 +32,7 @@ DEBUG = os.getenv("DEBUG") or False
 if DEBUG:
     ALLOWED_HOSTS = ["*"]  # for development purpose only
 else:
-    ALLOWED_HOSTS = ["165.22.181.81"]  # for production (put production server's ip or domain )
+    ALLOWED_HOSTS = ["24.199.93.157"]  # for production (put production server's ip or domain )
 
 
 # Application definition

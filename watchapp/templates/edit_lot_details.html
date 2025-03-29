@@ -4,11 +4,9 @@
 
 <nav class="navbar navbar-light bg-light">
 	<h4>{{lot.auction.auction_house.name}} | Lot {{lot.lot_number}} | {{lot.auction.date}}</h4>
-	<button><a href="{% url 'edit_lot_details' lot=lot.lot_number %}">Edit</a></button>
 </nav>
 
 <hr />
-
 <table class="table table-hover">
 	<tbody>
 		<tr>
@@ -65,4 +63,4 @@
 		</tr>
 	</tbody>
 </table>
-{% endblock %}
+{%endblock body_content%}

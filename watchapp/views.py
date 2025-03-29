@@ -11,6 +11,8 @@ from watchapp.utils.scraper import Scraper
 from django.contrib.auth.decorators import login_required
 from watchapp.models import Lot, Auction, AuctionHouse, Job, Setup
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import LotForm
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 def login(request):
@@ -125,6 +127,40 @@ def lot_details(request, lot):
     }
 
     return HttpResponse(template.render(context, request))
+
+
+@login_required()
+# def edit_lot_details(request,lot):
+#     template = loader.get_template('edit_lot_details.html')
+#     lot = Lot.objects.filter(pk=lot).first()
+#     if request.method == 'POST':
+#         form = LotForm(request.POST, instance=lot)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('index')
+#         else:
+#             return HttpResponse('Invalid form')
+#     form = LotForm(instance=lot)
+#     context = {
+#         'form': form,
+#         'lot': lot
+#         }
+#     return HttpResponse(template.render(context, request))
+def edit_lot_details(request, lot_id):
+    # Fetch the specific lot object
+    lot = get_object_or_404(Lot, id=lot_id)
+
+    if request.method == 'POST':
+        form = LotForm(request.POST, request.FILES, instance=lot)
+        if form.is_valid():
+            # Save the updated lot object to the database
+            form.save()
+            # Redirect to the detail page after saving
+            return redirect('lot_detail', lot_id=lot.id)
+    else:
+        form = LotForm(instance=lot)
+
+    return render(request, 'edit_lot_details.html', {'form': form, 'lot': lot})
 
 
 @login_required()

@@ -79,7 +79,7 @@ class SothebysSpider(scrapy.Spider):
                 # Accept Cookie popup
                 try:
                     lot_number = self.browser.find_element(
-                        By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/span/div[4]/p[1]').text
+                        By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[1]/div[4]/div[1]/div/p[1]').text
                     # Use regular expression to extract numeric value
                     match = re.search(r'\d+', lot_number)
 
@@ -92,12 +92,10 @@ class SothebysSpider(scrapy.Spider):
 
                     # Find the parent element by XPath
                     parent_element = self.browser.find_element(
-                        By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[1]')
-
+                        By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]')
                     # Find all div elements inside the parent
                     div_elements = parent_element.find_elements(
                         By.XPATH, './/div')
-
                     # Iterate over each div element to find the 'a' tag and extract href attribute
                     for div in div_elements:
                         try:
@@ -136,6 +134,13 @@ class SothebysSpider(scrapy.Spider):
                             next_button = WebDriverWait(self.browser, 10).until(
                                 EC.presence_of_element_located(
                                     (By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/nav/ul/li[4]/button')
+                                )
+                            )
+                        except Exception:
+                            # Try the third XPath
+                            next_button = WebDriverWait(self.browser, 10).until(
+                                EC.presence_of_element_located(
+                                    (By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[2]/div[2]/nav/ul/li[5]/button')
                                 )
                             )
 
@@ -216,7 +221,7 @@ class SothebysSpider(scrapy.Spider):
 
             # 5 Lot
             lot_number_info = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[2]/div[1]/nav/p[2]').text
+                By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
 
             # lot_number_list = re.findall(r'\d{4}', lot_number_info)
             lot_number_list = re.findall(r'Lot\s*(\d+)', lot_number_info)
@@ -229,7 +234,7 @@ class SothebysSpider(scrapy.Spider):
             try:
                 # Find the parent element by XPath
                 parent_element = browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[5]/div[1]/div[1]/div/div')
+                    By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[5]/div[1]/div[1]/div/div')
 
                 # Find all div elements inside the parent
                 div_elements = parent_element.find_elements(
@@ -256,16 +261,16 @@ class SothebysSpider(scrapy.Spider):
             # 7 Title
             try:
                 auction_name = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+                    By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
                 title = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text.strip()
+                    By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text.strip()
                 if title.upper() == "OFFERED WITHOUT RESERVE":
                     raise ValueError(
                         "Title is 'Offered Without Reserve', aborting.")
 
             except Exception as e:
                 full_title = self.browser.find_element(
-                    By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
+                    By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
                 title = full_title.strip()
                 auction_name = full_title.split(" | ")[0].strip()
             item['name'] = auction_name
@@ -273,12 +278,11 @@ class SothebysSpider(scrapy.Spider):
 
             # 8 Description
             description = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[7]/div[3]').text
-
+                By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[7]/div[3]').text
             item['description'] = description
 
             estimation = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[4]/div/div[6]/div/div[2]/div[2]/div/div/div[2]/p[2]').text
+                By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[2]/div/div/div[2]/p[2]').text
 
             if estimation is not None:
                 # Split the estimation string by space

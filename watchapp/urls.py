@@ -34,6 +34,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('watch/', views.index, name='index'),
     path('watch/lot/<str:lot>/', views.lot_details, name='lot_details'),
+    path('watch/lot/edit/<str:lot>/', views.edit_lot_details, name='edit_lot_details'),
     path('jobs/<int:job>/', views.job_details, name='job_details'),
     path('jobs/kill/<int:job>/', views.job_kill, name='job_kill'),
     path('jobs/run/<int:job>/', views.job_run, name='job_run'),
