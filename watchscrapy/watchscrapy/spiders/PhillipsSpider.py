@@ -13,7 +13,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 class PhillipsSpider(scrapy.Spider):
     name = "phillipsSpider"
@@ -31,13 +32,27 @@ class PhillipsSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         if not DEBUG:
-            options.add_argument('headless')
-            service = Service('/usr/local/bin/chromedriver')
+            options = Options()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
             browser = webdriver.Chrome(service=service, options=options)
+            return browser
         else:
-            browser = webdriver.Chrome(options=options)
-        browser.set_window_size(1440, 900)
-        return browser
+            # browser = webdriver.Chrome(options=options)
+            # return browser
+            options = Options()
+            # options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
+            browser = webdriver.Chrome(service=service, options=options)
+            return browser
 
     def start_requests(self):
         self.browser = self.sel_configuration()

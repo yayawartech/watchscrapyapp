@@ -14,7 +14,8 @@ from watchscrapy.items import WatchItem
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 class BonhamsSpider(scrapy.Spider):
     name = "bonhamsSpider"
@@ -30,14 +31,27 @@ class BonhamsSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         if not DEBUG:
-            options.add_argument('headless')
-            service = Service('/usr/local/bin/chromedriver')
+            options = Options()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
             browser = webdriver.Chrome(service=service, options=options)
+            return browser
         else:
-            options.add_argument('headless')
-            browser = webdriver.Chrome(options=options)
-        browser.set_window_size(1440, 900)
-        return browser
+            # browser = webdriver.Chrome(options=options)
+            # return browser
+            options = Options()
+            # options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
+            browser = webdriver.Chrome(service=service, options=options)
+            return browser
 
     def start_requests(self):
         logging.warn("Starting requests...")

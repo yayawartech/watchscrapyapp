@@ -5,11 +5,12 @@ PROJECT_MAIN_DIR_NAME="watchscrapyapp"
 echo "Starting..."
 sudo apt update
 
-# Create a directory and copy the project to /home/ubuntu
-mkdir -p /home/ubuntu
-
-sudo ln -s /root/$PROJECT_MAIN_DIR_NAME /home/ubuntu/$PROJECT_MAIN_DIR_NAME
-echo "Project linked to the path /home/ubuntu/$PROJECT_MAIN_DIR_NAME"
+# Assuming you have already cloned the project manually, you can skip the clone step.
+# Make sure the project directory exists under /home/ubuntu
+if [ ! -d "/home/ubuntu/$PROJECT_MAIN_DIR_NAME" ]; then
+    echo "Error: Project directory /home/ubuntu/$PROJECT_MAIN_DIR_NAME does not exist. Please clone the repository first."
+    exit 1
+fi
 
 # Create virtual environment
 echo "Creating virtual environment..."
@@ -25,7 +26,7 @@ echo "Installing Python dependencies..."
 pip install -r "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/requirements.txt"
 echo "Dependencies installed successfully."
 
-# Setup django application
+# Setup Django application
 echo "Migrate database"
 python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" migrate --database=default
 
@@ -33,17 +34,16 @@ python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" migrate --database=awsrds
 echo "Secondary database migration complete"
 
 echo "Database migration completed"
- 
+
 echo "Collect staticfiles"
 python "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/manage.py" collectstatic --noinput
 
+# Give proper ownership and permissions for static files
 sudo chown -R www-data:www-data /home/ubuntu/$PROJECT_MAIN_DIR_NAME/staticfiles
-sudo chmod 755 /root/$PROJECT_MAIN_DIR_NAME/staticfiles
+sudo chmod -R 755 /home/ubuntu/$PROJECT_MAIN_DIR_NAME/staticfiles
 
-# Copy gunicorn socket and service files
-echo "Copying gunicorn socket and service files..."
-sudo chown -R www-data:www-data /home/ubuntu/$PROJECT_MAIN_DIR_NAME
-
+# Copy Gunicorn socket and service files with appropriate permissions
+echo "Copying Gunicorn socket and service files..."
 if [[ -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" && -f "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" ]]; then
     sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.socket" "/etc/systemd/system/gunicorn.socket"
     sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/gunicorn/gunicorn.service" "/etc/systemd/system/gunicorn.service"
@@ -51,6 +51,12 @@ else
     echo "Gunicorn socket or service file not found."
     exit 1
 fi
+
+# Set permissions for Gunicorn service
+sudo chown root:root /etc/systemd/system/gunicorn.socket
+sudo chown root:root /etc/systemd/system/gunicorn.service
+sudo chmod 644 /etc/systemd/system/gunicorn.socket
+sudo chmod 644 /etc/systemd/system/gunicorn.service
 
 # Start and enable Gunicorn service
 sudo systemctl daemon-reload
@@ -63,21 +69,25 @@ echo "Gunicorn setup completed"
 echo "Setting up nginx"
 sudo apt install -y nginx
 
-# remote default from sites-enable
+# Remove the default site from Nginx
 sudo rm /etc/nginx/sites-enabled/default
 
+# Copy the Nginx configuration file and set proper permissions
 sudo cp "/home/ubuntu/$PROJECT_MAIN_DIR_NAME/nginx/nginx.conf" "/etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME"
+sudo chown root:root /etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME
+sudo chmod 644 /etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME
 
-sudo ln -s /etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME /etc/nginx/sites-enabled/        
+# Create the necessary symbolic link in sites-enabled
+sudo ln -s /etc/nginx/sites-available/$PROJECT_MAIN_DIR_NAME /etc/nginx/sites-enabled/
 
+# Test and reload Nginx
 sudo nginx -t
-sudo nginx -s reload
-
+sudo systemctl reload nginx
 
 # ====================================================================================
 
-echo "Setting up chromedriver..."
-cd 
+echo "Setting up Chromedriver..."
+cd /home/ubuntu
 echo "Downloading google-chrome"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
@@ -101,6 +111,7 @@ sudo chmod +x /usr/local/bin/chromedriver
 echo "Chromedriver setup completed"
 chromedriver --version
 
+# Restart Nginx and Gunicorn services to apply changes
 sudo systemctl restart nginx gunicorn
 
 echo "Congratulations, Deployment Completed!"
