@@ -228,7 +228,6 @@ class SothebysSpider(scrapy.Spider):
             lot_number = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
             
-            print("lot_number: ", lot_number)
 
             if lot_number:
                 # Use regular expression to extract the numeric value after the word "Lot"
