@@ -18,6 +18,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
+
 class SothebysSpider(scrapy.Spider):
     name = "sothebysSpider"
     allowed_domains = ["www.sothebys.com"]
@@ -57,6 +58,7 @@ class SothebysSpider(scrapy.Spider):
             service = Service(ChromeDriverManager().install())
             browser = webdriver.Chrome(service=service, options=options)
             return browser
+
     def start_requests(self):
         self.browser = self.sel_configuration()
         for url in self.start_urls:
@@ -92,18 +94,7 @@ class SothebysSpider(scrapy.Spider):
 
                 # Accept Cookie popup
                 try:
-                    lot_number = self.browser.find_element(
-                        By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[1]/div[4]/div[1]/div/p[1]').text
-                    # Use regular expression to extract numeric value
-                    match = re.search(r'\d+', lot_number)
-
-                    # Extract the matched numeric value
-                    if match:
-                        extracted_number = int(match.group())
-                        lot_number = extracted_number
-                    else:
-                        logging.warn("No numeric value found in the string")
-
+                    
                     # Find the parent element by XPath
                     parent_element = self.browser.find_element(
                         By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]')
@@ -234,14 +225,26 @@ class SothebysSpider(scrapy.Spider):
             item['location'] = response.meta.get('location')
 
             # 5 Lot
-            lot_number_info = self.browser.find_element(
+            lot_number = self.browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
+            
+            print("lot_number: ", lot_number)
 
-            # lot_number_list = re.findall(r'\d{4}', lot_number_info)
-            lot_number_list = re.findall(r'Lot\s*(\d+)', lot_number_info)
+            if lot_number:
+                # Use regular expression to extract the numeric value after the word "Lot"
+                match = re.search(r'\d+', lot_number)
 
-            lot_number = lot_number_list[0] if lot_number_list else None
-            item['lot'] = lot_number
+                # Extract the matched numeric value
+                if match:
+                    # Extracted number from the string
+                    extracted_number = int(match.group())
+                    item['lot'] = extracted_number
+                    logging.info(f"Extracted lot number: {extracted_number}")
+                else:
+                    logging.warning("No numeric value found in the string")
+                    item['lot'] = None
+            else:
+                logging.warning("Lot number text is empty or not found")
 
             # logging.warn("====>lot : " + item['lot'])
             # 6 Images

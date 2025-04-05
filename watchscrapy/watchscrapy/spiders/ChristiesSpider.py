@@ -14,7 +14,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 class ChristiesSpider(scrapy.Spider):
     name = "christiesSpider"
@@ -33,27 +34,46 @@ class ChristiesSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         if not DEBUG:
-            options.add_argument('headless')
-            service = Service('/usr/local/bin/chromedriver')
+            options = Options()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
             browser = webdriver.Chrome(service=service, options=options)
+            return browser
         else:
-            browser = webdriver.Chrome(options=options)
-        browser.set_window_size(1440, 900)
-        return browser
+            # browser = webdriver.Chrome(options=options)
+            # return browser
+            options = Options()
+            # options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+
+            # Setup the WebDriver using webdriver_manager and pass the options
+            service = Service(ChromeDriverManager().install())
+            browser = webdriver.Chrome(service=service, options=options)
+            return browser
 
     def start_requests(self):
-        time.sleep(5)
-
+        # time.sleep(5)
+        self.browser = self.sel_configuration()
+        print("Starting requests...")
         for url in self.start_urls:
-            url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
+            # url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
+            url += "?loadall=true&page=2&sortby=LotNumber"
+            print(f"Requesting URL: {url}")
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        print("Parsing response...")
         url = response.url
         time.sleep(5)
         self.browser.get(response.url)
         time.sleep(5)
         # Accept Cookie popup
+        print("Accepting cookies...")
         try:
             accept_cookie = self.browser.find_element(
                 By.XPATH, '/html/body/div[4]/div[2]/div/div/div[2]/div/div/button[2]')
