@@ -57,6 +57,7 @@ class SothebysSpider(scrapy.Spider):
             # Setup the WebDriver using webdriver_manager and pass the options
             service = Service(ChromeDriverManager().install())
             browser = webdriver.Chrome(service=service, options=options)
+            browser.set_window_size(1920, 1080)
             return browser
 
     def start_requests(self):
@@ -94,7 +95,7 @@ class SothebysSpider(scrapy.Spider):
 
                 # Accept Cookie popup
                 try:
-                    
+
                     # Find the parent element by XPath
                     parent_element = self.browser.find_element(
                         By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[4]/div/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]')
@@ -225,27 +226,59 @@ class SothebysSpider(scrapy.Spider):
             item['location'] = response.meta.get('location')
 
             # 5 Lot
-            lot_number = self.browser.find_element(
-                By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
-            
+            try:
+                lot_number_element = soup.find(
+                    'p', class_='paragraph-module_paragraph14Regular__Zfr98 css-2svovr')
 
-            if lot_number:
-                # Use regular expression to extract the numeric value after the word "Lot"
-                match = re.search(r'\d+', lot_number)
-
-                # Extract the matched numeric value
-                if match:
-                    # Extracted number from the string
-                    extracted_number = int(match.group())
-                    item['lot'] = extracted_number
-                    logging.info(f"Extracted lot number: {extracted_number}")
+                if lot_number_element:
+                    lot_number = lot_number_element.get_text(strip=True)
+                    print(lot_number)
                 else:
-                    logging.warning("No numeric value found in the string")
-                    item['lot'] = None
-            else:
-                logging.warning("Lot number text is empty or not found")
+                    print("Element not found.")
+                # Attempt to find the lot number using the first XPath
+                # lot_number = browser.find_element(
+                #     By.XPATH, '//*[@id="__next"]/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
+                logging.warning(
+                    "\n----SothebysSpider; msg=Lot number element found1: %s", lot_number)
+            except NoSuchElementException:
+                # If the first XPath fails, try the fallback XPath
+                try:
+                    # Use a valid XPath that locates the <p> element containing the text "Lot"
+                    # lot_number_element = browser.find_element(
+                    #     By.XPATH, '//*[contains(@class, "paragraph-module_paragraph14Regular__Zfr98") and contains(text(), "Lot")]')
+                    # lot_number = lot_number_element.text  # Extract text from the element
+                    logging.warning(
+                        "\n----SothebysSpider; msg=Lot number element found2: %s", lot_number)
+                except NoSuchElementException:
+                    # If both attempts fail, set the lot number to "Lot 0"
+                    logging.error(
+                        "\n----SothebysSpider; msg=Both Lot number elements not found, fallback to Lot 0")
+                    lot_number = "Lot 0"  # Fallback to "Lot 0"
+            except Exception as e:
+                # Log any unexpected exceptions
+                logging.error(
+                    "\n----SothebysSpider; msg=Error in extracting Lot number: %s", str(e))
+                lot_number = "Lot 0"  # Fallback to "Lot 0" in case of an unexpected error
 
-            # logging.warn("====>lot : " + item['lot'])
+            # Ensure that we have the lot number and it's in the expected format
+            if lot_number:
+                # Clean up any extra whitespace
+                lot_number = lot_number.strip()
+                logging.warning(f"\n------Lot Number: {lot_number}")
+
+                # Ensure the lot number is in the expected format ("Lot <number>")
+                match = re.search(r'Lot\s+(\d+)', lot_number)
+                if match:
+                    # Extract the numeric part and assign it to the item
+                    item['lot'] = int(match.group(1))
+                else:
+                    logging.warning(
+                        "Lot number format is not as expected, fallback to 0")
+                    item['lot'] = 0  # Fallback to 0 if format is incorrect
+            else:
+                logging.warning("Lot number not found")
+                item['lot'] = 0  # Fallback if no lot number is found
+
             # 6 Images
             try:
                 # Find the parent element by XPath
@@ -276,16 +309,16 @@ class SothebysSpider(scrapy.Spider):
 
             # 7 Title
             try:
-                auction_name = self.browser.find_element(
+                auction_name = browser.find_element(
                     By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
-                title = self.browser.find_element(
+                title = browser.find_element(
                     By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/p').text.strip()
                 if title.upper() == "OFFERED WITHOUT RESERVE":
                     raise ValueError(
                         "Title is 'Offered Without Reserve', aborting.")
 
             except Exception as e:
-                full_title = self.browser.find_element(
+                full_title = browser.find_element(
                     By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[1]/div[1]/div/h1').text
                 title = full_title.strip()
                 auction_name = full_title.split(" | ")[0].strip()
@@ -293,11 +326,11 @@ class SothebysSpider(scrapy.Spider):
             item['title'] = title
 
             # 8 Description
-            description = self.browser.find_element(
+            description = browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[7]/div[3]').text
             item['description'] = description
 
-            estimation = self.browser.find_element(
+            estimation = browser.find_element(
                 By.XPATH, '/html/body/div[2]/div/div/div[3]/div/div[6]/div/div[2]/div[2]/div/div/div[2]/p[2]').text
 
             if estimation is not None:
@@ -356,6 +389,8 @@ class SothebysSpider(scrapy.Spider):
         item['total_lots'] = response.meta.get("lots")
         item["auction_url"] = source_url
         item["job"] = self.job
+        logging.warn(
+            "\n------SothebysSpider; msg=Crawling Completed > %s;url= %s", item, url)
         return item
 
     @classmethod

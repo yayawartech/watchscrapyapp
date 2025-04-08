@@ -17,9 +17,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
+
 class ChristiesSpider(scrapy.Spider):
     name = "christiesSpider"
-    allowed_domains = ["onlineonly.christies.com"]
+    allowed_domains = ["www.christies.com", "onlineonly.christies.com"]
 
     def __init__(self, url='', job='', *args, **kwargs):
         super(ChristiesSpider, self).__init__(*args, **kwargs)
@@ -34,27 +35,16 @@ class ChristiesSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
         if not DEBUG:
-            options = Options()
+            # options = Options()
             options.add_argument("--headless")
             options.add_argument("--disable-gpu")
             options.add_argument("--no-sandbox")
 
             # Setup the WebDriver using webdriver_manager and pass the options
-            service = Service(ChromeDriverManager().install())
-            browser = webdriver.Chrome(service=service, options=options)
-            return browser
-        else:
-            # browser = webdriver.Chrome(options=options)
-            # return browser
-            options = Options()
-            # options.add_argument("--headless")
-            options.add_argument("--disable-gpu")
-            options.add_argument("--no-sandbox")
-
-            # Setup the WebDriver using webdriver_manager and pass the options
-            service = Service(ChromeDriverManager().install())
-            browser = webdriver.Chrome(service=service, options=options)
-            return browser
+        service = Service(ChromeDriverManager().install())
+        browser = webdriver.Chrome(service=service, options=options)
+        browser.set_window_size(1920, 1080)
+        return browser
 
     def start_requests(self):
         # time.sleep(5)
@@ -62,31 +52,29 @@ class ChristiesSpider(scrapy.Spider):
         print("Starting requests...")
         for url in self.start_urls:
             # url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
-            url += "?loadall=true&page=2&sortby=LotNumber"
-            print(f"Requesting URL: {url}")
+            # url += "?loadall=true&page=2&sortby=LotNumber"
+            print(f"\n----Requesting URL: {url}")
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         print("Parsing response...")
         url = response.url
-        time.sleep(5)
         self.browser.get(response.url)
         time.sleep(5)
+
         # Accept Cookie popup
         print("Accepting cookies...")
         try:
-            accept_cookie = self.browser.find_element(
-                By.XPATH, '/html/body/div[4]/div[2]/div/div/div[2]/div/div/button[2]')
 
+            accept_cookie = self.find_element_with_multiple_xpaths(self.browser, [
+                '/html/body/div[4]/div[2]/div/div/div[2]/div/div/button[2]',
+            ])
             accept_cookie.click()
             logging.warn("---- Cookie accepted----")
             time.sleep(5)
-        except NoSuchElementException:
-            accept_cookie = self.browser.find_element(By.XPATH,
-                                                      '/html/body/div[6]/div[2]/div/div/div[2]/div/div/button[2]')
-            accept_cookie.click()
-            logging.warn("---- Cookie accepted----")
-            time.sleep(5)
+        except Exception as e:
+            logging.warn(f"--accept_cookie not found --\n")
+
         item = WatchItem()
         lots_urls = set()
         try:
@@ -94,26 +82,56 @@ class ChristiesSpider(scrapy.Spider):
             time.sleep(5)
             # 2 Auction Name
             try:
-                name = self.browser.find_element(
-                    By.XPATH, '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/h1').text
-            except NoSuchElementException:
-                name = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/h1').text
+                name = self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[1]/h1',
+                    '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/h1',
+                ])
+                if name:
+                    name = name.text
+            except Exception as e:
+                logging.warning(f"Error: {e} -- for url: {url} --\n")
+
+            print(f"\n\n----Auction Name: {name}---\n\n")
+
             # 3 Date
             try:
+                # Try to find the element containing the date (first XPath)
                 date = self.browser.find_element(By.XPATH,
-                                                 '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
-                if date:
-                    date_string = re.search(
-                        r'\d{2} [A-Z]{3} \d{4}', date).group()
-            except NoSuchElementException:
-                date_string = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
-            # Convert the date string to a datetime object
-            date_obj = datetime.strptime(date_string, '%d %b %Y')
+                                                 '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
+                print(f"\n\n----Date: {date}---\n\n")
 
-            # Format the datetime object
-            formatted_date = date_obj.strftime('%b %d,%Y')
+                # Check if the date is found and matches the regex pattern
+                match = re.search(r'\d{2} [A-Z]{3} \d{4}', date)
+                if match:
+                    date_string = match.group()
+                else:
+                    print("Date format not found in the text")
+                    date_string = None
+            except NoSuchElementException:
+                # If the first XPath doesn't work, fall back to the second one
+                date = self.browser.find_element(
+                    By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
+                print(f"\n\n----Date (Fallback): {date}---\n\n")
+
+                # Check if the date is found and matches the regex pattern
+                match = re.search(r'\d{1,2} [A-Z]{3} \d{4}', date)  # Changed to \d{1,2} for one or two digits
+                if match:
+                    date_string = match.group()
+                else:
+                    print("Date format not found in the fallback text")
+                    date_string = None
+
+            # If we found a valid date string, convert it
+            if date_string:
+                # Convert the date string to a datetime object
+                date_obj = datetime.strptime(date_string, '%d %b %Y')
+
+                # Format the datetime object into the desired format
+                formatted_date = date_obj.strftime('%b %d,%Y')
+                print(f"Formatted Date: {formatted_date}")
+            else:
+                print("Failed to extract a valid date.")
+
             # 4 Location
             try:
                 location = self.browser.find_element(
@@ -121,6 +139,7 @@ class ChristiesSpider(scrapy.Spider):
             except NoSuchElementException:
                 location = self.browser.find_element(
                     By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span').text
+            print(f"\n\n----Location: {location}---\n\n")
             # 5 Lot
             # Find the parent element by XPath
             try:
@@ -172,7 +191,7 @@ class ChristiesSpider(scrapy.Spider):
                 lot = None  # or handle the case where the element is not found
 
             time.sleep(5)
-
+            print(f"\n\n----Lot Number: {len(lots_urls)}---\n\n")
             for url in lots_urls:
                 yield scrapy.Request(url, dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'date': formatted_date, 'name': name, 'location': location, 'lots': lot})
         except Exception as e:
@@ -182,7 +201,7 @@ class ChristiesSpider(scrapy.Spider):
             logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
                           response.url, traceback.format_exc())
 
-    def parseBS(self, response):       
+    def parseBS(self, response):
         url = response.meta.get('url')
 
         logging.warn(
@@ -309,7 +328,7 @@ class ChristiesSpider(scrapy.Spider):
 
             try:
                 estimation = self.get_estimation()
-                
+
             except Exception as e:
                 logging.warn(f"Error:::: {e} -- for url: {url} --\n")
             if estimation:
@@ -376,6 +395,7 @@ class ChristiesSpider(scrapy.Spider):
         item['total_lots'] = response.meta.get("lots")
         item["auction_url"] = url
         item["job"] = self.job
+        print(f"\n\n----Item scraped: {item}---\n\n")
         yield item
 
     def get_estimation(self):
