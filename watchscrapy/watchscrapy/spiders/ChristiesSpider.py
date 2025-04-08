@@ -47,23 +47,19 @@ class ChristiesSpider(scrapy.Spider):
         return browser
 
     def start_requests(self):
-        # time.sleep(5)
         self.browser = self.sel_configuration()
-        print("Starting requests...")
+
         for url in self.start_urls:
             # url += "&loadall=true&page=2&sortby=LotNumber" if '?' in url else "?loadall=true&page=2&sortby=LotNumber"
             # url += "?loadall=true&page=2&sortby=LotNumber"
-            print(f"\n----Requesting URL: {url}")
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        print("Parsing response...")
         url = response.url
         self.browser.get(response.url)
         time.sleep(5)
 
         # Accept Cookie popup
-        print("Accepting cookies...")
         try:
 
             accept_cookie = self.find_element_with_multiple_xpaths(self.browser, [
@@ -71,7 +67,7 @@ class ChristiesSpider(scrapy.Spider):
             ])
             accept_cookie.click()
             logging.warn("---- Cookie accepted----")
-            time.sleep(5)
+
         except Exception as e:
             logging.warn(f"--accept_cookie not found --\n")
 
@@ -79,67 +75,68 @@ class ChristiesSpider(scrapy.Spider):
         lots_urls = set()
         try:
             # 1 House Name
-            time.sleep(5)
+
             # 2 Auction Name
             try:
                 name = self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/h1',
                     '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[1]/h1',
                     '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/h1',
+                    '//*[@id="4odLt5zC5WI"]/header/div/div[2]/div[1]/h1',
+                    '//*[@id="K3xaFUqDSig"]/header/div/div[2]/div[1]/h1'
                 ])
                 if name:
                     name = name.text
             except Exception as e:
                 logging.warning(f"Error: {e} -- for url: {url} --\n")
 
-            print(f"\n\n----Auction Name: {name}---\n\n")
-
-            # 3 Date
             try:
-                # Try to find the element containing the date (first XPath)
-                date = self.browser.find_element(By.XPATH,
-                                                 '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
-                print(f"\n\n----Date: {date}---\n\n")
+                date_element = self.find_element_with_multiple_xpaths(self.browser, [
+                    '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong',
+                    '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong',
+                    '//*[@id="4odLt5zC5WI"]/header/div/div[2]/div[1]/div/p/strong',
+                    '//*[@id="K3xaFUqDSig"]/header/div/div[2]/div[1]/div/p/strong'
+                ])
 
-                # Check if the date is found and matches the regex pattern
-                match = re.search(r'\d{2} [A-Z]{3} \d{4}', date)
-                if match:
-                    date_string = match.group()
+                # Extract the date string
+                date_str = date_element.text.strip()  # e.g., '10–20 MAR 2023' or '12 MAR 2023'
+
+                # If the date string contains '–', split by it
+                if '–' in date_str:
+                    try:
+                        split_date = date_str.split('–')
+                    except Exception as e:
+                        logging.error(f"Error: {e} -- for url: {url} --\n")
+                        split_date = [date_str]
+
+                    # Take the second part and strip any extra whitespace (e.g., '20 MAR 2023')
+                    final_date_str = split_date[-1].strip()
                 else:
-                    print("Date format not found in the text")
-                    date_string = None
-            except NoSuchElementException:
-                # If the first XPath doesn't work, fall back to the second one
-                date = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[1]/div/p/strong').text
-                print(f"\n\n----Date (Fallback): {date}---\n\n")
+                    # If no '–' is present, treat it as a single date
+                    final_date_str = date_str.strip()  # e.g., '12 MAR 2023'
 
-                # Check if the date is found and matches the regex pattern
-                match = re.search(r'\d{1,2} [A-Z]{3} \d{4}', date)  # Changed to \d{1,2} for one or two digits
-                if match:
-                    date_string = match.group()
-                else:
-                    print("Date format not found in the fallback text")
-                    date_string = None
+                # Optionally, you can parse the date into a datetime object and format it if needed
+                date_obj = datetime.strptime(final_date_str, '%d %b %Y')
 
-            # If we found a valid date string, convert it
-            if date_string:
-                # Convert the date string to a datetime object
-                date_obj = datetime.strptime(date_string, '%d %b %Y')
-
-                # Format the datetime object into the desired format
+                # Format the date in the desired format (optional, if you want to output 'Mar 20,2023')
                 formatted_date = date_obj.strftime('%b %d,%Y')
-                print(f"Formatted Date: {formatted_date}")
-            else:
-                print("Failed to extract a valid date.")
+
+            except Exception as e:
+                logging.error(f"Error: {e} -- for url: {url} --\n")
 
             # 4 Location
-            try:
-                location = self.browser.find_element(
-                    By.XPATH, '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span').text
-            except NoSuchElementException:
-                location = self.browser.find_element(
-                    By.XPATH, '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span').text
-            print(f"\n\n----Location: {location}---\n\n")
+
+            location = self.find_element_with_multiple_xpaths(self.browser, [
+                '/html/body/div[1]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span',
+                '//*[@id="4odLt5zC5WI"]/header/div/div[2]/div[2]/div/div/div/span',
+                '/html/body/main/div/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span',
+                '/html/body/main/div[2]/chr-auction-header-next/header/div/div[2]/div[2]/div/div/div/span',
+                '//*[@id="4odLt5zC5WI"]/header/div/div[2]/div[1]/h1',
+                '//*[@id="K3xaFUqDSig"]/header/div/div[2]/div[2]/div/div/div/span'
+            ])
+            if location:
+                location = location.text
+
             # 5 Lot
             # Find the parent element by XPath
             try:
@@ -167,33 +164,10 @@ class ChristiesSpider(scrapy.Spider):
                 except NoSuchElementException:
                     # If 'a' tag is not found in the div, skip it
                     continue
-            time.sleep(5)
 
-            lot_string_element = self.find_element_with_multiple_xpaths(self.browser, [
-                '/html/body/div[1]/chr-page-nav/nav/div/ul/li[2]/a',
-                '/html/body/main/nav/div/div[2]/ul/li[2]/a'
-            ])
-
-            # Execute JavaScript to get the text content
-            lot_string_text = self.browser.execute_script(
-                "return arguments[0].textContent;", lot_string_element)
-            if lot_string_element is not None:
-
-                match = re.search(r'\((\d+)\)', lot_string_text)
-                if match:
-                    lot_number = match.group(1)
-                    lot = int(lot_number)
-                else:
-                    logging.warn("\n Number not found in the string.\n")
-                    lot = None  # or some default value or handle the case where number is not found
-            else:
-                logging.warn("\n Element not found.\n")
-                lot = None  # or handle the case where the element is not found
-
-            time.sleep(5)
-            print(f"\n\n----Lot Number: {len(lots_urls)}---\n\n")
+            total_lots = len(lots_urls)
             for url in lots_urls:
-                yield scrapy.Request(url, dont_filter=True, callback=self.parseBS, meta={'url': url, 'browser': self.browser, 'date': formatted_date, 'name': name, 'location': location, 'lots': lot})
+                yield scrapy.Request(url, dont_filter=True, callback=self.parseBS, meta={'url': url, 'total_lots': total_lots, 'browser': self.browser, 'date': formatted_date, 'name': name, 'location': location})
         except Exception as e:
             item['status'] = "Failed"
             logging.error(
@@ -211,7 +185,7 @@ class ChristiesSpider(scrapy.Spider):
         item['house_name'] = 5
         item['date'] = response.meta.get('date')
         item['location'] = response.meta.get('location')
-        item['lot'] = response.meta.get('lots')
+        item['total_lots'] = response.meta.get('total_lots')
         try:
             self.browser.get(url)
             time.sleep(5)
@@ -225,10 +199,42 @@ class ChristiesSpider(scrapy.Spider):
             except:
                 item['title'] = None
 
+            try:
+                # Try to find the lot number using the provided XPaths
+                lot_number = self.find_element_with_multiple_xpaths(
+                    self.browser, [
+                        '//*[@id="DHQdP1taszN"]/div/div[1]/div[1]/div/chr-item-pagination/span',
+                        '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[1]/div[1]/div/chr-item-pagination/span',
+                        '//*[@id="teD42DUtAGY"]/div/div[1]/div[1]/div/chr-item-pagination/span',
+                        '/html/body/main/div[1]/div/div/div[1]/div[1]/div/div/span'
+                    ])
+
+                # If element found, process the lot number
+                if lot_number:
+                    # Clean up the text by removing leading/trailing spaces
+                    lot_number = lot_number.text.strip()
+
+                    # Use regex to find the numeric part of the lot number
+                    match = re.search(
+                        r'lot\s*(\d+)', lot_number, re.IGNORECASE)
+                    if match:
+                        # Extract and assign the numeric part to the item
+                        item['lot'] = int(match.group(1))
+                    else:
+                        logging.warning(
+                            "Lot number format is not as expected, fallback to 0")
+                        # Fallback to 0 if the format is not as expected
+                        item['lot'] = 0
+                else:
+                    logging.error("Lot number element not found.")
+                    item['lot'] = 0  # Fallback to 0 if the element is not found
+
+            except Exception as e:
+                logging.error(f"Error: {e} -- for url: {url} --\n")
+
             # 6 Images
             images = []
             try:
-                time.sleep(5)
                 click_more_button = self.find_element_with_multiple_xpaths(self.browser, [
                     '/html/body/main/div[2]/div/div/div[2]/div/div[1]/div/div/chr-lot-header-gallery-button/div',
                     '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div/div/chr-lot-header-gallery-button/div',
@@ -246,12 +252,12 @@ class ChristiesSpider(scrapy.Spider):
                         except Exception:
                             logging.warn(f'\n--Cannot click more button: \n')
 
-                        time.sleep(5)
                         # parent_element_ul activates when more button is clicked otherwise not
                         parent_element_ul = self.find_element_with_multiple_xpaths(self.browser, [
                             '/html/body/div[2]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul',
                             '/html/body/div[5]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul',
-                            "/html/body/div[4]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul"
+                            '/html/body/div[4]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul',
+                            '/html/body/div[4]/chr-gallery-provider/chr-modal/div/div/div/div/chr-gallery/div[1]/ul'
                         ])
 
                         if parent_element_ul:
@@ -268,9 +274,7 @@ class ChristiesSpider(scrapy.Spider):
                 else:
 
                     active_image = self.find_element_with_multiple_xpaths(self.browser, [
-                        '/html/body/main/div[2]/div/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/div/div/img',
-                        '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img',
-                        '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/chr-image/div/img'
+                        '/html/body/main/div[1]/div/div/div[2]/div/div[2]/div/chr-lot-header-gallery-button/div/div/div/div/img'
                     ])
                     if active_image:
 
@@ -282,7 +286,7 @@ class ChristiesSpider(scrapy.Spider):
                     # get other images
                     try:
                         parent_element = self.find_element_with_multiple_xpaths(self.browser, [
-                            '/html/body/main/div[2]/div/div/div[2]/div/div[1]/div',
+                            '/html/body/main/div[1]/div/div/div[2]/div/div[1]/div',
                             '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div',
                             '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[1]/div'
                         ])
@@ -318,13 +322,16 @@ class ChristiesSpider(scrapy.Spider):
             # 8 Description
             try:
                 description = self.find_element_with_multiple_xpaths(self.browser, [
-                    '/html/body/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item/div/fieldset/div',
+                    # '/html/body/main/div[2]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span'
+                    '//*[@id="sect_0"]/div/span',
                     '/html/body/main/div[3]/div[2]/div/div[1]/div/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div/span',
                     '/html/body/div[2]/div[4]/div[2]/div[2]/div[1]/div[1]/div[1]/div/chr-lot-details/section/div/chr-accordion/div/chr-accordion-item[1]/div/fieldset/div',
                 ])
+                if description:
+                    item['description'] = description.get_attribute(
+                        'outerHTML')
             except Exception as e:
                 logging.warn(f"Error: {e} -- for url: {url} --\n")
-            item['description'] = description.text
 
             try:
                 estimation = self.get_estimation()
@@ -358,7 +365,7 @@ class ChristiesSpider(scrapy.Spider):
             # 12 Sold Price
             try:
                 sold_price = self.find_element_with_multiple_xpaths(self.browser, [
-                    '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]',
+                    '/html/body/main/div[1]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]',
                     '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/span[2]'
                 ])
                 if sold_price:
@@ -392,15 +399,14 @@ class ChristiesSpider(scrapy.Spider):
             logging.debug("ChristiesSpider; msg=Crawling Failed;url= %s;Error=%s",
                           url, traceback.format_exc())
 
-        item['total_lots'] = response.meta.get("lots")
+        # item['total_lots'] = response.meta.get("lots")
         item["auction_url"] = url
         item["job"] = self.job
-        print(f"\n\n----Item scraped: {item}---\n\n")
         yield item
 
     def get_estimation(self):
         xpaths = [
-            '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
+            '/html/body/main/div[1]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
             '/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/div[3]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
             '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[1]/div[2]/span',
             '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[2]/chr-lot-header-dynamic-content/chr-loader-next/div/div[1]/div/div[1]/div/div[2]/div[2]/span',
@@ -419,7 +425,7 @@ class ChristiesSpider(scrapy.Spider):
     def get_title(self):
         try:
             wait = WebDriverWait(self.browser, 10)
-            xpaths = ['/html/body/main/div[2]/div/div/div[2]/div/div[3]/div/span',
+            xpaths = ['/html/body/main/div[1]/div/div/div[2]/div/div[3]/div/span',
                       '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/div/span',
                       '/html/body/div[2]/div[3]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span', '/html/body/div[2]/div[4]/div[1]/chr-lot-header/div/div[2]/div/div[3]/div/section[1]/span']
             for xpath in xpaths:
