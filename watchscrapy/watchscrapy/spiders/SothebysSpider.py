@@ -232,39 +232,24 @@ class SothebysSpider(scrapy.Spider):
 
                 if lot_number_element:
                     lot_number = lot_number_element.get_text(strip=True)
-                    print(lot_number)
-                else:
-                    print("Element not found.")
-                # Attempt to find the lot number using the first XPath
-                # lot_number = browser.find_element(
-                #     By.XPATH, '//*[@id="__next"]/div/div[3]/div/div[2]/div[1]/nav/p[2]').text
-                logging.warning(
-                    "\n----SothebysSpider; msg=Lot number element found1: %s", lot_number)
-            except NoSuchElementException:
-                # If the first XPath fails, try the fallback XPath
-                try:
-                    # Use a valid XPath that locates the <p> element containing the text "Lot"
-                    # lot_number_element = browser.find_element(
-                    #     By.XPATH, '//*[contains(@class, "paragraph-module_paragraph14Regular__Zfr98") and contains(text(), "Lot")]')
-                    # lot_number = lot_number_element.text  # Extract text from the element
                     logging.warning(
-                        "\n----SothebysSpider; msg=Lot number element found2: %s", lot_number)
-                except NoSuchElementException:
-                    # If both attempts fail, set the lot number to "Lot 0"
+                        "\nSothebysSpider; msg=Lot number element found1: %s", lot_number)
+                else:
                     logging.error(
-                        "\n----SothebysSpider; msg=Both Lot number elements not found, fallback to Lot 0")
-                    lot_number = "Lot 0"  # Fallback to "Lot 0"
+                        "\nSothebysSpider; msg=Lot number element not found")
+
+            except NoSuchElementException:
+                logging.error("\nSothebysSpider; msg=Lot number element not found2")
+                lot_number = "Lot 0"
             except Exception as e:
                 # Log any unexpected exceptions
-                logging.error(
-                    "\n----SothebysSpider; msg=Error in extracting Lot number: %s", str(e))
+                logging.error("\nSothebysSpider; msg=Error in extracting Lot number: %s", str(e))
                 lot_number = "Lot 0"  # Fallback to "Lot 0" in case of an unexpected error
 
             # Ensure that we have the lot number and it's in the expected format
             if lot_number:
                 # Clean up any extra whitespace
                 lot_number = lot_number.strip()
-                logging.warning(f"\n------Lot Number: {lot_number}")
 
                 # Ensure the lot number is in the expected format ("Lot <number>")
                 match = re.search(r'Lot\s+(\d+)', lot_number)
@@ -389,8 +374,6 @@ class SothebysSpider(scrapy.Spider):
         item['total_lots'] = response.meta.get("lots")
         item["auction_url"] = source_url
         item["job"] = self.job
-        logging.warn(
-            "\n------SothebysSpider; msg=Crawling Completed > %s;url= %s", item, url)
         return item
 
     @classmethod
